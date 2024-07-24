@@ -1616,7 +1616,7 @@ function toAlpha($data){
 }
 
 function uploaddata($reqId,$reqNama,$reqFile){
-	$folderPath = "uploads/".$reqId.'/'.;
+	$folderPath = "uploads/".$reqId.'/';
     $targetDir = $folderPath."/"; // Direktori tempat menyimpan file yang diunggah
     $fileName = basename($reqFile["name"]); // Nama asli file yang diunggah
     $targetFilePath = $targetDir . $fileName; // Path lengkap file yang diunggah
@@ -1641,6 +1641,38 @@ function uploaddata($reqId,$reqNama,$reqFile){
     }
 
     move_uploaded_file($reqFile["tmp_name"], $targetFilePath);
+	return '1';
+}
+
+function uploaddataarray($reqId,$reqNama,$reqFile){
+	for($i=0;$i<count($reqFile["name"]);$i++){
+		if (!empty($reqFile["type"][$i])) {
+			$folderPath = "uploads/".$reqId.'/';
+		    $targetDir = $folderPath."/"; // Direktori tempat menyimpan file yang diunggah
+		    $fileName = basename($reqFile["name"][$i]); // Nama asli file yang diunggah
+		    $targetFilePath = $targetDir . $fileName; // Path lengkap file yang diunggah
+
+		    // Ambil ekstensi file yang diunggah
+		    $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+		    // Generate nama file baru dengan tambahan timestamp untuk menghindari nama file yang sama
+		    $newFileName = $reqNama.'_'.$i.'.' . $fileType;
+		    $targetFilePath = $targetDir . $newFileName; // Path lengkap file baru
+		    $imageFileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION)); //cek ekstensi
+
+		    // Cek jika file sudah ada
+		    if (file_exists($targetFilePath)) {
+		    	unlink($targetFilePath);
+		    }
+
+		    // Batasi jenis file yang diizinkan (contoh untuk gambar)
+		    if ($imageFileType != "pdf"){
+		        return "Maaf, hanya file PDF yang diizinkan.";
+		    	exit;
+		    }
+		    move_uploaded_file($reqFile["tmp_name"][$i], $targetFilePath);
+		}
+	}
 	return '1';
 }
 
