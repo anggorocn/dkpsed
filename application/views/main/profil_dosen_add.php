@@ -20,6 +20,8 @@ if(!empty($reqId))
 	$reqPerusahaan= $set->getField('perusahaan');
 	$reqMagister= $set->getField('pendidikan_magister');
 	$reqDoktor= $set->getField('pendidikan_spesialis');
+	$reqDiploma= $set->getField('pendidikan_diploma');
+	$reqSarjana= $set->getField('pendidikan_sarjana');
 	$reqBidang= $set->getField('bidang_keahlian');
 	$reqSertifikat= $set->getField('sertifikat_pendidikan');
 	$reqTs2= $set->getField('ts_2');
@@ -39,8 +41,8 @@ if(!empty($reqId))
 	$reqPenunjang= $set->getField('penunjang');
 	$reqSKS= $set->getField('sks');
 	$reqAvgSKS= $set->getField('avg_sks');
+	$reqGoogleSchollar= $set->getField('GOOGLE_SCHOLAR');
 }
-
 ?>
 
 <link href="lib/bootstrap-3.3.7/docs/examples/navbar/navbar.css" rel="stylesheet">
@@ -74,52 +76,87 @@ if(!empty($reqId))
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Status</label>	
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqStatus" class="form-control" value='<?=$reqStatus?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileStatus" class="form-control" value='<?=$reqNama?>'>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileStatus" class="form-control" value='<?=$reqNama?>'>
 	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/status.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=status','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">NIDK/NIDN</label>	
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqNidn" class="form-control" value='<?=$reqNidn?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileNidn" class="form-control" value='<?=$reqNama?>'>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileNidn" class="form-control" value='<?=$reqNama?>'>
 	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/nidn.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=nidn','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Jabatan Akademi</label>	
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqJabatan" class="form-control" value='<?=$reqJabatan?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileJabatan" class="form-control" value='<?=$reqNama?>'>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileJabatan" class="form-control" value='<?=$reqNama?>'>
 	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/jabatan.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=jabatan','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Akademisi/Praktisi</label>	        
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 					 		<select class="form-control" name="reqStatusAkademik">
-								<option value='1' <?if($reqMagister=='Akademis'){echo 'selected';}?>>Akademis</option>
-								<option value='2' <?if($reqMagister=='Praktisi'){echo 'selected';}?>>Praktisi</option>
-								<option value='3' <?if($reqMagister=='Akademis/Praktisi'){echo 'selected';}?>>Akademis/Praktisi</option>
+								<option value='akademisi' <?if($reqMagister=='akademisi'){echo 'selected';}?>>Akademis</option>
+								<option value='praktisi' <?if($reqMagister=='praktisi'){echo 'selected';}?>>Praktisi</option>
+								<option value='akademisi/praktisi' <?if($reqMagister=='akademisi/praktisi'){echo 'selected';}?>>Akademis/Praktisi</option>
 							</select>
 		        		</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileAkademisi" class="form-control" value='<?=$reqNama?>'>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileAkademisi" class="form-control" value='<?=$reqNama?>'>
 	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/akademisi.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=akademisi','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Perusahaan</label>	
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqPerusahaan" class="form-control" value='<?=$reqPerusahaan?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileJabatan" class="form-control" value='<?=$reqNama?>'>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFilePerusahaan" class="form-control" value='<?=$reqNama?>'>
 	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/perusahaan.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=perusahaan','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
 	        	</div>
         	</div>
@@ -135,42 +172,104 @@ if(!empty($reqId))
 	            </div>
 	        	<div class="card-body">
 	        		<div class="form-group row">
+	        			<label class="col-form-label col-lg-2 col-sm-12">Pendidikan Setara Diploma</label>
+	        			<div class="col-lg-5 col-sm-12">
+	        				<input type="text" name="reqDiploma" class="form-control" value='<?=$reqDiploma?>'>
+	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileDiploma" class="form-control">
+	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/diploma.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=diploma','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
+	        		</div>
+	        		<div class="form-group row">
+	        			<label class="col-form-label col-lg-2 col-sm-12">Pendidikan Setara Sarjana</label>
+	        			<div class="col-lg-5 col-sm-12">
+	        				<input type="text" name="reqSarjana" class="form-control" value='<?=$reqSarjana?>'>
+	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileSarjana" class="form-control">
+	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/sarjana.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=sarjana','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
+	        		</div>
+	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Pendidikan Setara Magister</label>
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqMagister" class="form-control" value='<?=$reqMagister?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileMagister" class="form-control" value='<?=$reqNama?>'>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileMagister" class="form-control">
 	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/magister.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=magister','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Pendidikan Setara Doktor</label>
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqDoktor" class="form-control" value='<?=$reqDoktor?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileDoktor" class="form-control" value='<?=$reqNama?>'>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileDoktor" class="form-control">
 	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/doktor.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=doktor','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Bidang Pendidikan</label>
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqBidang" class="form-control" value='<?=$reqBidang?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileBidang" class="form-control" value='<?=$reqNama?>'>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileBidang" class="form-control">
 	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/bidang.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=bidang','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Sertifikat Pendidikan Profesional</label>
-	        			<div class="col-lg-6 col-sm-12">
-	        				<input type="file" name="reqSertifikat" class="form-control" value='<?=$reqSertifikat?>'>
+	        			<div class="col-lg-5 col-sm-12">
+	        				<input type="text" name="reqSertifikat" class="form-control" value='<?=$reqSertifikat?>'>
 	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileSertifikat" class="form-control">
+	        			</div>
+	        			<? 
+						$targetFilePath = "uploads/".$reqId.'/sertifikat.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=sertifikat','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
 	        		<div class="form-group row">	
 	        			<label class="col-form-label col-lg-2 col-sm-12">Sertifikat Lain</label>	        			
 	        			<div class="col-lg-10 col-sm-12">
-		        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf?table_nama=dosen&table_field=sertifikat_lain&table_id=<?=$reqId?>')"><i class="fa fa-eye" aria-hidden="true"></i> Lihat Dokumen</a>
 		        			<a onclick="create_tr(1)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
 	        			</div>
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
@@ -180,15 +279,17 @@ if(!empty($reqId))
 			        		<table class='tableadd' >
 			        			<thead>
 				        			<tr>
-				        				<th style="width:47%;">Keterangan</th>
-				        				<th style="width:47%;">File</th>
+				        				<th style="">Keterangan</th>
+				        				<th style="">File</th>
 				        				<th style="width:6%;"></th>
 				        			</tr>
 				        		</thead>
 			        			<tbody id='table1'>
 			        				<?
 			        				$setTable= new Upload();
-									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'sertifikat_lain','table_id'=>$reqId));
+									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'sertifikat_lain','dosen_id'=>$reqId));
+									// echo $setTable->query;exit;
+									$i=0;
 									// echo $setTable->query;exit;
 									while($setTable->nextRow()){
 										$reqKeterangan= $setTable->getField('KETERANGAN');
@@ -200,16 +301,24 @@ if(!empty($reqId))
 									 			<input type="text" name="reqKettable1[]" class="form-control" value='<?=$reqKeterangan?>'>	
 									    	</td>
 									    	<td>
-									 			<input type="file" class="form-control" name="reqFiletable1[]" />
-									 			<input type="hidden" class="form-control" name="reqFileExisttable1[]" />
-									 			<input type="hidden" class="form-control" name="reqidtable1[]"  value='<?=$reqUploadId?>'/>
+									    		<div class="row">
+										 			<input type="file" accept=".pdf" class="form-control" name="reqFiletable1[]" style="width:80%; margin-right: 20px;"/>
+										 			<? 
+													$targetFilePath = "uploads/".$reqId.'/sertifikat_lain_'.$i.'.pdf';
+								        			if (file_exists($targetFilePath)) {?>
+									        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=sertifikat_lain_<?=$i?>','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+								        			<?}?>
+										 			<input type="hidden" class="form-control" name="reqFileExisttable1[]" />
+										 			<input type="hidden" class="form-control" name="reqidtable1[]"  value='<?=$reqUploadId?>'/>
+										 		</div>
 									    	</td>
 									    	<td style="width:5px">
 									           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									    	</td>
 									    </tr>	
-
-									<?}?>
+									<?
+									$i++;
+									}?>
 				        		</tbody>
 			        		</table>
 	        			</div>
@@ -230,7 +339,6 @@ if(!empty($reqId))
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Mata Kuliah </label>		
 	        			<div class="col-lg-10 col-sm-12">
-		        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf?table_nama=dosen&table_field=mata_kuliah&table_id=<?=$reqId?>')"><i class="fa fa-eye" aria-hidden="true"></i> Lihat Dokumen</a>
 		        			<a onclick="create_tr(2)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
 	        			</div>
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
@@ -240,15 +348,17 @@ if(!empty($reqId))
 			        		<table class='tableadd' >
 			        			<thead>
 				        			<tr>
-				        				<th style="width:47%;">Keterangan</th>
-				        				<th style="width:47%;">File</th>
+				        				<th style="">Keterangan</th>
+				        				<th style="">File</th>
 				        				<th style="width:6%;"></th>
 				        			</tr>
 				        		</thead>
 			        			<tbody id='table2'>
 			        				<?
 			        				$setTable= new Upload();
-									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'mata_kuliah','table_id'=>$reqId));
+									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'mata_kuliah','dosen_id'=>$reqId));
+									// echo $setTable->query;exit;
+									$i=0;
 									// echo $setTable->query;exit;
 									while($setTable->nextRow()){
 										$reqKeterangan= $setTable->getField('KETERANGAN');
@@ -260,16 +370,80 @@ if(!empty($reqId))
 									 			<input type="text" name="reqKettable2[]" class="form-control" value='<?=$reqKeterangan?>'>	
 									    	</td>
 									    	<td>
-									 			<input type="file" class="form-control" name="reqFiletable2[]" />
-									 			<input type="hidden" class="form-control" name="reqFileExisttable2[]" />
-									 			<input type="hidden" class="form-control" name="reqidtable2[]"  value='<?=$reqUploadId?>'/>
+									    		<div class="row">
+										 			<input type="file" accept=".pdf" class="form-control" name="reqFiletable2[]" style="width:80%; margin-right: 20px;"/>
+										 			<? 
+													$targetFilePath = "uploads/".$reqId.'/mata_kuliah_'.$i.'.pdf';
+								        			if (file_exists($targetFilePath)) {?>
+									        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=mata_kuliah_<?=$i?>','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+								        			<?}?>
+										 			<input type="hidden" class="form-control" name="reqFileExisttable2[]" />
+										 			<input type="hidden" class="form-control" name="reqidtable2[]"  value='<?=$reqUploadId?>'/>
+										 		</div>
 									    	</td>
 									    	<td style="width:5px">
 									           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									    	</td>
 									    </tr>	
-
-									<?}?>
+									<?
+									$i++;
+									}?>
+				        		</tbody>
+			        		</table>
+	        			</div>
+	        		</div>
+	        		<div class="form-group row">
+	        			<label class="col-form-label col-lg-2 col-sm-12">Mata Kuliah PS Lain</label>		
+	        			<div class="col-lg-10 col-sm-12">
+		        			<a onclick="create_tr(8)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
+	        			</div>
+	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
+	        			<div class="col-lg-10 col-sm-12">
+	        				<br>
+	        				
+			        		<table class='tableadd' >
+			        			<thead>
+				        			<tr>
+				        				<th style="">Keterangan</th>
+				        				<th style="">File</th>
+				        				<th style="width:6%;"></th>
+				        			</tr>
+				        		</thead>
+			        			<tbody id='table8'>
+			        				<?
+			        				$setTable= new Upload();
+									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'mata_kuliah_lain','dosen_id'=>$reqId));
+									// echo $setTable->query;exit;
+									$i=0;
+									// echo $setTable->query;exit;
+									while($setTable->nextRow()){
+										$reqKeterangan= $setTable->getField('KETERANGAN');
+										$reqUploadId= $setTable->getField('UPLOAD_ID');
+										?>
+										
+										<tr>
+									    	<td>
+									 			<input type="text" name="reqKettable8[]" class="form-control" value='<?=$reqKeterangan?>'>	
+									    	</td>
+									    	<td>
+									    		<div class="row">
+										 			<input type="file" accept=".pdf" class="form-control" name="reqFiletable8[]" style="width:80%; margin-right: 20px;"/>
+										 			<? 
+													$targetFilePath = "uploads/".$reqId.'/mata_kuliah_lain'.$i.'.pdf';
+								        			if (file_exists($targetFilePath)) {?>
+									        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=mata_kuliah_<?=$i?>','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+								        			<?}?>
+										 			<input type="hidden" class="form-control" name="reqFileExisttable8[]" />
+										 			<input type="hidden" class="form-control" name="reqidtable8[]"  value='<?=$reqUploadId?>'/>
+										 		</div>
+									    	</td>
+									    	<td style="width:5px">
+									           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+									    	</td>
+									    </tr>	
+									<?
+									$i++;
+									}?>
 				        		</tbody>
 			        		</table>
 	        			</div>
@@ -277,7 +451,6 @@ if(!empty($reqId))
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Judul Bahan Ajar</label>		
 	        			<div class="col-lg-10 col-sm-12">
-		        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf?table_nama=dosen&table_field=judul&table_id=<?=$reqId?>')"><i class="fa fa-eye" aria-hidden="true"></i> Lihat Dokumen</a>
 		        			<a onclick="create_tr(3)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
 	        			</div>
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
@@ -287,15 +460,16 @@ if(!empty($reqId))
 			        		<table class='tableadd' >
 			        			<thead>
 				        			<tr>
-				        				<th style="width:47%;">Keterangan</th>
-				        				<th style="width:47%;">File</th>
+				        				<th style="">Keterangan</th>
+				        				<th style="">File</th>
 				        				<th style="width:6%;"></th>
 				        			</tr>
 				        		</thead>
 			        			<tbody id='table3'>
 			        				<?
 			        				$setTable= new Upload();
-									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'judul','table_id'=>$reqId));
+									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'judul','dosen_id'=>$reqId));
+									$i=0;
 									// echo $setTable->query;exit;
 									while($setTable->nextRow()){
 										$reqKeterangan= $setTable->getField('KETERANGAN');
@@ -307,16 +481,24 @@ if(!empty($reqId))
 									 			<input type="text" name="reqKettable3[]" class="form-control" value='<?=$reqKeterangan?>'>	
 									    	</td>
 									    	<td>
-									 			<input type="file" class="form-control" name="reqFiletable3[]" />
-									 			<input type="hidden" class="form-control" name="reqFileExisttable3[]" />
-									 			<input type="hidden" class="form-control" name="reqidtable3[]"  value='<?=$reqUploadId?>'/>
+									    		<div class="row">
+										 			<input type="file" accept=".pdf" class="form-control" name="reqFiletable3[]" style="width:80%; margin-right: 20px;"/>
+										 			<? 
+													$targetFilePath = "uploads/".$reqId.'/judul_'.$i.'.pdf';
+								        			if (file_exists($targetFilePath)) {?>
+									        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=judul_<?=$i?>','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+								        			<?}?>
+										 			<input type="hidden" class="form-control" name="reqFileExisttable3[]" />
+										 			<input type="hidden" class="form-control" name="reqidtable3[]"  value='<?=$reqUploadId?>'/>
+										 		</div>
 									    	</td>
 									    	<td style="width:5px">
 									           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									    	</td>
 									    </tr>	
-
-									<?}?>
+									<?
+									$i++;
+									}?>
 				        		</tbody>
 			        		</table>
 	        			</div>
@@ -327,42 +509,66 @@ if(!empty($reqId))
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">TS-2</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqTs2" class="form-control" value='<?=$reqTs2?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileTs2" class="form-control" value='<?=$reqNama?>'>
-	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileTs2" class="form-control" value='<?=$reqNama?>'>
+	        			</div><? 
+						$targetFilePath = "uploads/".$reqId.'/ts2.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=ts2','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
    	        		<div class="form-group row">
 						<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">TS-1</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqTs1" class="form-control" value='<?=$reqTs1?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileTs1" class="form-control" value='<?=$reqNama?>'>
-	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileTs1" class="form-control" value='<?=$reqNama?>'>
+	        			</div><? 
+						$targetFilePath = "uploads/".$reqId.'/ts1.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=ts1','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
    	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">TS</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqTS" class="form-control" value='<?=$reqTS?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileTS" class="form-control" value='<?=$reqNama?>'>
-	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileTS" class="form-control" value='<?=$reqNama?>'>
+	        			</div><? 
+						$targetFilePath = "uploads/".$reqId.'/ts.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=ts','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
    	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">Rata rata</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqAvg" class="form-control" value='<?=$reqAvg?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileAvg" class="form-control" value='<?=$reqNama?>'>
-	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileAvg" class="form-control" value='<?=$reqNama?>'>
+	        			</div><? 
+						$targetFilePath = "uploads/".$reqId.'/rataratats.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=rataratats','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
           		
 	        		<div class="form-group row">
@@ -371,58 +577,87 @@ if(!empty($reqId))
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">TS-2</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqTs2Lain" class="form-control" value='<?=$reqTs2Lain?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileTs2Lain" class="form-control" value='<?=$reqNama?>'>
-	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileTs2Lain" class="form-control" value='<?=$reqNama?>'>
+	        			</div><? 
+						$targetFilePath = "uploads/".$reqId.'/ts2lain.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=ts2lain','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
    	        		<div class="form-group row">
 						<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">TS-1</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqTs1Lain" class="form-control" value='<?=$reqTs1Lain?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileTs1Lain" class="form-control" value='<?=$reqNama?>'>
-	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileTs1Lain" class="form-control" value='<?=$reqNama?>'>
+	        			</div><? 
+						$targetFilePath = "uploads/".$reqId.'/ts1lain.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=ts1lain','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
    	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">TS</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqTsLain" class="form-control" value='<?=$reqTsLain?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileTsLain" class="form-control" value='<?=$reqNama?>'>
-	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileTsLain" class="form-control" value='<?=$reqNama?>'>
+	        			</div><? 
+						$targetFilePath = "uploads/".$reqId.'/tslain.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=tslain','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
    	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">Rata rata</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqAvgLain" class="form-control" value='<?=$reqAvgLain?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileAvgLain" class="form-control" value='<?=$reqNama?>'>
-	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileAvgLain" class="form-control" value='<?=$reqNama?>'>
+	        			</div><? 
+						$targetFilePath = "uploads/".$reqId.'/rataratatslain.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=rataratatslain','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
           			
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Rata Rata Keseluruhan</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqTotalAvg" class="form-control" value='<?=$reqTotalAvg?>'>
 	        			</div>
-	        			<div class="col-lg-4 col-sm-12">
-	        				<input type="file" name="reqFileTotalAvg" class="form-control" value='<?=$reqNama?>'>
-	        			</div>
+	        			<div class="col-lg-3 col-sm-12">
+	        				<input type="file" accept=".pdf" name="reqFileTotalAvg" class="form-control" value='<?=$reqNama?>'>
+	        			</div><? 
+						$targetFilePath = "uploads/".$reqId.'/totalrataratats.pdf';
+	        			if (file_exists($targetFilePath)) {?>
+		        			<div class="col-lg-2 col-sm-12">
+		        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=totalrataratats','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+		        			</div>
+	        			<?}?>
 	        		</div>
 
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Rekognisi Bidang Pendidikan</label>		
 	        			<div class="col-lg-10 col-sm-12">
-		        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf?table_nama=dosen&table_field=rekognisi_bidang&table_id=<?=$reqId?>')"><i class="fa fa-eye" aria-hidden="true"></i> Lihat Dokumen</a>
 		        			<a onclick="create_tr(4)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
 	        			</div>
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
@@ -432,15 +667,17 @@ if(!empty($reqId))
 			        		<table class='tableadd' >
 			        			<thead>
 				        			<tr>
-				        				<th style="width:47%;">Keterangan</th>
-				        				<th style="width:47%;">File</th>
+				        				<th style="">Keterangan</th>
+				        				<th style="">File</th>
 				        				<th style="width:6%;"></th>
 				        			</tr>
 				        		</thead>
 			        			<tbody id='table4'>
 			        				<?
 			        				$setTable= new Upload();
-									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'rekognisi_bidang','table_id'=>$reqId));
+									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'rekognisi_bidang','dosen_id'=>$reqId));
+									// echo $setTable->query;exit;
+									$i=0;
 									// echo $setTable->query;exit;
 									while($setTable->nextRow()){
 										$reqKeterangan= $setTable->getField('KETERANGAN');
@@ -452,21 +689,31 @@ if(!empty($reqId))
 									 			<input type="text" name="reqKettable4[]" class="form-control" value='<?=$reqKeterangan?>'>	
 									    	</td>
 									    	<td>
-									 			<input type="file" class="form-control" name="reqFiletable4[]" />
-									 			<input type="hidden" class="form-control" name="reqFileExisttable4[]" />
-									 			<input type="hidden" class="form-control" name="reqidtable4[]"  value='<?=$reqUploadId?>'/>
+									    		<div class="row">
+										 			<input type="file" accept=".pdf" class="form-control" name="reqFiletable4[]" style="width:80%; margin-right: 20px;"/>
+										 			<? 
+													$targetFilePath = "uploads/".$reqId.'/rekognisi_bidang_'.$i.'.pdf';
+								        			if (file_exists($targetFilePath)) {?>
+									        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=rekognisi_bidang_<?=$i?>','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+								        			<?}?>
+										 			<input type="hidden" class="form-control" name="reqFileExisttable4[]" />
+										 			<input type="hidden" class="form-control" name="reqidtable4[]"  value='<?=$reqUploadId?>'/>
+										 		</div>
 									    	</td>
 									    	<td style="width:5px">
 									           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									    	</td>
 									    </tr>	
-
-									<?}?>
+									<?
+									$i++;
+									}?>
 				        		</tbody>
 			        		</table>
 	        			</div>
 	        		</div>
 	        	</div>
+
+
 	        </div>
 	        <br>
 	        <div class="card card-custom">
@@ -482,8 +729,7 @@ if(!empty($reqId))
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Praktik dan Profesional</label>		
 	        			<div class="col-lg-10 col-sm-12">
-		        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf?table_nama=dosen&table_field=praktik_dan_profesional&table_id=<?=$reqId?>')"><i class="fa fa-eye" aria-hidden="true"></i> Lihat Dokumen</a>
-		        			<a onclick="create_tr(5)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
+		        			<a onclick="create_tr_praktik_profesional()" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
 	        			</div>
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<div class="col-lg-10 col-sm-12">
@@ -492,36 +738,58 @@ if(!empty($reqId))
 			        		<table class='tableadd' >
 			        			<thead>
 				        			<tr>
-				        				<th style="width:47%;">Keterangan</th>
-				        				<th style="width:47%;">File</th>
+				        				<th style="">Nama Produk/Jasa</th>
+				        				<th style="">Deskripsi Produk/Jasa</th>
+				        				<th style="">Keterlibatan Organisasi diluar PS</th>
+				        				<th style="">Rekognisi Bidang Praktik dan Profesional</th>
+				        				<th style="width:20%;">File</th>
 				        				<th style="width:6%;"></th>
 				        			</tr>
 				        		</thead>
-			        			<tbody id='table5'>
+			        			<tbody id='table_praktik_profesional'>
 			        				<?
 			        				$setTable= new Upload();
-									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'praktik_dan_profesional','table_id'=>$reqId));
+									$setTable->selectByParamsPraktikProfesional(array('dosen_id'=>$reqId));
 									// echo $setTable->query;exit;
+									$i=0;
 									while($setTable->nextRow()){
-										$reqKeterangan= $setTable->getField('KETERANGAN');
-										$reqUploadId= $setTable->getField('UPLOAD_ID');
+										$reqPraktikProfesionalId= $setTable->getField('praktik_profesional_id');
+										$reqPraktikProfesionalNama= $setTable->getField('NAMA');
+										$reqPraktikProfesionalDesc= $setTable->getField('DESKRIPSI');
+										$reqPraktikProfesionalOrg= $setTable->getField('ORGANISASI_LAIN');
+										$reqPraktikProfesionalRekognisi= $setTable->getField('REKOGNISI');
 										?>
-										
 										<tr>
 									    	<td>
-									 			<input type="text" name="reqKettable5[]" class="form-control" value='<?=$reqKeterangan?>'>	
+									 			<input type="text" class="form-control" name="reqPraktikProfesionalNama[]" value="<?=$reqPraktikProfesionalNama?>"/>
 									    	</td>
 									    	<td>
-									 			<input type="file" class="form-control" name="reqFiletable5[]" />
-									 			<input type="hidden" class="form-control" name="reqFileExisttable5[]" />
-									 			<input type="hidden" class="form-control" name="reqidtable5[]"  value='<?=$reqUploadId?>'/>
+									 			<input type="text" class="form-control" name="reqPraktikProfesionalDesc[]" value="<?=$reqPraktikProfesionalDesc?>"/>
+									    	</td>
+									    	<td>
+									 			<input type="text" class="form-control" name="reqPraktikProfesionalOrg[]" value="<?=$reqPraktikProfesionalOrg?>"/>
+									    	</td>
+									    	<td>
+									 			<input type="text" class="form-control" name="reqPraktikProfesionalRekognisi[]" value="<?=$reqPraktikProfesionalRekognisi?>"/>
+									    	</td>
+									    	<td>
+									    		<div class="row">
+										 			<input type="file" accept=".pdf" class="form-control" name="reqPraktikProfesionalFile[]" style="width:60%; margin-right: 20px;" />
+										 			<?
+										 			$targetFilePath = "uploads/".$reqId.'/praktik_dan_profesional_'.$i.'.pdf';
+									    			if (file_exists($targetFilePath)) {?>
+									        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=praktik_dan_profesional_<?=$i?>','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+									    			<?}?>
+										 			<input type="hidden" class="form-control" name="reqPraktikProfesionalId[]" value="<?=$reqPraktikProfesionalId?>"/>
+										 		</div>
 									    	</td>
 									    	<td style="width:5px">
 									           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									    	</td>
-									    </tr>	
-
-									<?}?>
+									    </tr>
+									<?
+									$i++;
+									}?>
 				        		</tbody>
 			        		</table>
 	        			</div>
@@ -529,8 +797,7 @@ if(!empty($reqId))
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Penelitian</label>		
 	        			<div class="col-lg-10 col-sm-12">
-		        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf?table_nama=dosen&table_field=penelitian&table_id=<?=$reqId?>')"><i class="fa fa-eye" aria-hidden="true"></i> Lihat Dokumen</a>
-		        			<a onclick="create_tr(6)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
+		        			<a onclick="create_tr_penelitian()" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
 	        			</div>
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<div class="col-lg-10 col-sm-12">
@@ -539,38 +806,62 @@ if(!empty($reqId))
 			        		<table class='tableadd' >
 			        			<thead>
 				        			<tr>
-				        				<th style="width:47%;">Keterangan</th>
-				        				<th style="width:47%;">File</th>
+				        				<th style="">Artikel</th>
+				        				<th style="">Jumlah Sitasi</th>
+				        				<th style="">Rekognisi</th>
+				        				<th style="">File</th>
 				        				<th style="width:6%;"></th>
 				        			</tr>
 				        		</thead>
-			        			<tbody id='table6'>
+			        			<tbody id='table_penelitian'>
 			        				<?
 			        				$setTable= new Upload();
-									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'penelitian','table_id'=>$reqId));
+									$setTable->selectByParamsPenelitian(array('dosen_id'=>$reqId));
+									// echo $setTable->query;exit;
+									$i=0;
 									// echo $setTable->query;exit;
 									while($setTable->nextRow()){
-										$reqKeterangan= $setTable->getField('KETERANGAN');
-										$reqUploadId= $setTable->getField('UPLOAD_ID');
+										$reqPenelitianId= $setTable->getField('PENELITIAN_ID');
+										$reqPenelitianJudul= $setTable->getField('JUDUL');
+										$reqPenelitianSitasi= $setTable->getField('SITASI');
+										$reqPenelitianRekognisi= $setTable->getField('REKOGNISI');
 										?>
-										
 										<tr>
 									    	<td>
-									 			<input type="text" name="reqKettable6[]" class="form-control" value='<?=$reqKeterangan?>'>	
+									 			<input type="text" class="form-control" name="reqPenelitianJudul[]" value="<?=$reqPenelitianJudul?>" />
 									    	</td>
 									    	<td>
-									 			<input type="file" class="form-control" name="reqFiletable6[]" />
-									 			<input type="hidden" class="form-control" name="reqFileExisttable6[]" />
-									 			<input type="hidden" class="form-control" name="reqidtable6[]"  value='<?=$reqUploadId?>'/>
+									 			<input type="text" class="form-control" name="reqPenelitianSitasi[]" value="<?=$reqPenelitianSitasi?>" />
+									    	</td>
+									    	<td>
+									 			<input type="text" class="form-control" name="reqPenelitianRekognisi[]" value="<?=$reqPenelitianRekognisi?>" />
+									    	</td>
+									    	<td>
+									 			<div class="row">
+										 			<input type="file" accept=".pdf" class="form-control" name="reqPenelitianFile[]" style="width:70%; margin-right: 20px;"/>
+										 			<? 
+													$targetFilePath = "uploads/".$reqId.'/penelitian_'.$i.'.pdf';
+								        			if (file_exists($targetFilePath)) {?>
+									        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=penelitian_<?=$i?>','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+								        			<?}?>
+										 			<input type="hidden" class="form-control" name="reqPenelitianId[]"  value='<?=$reqPenelitianId?>'/>
+										 		</div>
 									    	</td>
 									    	<td style="width:5px">
 									           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									    	</td>
-									    </tr>	
-
-									<?}?>
+									    </tr>
+									<?
+									$i++;
+									}?>
 				        		</tbody>
 			        		</table>
+	        			</div>
+	        		</div>
+	        		<div class="form-group row">
+	        			<label class="col-form-label col-lg-2 col-sm-12">Link Google Schoolar</label>	
+	        			<div class="col-lg-5 col-sm-12">
+	        				<input type="text" name="reqGoogleSchollar" class="form-control" value='<?=$reqGoogleSchollar?>'>
 	        			</div>
 	        		</div>
 	        	</div>
@@ -587,9 +878,8 @@ if(!empty($reqId))
 	            </div>
 	        	<div class="card-body">
 	        		<div class="form-group row">
-	        			<label class="col-form-label col-lg-2 col-sm-12">Kontribusi Sosial Masyarakat</label>		
+	        			<label class="col-form-label col-lg-2 col-sm-12">Kegiatan PKM Mandiri</label>		
 	        			<div class="col-lg-10 col-sm-12">
-		        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf?table_nama=dosen&table_field=kontribusi_sosial_masyarakat&table_id=<?=$reqId?>')"><i class="fa fa-eye" aria-hidden="true"></i> Lihat Dokumen</a>
 		        			<a onclick="create_tr(7)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
 	        			</div>
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
@@ -599,15 +889,16 @@ if(!empty($reqId))
 			        		<table class='tableadd' >
 			        			<thead>
 				        			<tr>
-				        				<th style="width:47%;">Keterangan</th>
-				        				<th style="width:47%;">File</th>
+				        				<th style="">Keterangan</th>
+				        				<th style="">File</th>
 				        				<th style="width:6%;"></th>
 				        			</tr>
 				        		</thead>
 			        			<tbody id='table7'>
 			        				<?
 			        				$setTable= new Upload();
-									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'kontribusi_sosial_masyarakat','table_id'=>$reqId));
+									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'kegiatan_pkm_mandiri','dosen_id'=>$reqId));
+									$i=0;
 									// echo $setTable->query;exit;
 									while($setTable->nextRow()){
 										$reqKeterangan= $setTable->getField('KETERANGAN');
@@ -619,16 +910,133 @@ if(!empty($reqId))
 									 			<input type="text" name="reqKettable7[]" class="form-control" value='<?=$reqKeterangan?>'>	
 									    	</td>
 									    	<td>
-									 			<input type="file" class="form-control" name="reqFiletable7[]" />
-									 			<input type="hidden" class="form-control" name="reqFileExisttable7[]" />
-									 			<input type="hidden" class="form-control" name="reqidtable7[]"  value='<?=$reqUploadId?>'/>
+									    		<div class="row">
+										 			<input type="file" accept=".pdf" class="form-control" name="reqFiletable7[]" style="width:80%; margin-right: 20px;"/>
+										 			<? 
+													$targetFilePath = "uploads/".$reqId.'/kegiatan_pkm_mandiri_'.$i.'.pdf';
+								        			if (file_exists($targetFilePath)) {?>
+									        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=kegiatan_pkm_mandiri_<?=$i?>','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+								        			<?}?>
+										 			<input type="hidden" class="form-control" name="reqFileExisttable7[]" />
+										 			<input type="hidden" class="form-control" name="reqidtable7[]"  value='<?=$reqUploadId?>'/>
+										 		</div>
 									    	</td>
 									    	<td style="width:5px">
 									           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
 									    	</td>
 									    </tr>	
-
-									<?}?>
+									<?
+									$i++;
+									}?>
+				        		</tbody>
+			        		</table>
+	        			</div>
+	        		</div>
+	        		<div class="form-group row">
+	        			<label class="col-form-label col-lg-2 col-sm-12"> Organisasi diluar PS</label>		
+	        			<div class="col-lg-10 col-sm-12">
+		        			<a onclick="create_tr(9)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
+	        			</div>
+	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
+	        			<div class="col-lg-10 col-sm-12">
+	        				<br>
+			        		<table class='tableadd' >
+			        			<thead>
+				        			<tr>
+				        				<th style="">Keterangan</th>
+				        				<th style="">File</th>
+				        				<th style="width:6%;"></th>
+				        			</tr>
+				        		</thead>
+			        			<tbody id='table9'>
+			        				<?
+			        				$setTable= new Upload();
+									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'organisasi_diluar_ps','dosen_id'=>$reqId));
+									$i=0;
+									// echo $setTable->query;exit;
+									while($setTable->nextRow()){
+										$reqKeterangan= $setTable->getField('KETERANGAN');
+										$reqUploadId= $setTable->getField('UPLOAD_ID');
+										?>
+										
+										<tr>
+									    	<td>
+									 			<input type="text" name="reqKettable9[]" class="form-control" value='<?=$reqKeterangan?>'>	
+									    	</td>
+									    	<td>
+									    		<div class="row">
+										 			<input type="file" accept=".pdf" class="form-control" name="reqFiletable9[]" style="width:80%; margin-right: 20px;"/>
+										 			<? 
+													$targetFilePath = "uploads/".$reqId.'/organisasi_diluar_ps_'.$i.'.pdf';
+								        			if (file_exists($targetFilePath)) {?>
+									        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=organisasi_diluar_ps_<?=$i?>','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+								        			<?}?>
+										 			<input type="hidden" class="form-control" name="reqFileExisttable9[]" />
+										 			<input type="hidden" class="form-control" name="reqidtable9[]"  value='<?=$reqUploadId?>'/>
+										 		</div>
+									    	</td>
+									    	<td style="width:5px">
+									           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+									    	</td>
+									    </tr>	
+									<?
+									$i++;
+									}?>
+				        		</tbody>
+			        		</table>
+	        			</div>
+	        		</div>
+	        		<div class="form-group row">
+	        			<label class="col-form-label col-lg-2 col-sm-12">Rekognisi Bidang PKM</label>		
+	        			<div class="col-lg-10 col-sm-12">
+		        			<a onclick="create_tr(10)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
+	        			</div>
+	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
+	        			<div class="col-lg-10 col-sm-12">
+	        				<br>
+	        				
+			        		<table class='tableadd' >
+			        			<thead>
+				        			<tr>
+				        				<th style="">Keterangan</th>
+				        				<th style="">File</th>
+				        				<th style="width:6%;"></th>
+				        			</tr>
+				        		</thead>
+			        			<tbody id='table10'>
+			        				<?
+			        				$setTable= new Upload();
+									$setTable->selectByParams(array('table_nama'=>'dosen','table_field'=>'rekognisi_bidang_pkm','dosen_id'=>$reqId));
+									$i=0;
+									// echo $setTable->query;exit;
+									while($setTable->nextRow()){
+										$reqKeterangan= $setTable->getField('KETERANGAN');
+										$reqUploadId= $setTable->getField('UPLOAD_ID');
+										?>
+										
+										<tr>
+									    	<td>
+									 			<input type="text" name="reqKettable10[]" class="form-control" value='<?=$reqKeterangan?>'>	
+									    	</td>
+									    	<td>
+									    		<div class="row">
+										 			<input type="file" accept=".pdf" class="form-control" name="reqFiletable10[]" style="width:80%; margin-right: 20px;"/>
+										 			<? 
+													$targetFilePath = "uploads/".$reqId.'/rekognisi_bidang_pkm_'.$i.'.pdf';
+								        			if (file_exists($targetFilePath)) {?>
+									        			<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=rekognisi_bidang_pkm_<?=$i?>','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i></a>
+								        			<?}?>
+										 			<input type="hidden" class="form-control" name="reqFileExisttable10[]" />
+										 			<input type="hidden" class="form-control" name="reqidtable10[]"  value='<?=$reqUploadId?>'/>
+										 		</div>
+									    	</td>
+									    	<td style="width:5px">
+									           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+									    	</td>
+									    </tr>	
+									<?
+									$i++;
+									}?>
 				        		</tbody>
 			        		</table>
 	        			</div>
@@ -652,51 +1060,51 @@ if(!empty($reqId))
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">PS yang Diakreditasi</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqPSAkreditasi" class="form-control" value='<?=$reqPSAkreditasi?>'>
 	        			</div>
 	        		</div>
    	        		<div class="form-group row">
 						<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">PS Lain di dalam PT</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqPSLainDalam" class="form-control" value='<?=$reqPSLainDalam?>'>
 	        			</div>
 	        		</div>
    	        		<div class="form-group row">
 						<label class="col-form-label col-lg-2 col-sm-12"></label>
 	        			<label class="col-form-label col-lg-2 col-sm-12">PS Lain di luar PT</label>
-	        			<div class="col-lg-4 col-sm-12">
+	        			<div class="col-lg-3 col-sm-12">
 	        				<input type="text" name="reqPSLainLuar" class="form-control" value='<?=$reqPSLainLuar?>'>
 	        			</div>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Penelitian</label>	
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqPenelitian" class="form-control" value='<?=$reqPenelitian?>'>
 	        			</div>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">PKM</label>	
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqPKM" class="form-control" value='<?=$reqPKM?>'>
 	        			</div>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Tugas Tambahan dan/atau Penunjang</label>	
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqPenunjang" class="form-control" value='<?=$reqPenunjang?>'>
 	        			</div>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Jumlah (sks)</label>	
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqSKS" class="form-control" value='<?=$reqSKS?>'>
 	        			</div>
 	        		</div>
 	        		<div class="form-group row">
 	        			<label class="col-form-label col-lg-2 col-sm-12">Rata-rata per Semester (sks)</label>	
-	        			<div class="col-lg-6 col-sm-12">
+	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqAvgSKS" class="form-control" value='<?=$reqAvgSKS?>'>
 	        			</div>
 	        		</div>
@@ -851,9 +1259,65 @@ if(!empty($reqId))
 	 			`+keterangan+`
 	    	</td>
 	    	<td>
-	 			<input type="file" class="form-control" name="reqFiletable`+table_id+`[]"" />
+	 			<input type="file" accept=".pdf" class="form-control" name="reqFiletable`+table_id+`[]"" />
 	 			<input type="hidden" class="form-control" name="reqFileExisttable`+table_id+`[]"" />
 	 			<input type="hidden" class="form-control" name="reqidtable`+table_id+`[]"" />
+	    	</td>
+	    	<td style="width:5px">
+	           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+	    	</td>
+	    </tr>	
+	    `;
+	    var elm = $(infodata).appendTo(scntDiv); 
+
+	}
+
+	function create_tr_praktik_profesional(table_id) {
+ 	
+     	var scntDiv = document.getElementById('table_praktik_profesional')
+	    infodata= `
+	    <tr>
+	    	<td>
+	 			<input type="text" class="form-control" name="reqPraktikProfesionalNama[]" />
+	    	</td>
+	    	<td>
+	 			<input type="text" class="form-control" name="reqPraktikProfesionalDesc[]" />
+	    	</td>
+	    	<td>
+	 			<input type="text" class="form-control" name="reqPraktikProfesionalOrg[]" />
+	    	</td>
+	    	<td>
+	 			<input type="text" class="form-control" name="reqPraktikProfesionalRekognisi[]" />
+	    	</td>
+	    	<td>
+	 			<input type="file" accept=".pdf" class="form-control" name="reqPraktikProfesionalFile[]" style="width:80%; margin-right: 20px;" />
+	 			<input type="hidden" class="form-control" name="reqPraktikProfesionalId[]" />
+	    	</td>
+	    	<td style="width:5px">
+	           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>
+	    	</td>
+	    </tr>	
+	    `;
+	    var elm = $(infodata).appendTo(scntDiv); 
+
+	}
+
+	function create_tr_penelitian() {
+     	var scntDiv = document.getElementById('table_penelitian')
+	    infodata= `
+	    <tr>
+	    	<td>
+	 			<input type="text" class="form-control" name="reqPenelitianJudul[]" />
+	    	</td>
+	    	<td>
+	 			<input type="text" class="form-control" name="reqPenelitianSitasi[]" />
+	    	</td>
+	    	<td>
+	 			<input type="text" class="form-control" name="reqPenelitianRekognisi[]" />
+	    	</td>
+	    	<td>
+	 			<input type="file" accept=".pdf" class="form-control" name="reqPenelitianFile[]" style="width:80%; margin-right: 20px;" />
+	 			<input type="hidden" class="form-control" name="reqPenelitianId[]" />
 	    	</td>
 	    	<td style="width:5px">
 	           <a class="btn btn-light-danger" onclick="remove_tr(this)"><i class="fa fa-trash" aria-hidden="true"></i></a>

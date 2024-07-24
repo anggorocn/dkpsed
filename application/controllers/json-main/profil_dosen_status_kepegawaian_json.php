@@ -35,9 +35,9 @@ class profil_dosen_status_kepegawaian_json extends CI_Controller {
 	function json()
 	{
 		ini_set('memory_limit', '-1');
-		$this->load->model("base/ProfilDosenStatusKepegawaian");
+		$this->load->model("base/DaftarTabel");
 
-		$set= new ProfilDosenStatusKepegawaian();
+		$set= new DaftarTabel();
 
 		if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
 			$columnsDefault = [];
@@ -60,7 +60,7 @@ class profil_dosen_status_kepegawaian_json extends CI_Controller {
 		// $sOrder = "";
 		// $set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement." AND (UPPER(B.GOL_RUANG) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(TEMPAT_LAHIR) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_LAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_BARU) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(AMBIL_FORMAT_NIP_BARU(NIP_BARU)) LIKE '%".strtoupper($_GET['sSearch'])."%' ) ", $sOrder);
 
-		$set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement, $sOrder);
+		$set->selectByParamsDetil1(array('b.DAFTAR_TABEL_ID'=>1), $dsplyRange, $dsplyStart, $statement, $sOrder);
 		
 		if(!empty($cekquery)){
 			echo $set->query;exit;
@@ -75,9 +75,9 @@ class profil_dosen_status_kepegawaian_json extends CI_Controller {
 				{
 					$row[$valkey]= "1";
 				}
-				else if ($valkey == "NAMA"|| $valkey == "NO"|| $valkey == "profil_dosen_status_kepegawaian_id")
+				else if ($valkey == "NAMA"|| $valkey == "NO"|| $valkey == "profil_dosen_status_kepegawaian_id" || $valkey == "STATUS_AKADEMISI")
 				{
-					$row[$valkey]= $set->getField($valkey);
+					$row[$valkey]= strtoupper($set->getField($valkey));
 				}
 				else
 				{	
@@ -86,15 +86,19 @@ class profil_dosen_status_kepegawaian_json extends CI_Controller {
 					}
 					else if(strtolower($valkey) == strtolower("NAMA_STATUS_AKADEMIS"))
 					{
-						$tablefield='STATUS_AKADEMIS';
+						$tablefield='akademisi';
+					}
+					else if(strtolower($valkey) == strtolower("JABATAN_AKADEMIK"))
+					{
+						$tablefield='jabatan';
 					}
 					else{
 						$tablefield=$valkey;
 					}
 
-					$val="'app/loadurl/main/lihat_pdf?table_nama=profil_dosen_status_kepegawaian&table_field=".strtolower($tablefield)."&table_id=".$set->getField('profil_dosen_status_kepegawaian_id')."'";
+					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('dosen_id')."&reqFile=".strtolower($tablefield)."'";
 					// $row[$valkey]= '<a href="app/index/lihat_pdf">'.$set->getField($valkey).'</a>';
-					$row[$valkey]= '<a class="btn btn-light-success" onclick="openAdd('.$val.')"> Lihat Dokumen</a>';
+					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.strtoupper($set->getField($valkey)).'</a>';
 				}
 			}
 			array_push($arrinfodata, $row);

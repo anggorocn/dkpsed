@@ -6,7 +6,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
+class ekuivalen_waktu_mengajar_penuh_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -75,26 +75,9 @@ class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
 				{
 					$row[$valkey]= "1";
 				}
-				else if ($valkey == "NAMA" || $valkey == "NO")
-				{
-					$row[$valkey]= $set->getField($valkey);
-				}
-				else if ($valkey == "mata_kuliah"||$valkey=="Mata_kuliah_lain"||$valkey == "REKOGNISI_BIDANG"||$valkey == "JUDUL")
-				{
-					$val="'app/loadurl/main/lihat_pdf?dosen_id=".$set->getField('dosen_id')."&table_field=".strtolower($valkey)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">lihat data</a>';
-				}
 				else
 				{
-					if(strtolower($valkey) == strtolower("PENDIDIKAN_MAGISTER")){
-						$tablefield='magister';
-					}
-					else{
-						$tablefield= str_replace('_', '', $valkey) ;
-					}
-
-					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('dosen_id')."&reqFile=".strtolower($tablefield)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.strtoupper($set->getField($valkey)).'</a>';
+					$row[$valkey]= $set->getField($valkey);
 				}
 			}
 			array_push($arrinfodata, $row);
@@ -173,103 +156,6 @@ class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
 
 		header('Content-Type: application/json');
 		echo json_encode( $result, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);	
-	}
-
-	function add()
-	{
-		$this->load->model("base/DaftarTabel");
-
-		$reqId= $this->input->post("reqId");
-		$reqRowId= $this->input->post("reqRowId");
-		$reqMode= $this->input->post("reqMode");
-
-		$reqNamaDiklat= $this->input->post("reqNamaDiklat");
-		$reqTempat= $this->input->post("reqTempat");
-		$reqPenyelenggara= $this->input->post("reqPenyelenggara");
-		$reqTglMulai= $this->input->post("reqTglMulai");
-		$reqNoSTTPP= $this->input->post("reqNoSTTPP");
-		$reqTglSelesai= $this->input->post("reqTglSelesai");
-		$reqTglSTTPP= $this->input->post("reqTglSTTPP");
-		$reqJumlahJam= $this->input->post("reqJumlahJam");
-		$reqAngkatan= $this->input->post("reqAngkatan");
-		$reqTahun= $this->input->post("reqTahun");
-		
-		$set = new DaftarTabel();
-		$set->setField("DIKLAT_FUNGSIONAL_ID", $reqRowId);
-		$set->setField("PEGAWAI_ID", $reqId);
-
-		$set->setField("NAMA", $reqNamaDiklat);
-		$set->setField("TEMPAT", $reqTempat);
-		$set->setField("TANGGAL_STTPP", dateToDBCheck($reqTglSTTPP));
-		$set->setField("PENYELENGGARA", $reqPenyelenggara);
-		$set->setField("NO_STTPP", $reqNoSTTPP);
-		$set->setField("TANGGAL_MULAI", dateToDBCheck($reqTglMulai));
-		$set->setField("TANGGAL_SELESAI", dateToDBCheck($reqTglSelesai));
-		$set->setField("JUMLAH_JAM", ValToNullDB($reqJumlahJam));
-		$set->setField("ANGKATAN", ValToNullDB($reqAngkatan));
-		$set->setField("TAHUN", ValToNullDB($reqTahun));
-
-		$adminusernama= $this->adminuserloginnama;
-		$userSatkerId= $this->adminsatkerid;
-
-		$reqSimpan= "";
-		if ($reqMode == "insert")
-		{
-
-			$set->setField("LAST_CREATE_USER", $adminusernama);
-			$set->setField("LAST_CREATE_DATE", "NOW()");	
-			$set->setField("LAST_CREATE_SATKER", $userSatkerId);
-	
-			if($set->insert())
-			{
-				$reqSimpan= 1;
-			}
-		}
-		else
-		{	
-			$set->setField("LAST_UPDATE_USER", $adminusernama);
-			$set->setField("LAST_UPDATE_DATE", "NOW()");	
-			$set->setField("LAST_UPDATE_SATKER", $userSatkerId);
-			if($set->update())
-			{
-				$reqSimpan= 1;
-			}
-		}
-
-		if($reqSimpan == 1)
-		{
-			echo json_response(200, $reqRowId."-Data berhasil disimpan.");
-		}
-		else
-		{
-			echo json_response(400, "Data gagal disimpan");
-		}
-				
-	}
-
-	function delete()
-	{
-		$this->load->model("base/DaftarTabel");
-		$set = new DaftarTabel();
-		
-		$reqRowId= $this->input->get('reqRowId');
-		$reqMode= $this->input->get('reqMode');
-
-		$set->setField("DIKLAT_FUNGSIONAL_ID", $reqRowId);
-		$reqSimpan="";
-		if($set->delete())
-		{
-			$reqSimpan=1;
-		}
-
-		if($reqSimpan == 1 )
-		{
-			echo json_response(200, 'Data berhasil dihapus');
-		}
-		else
-		{
-			echo json_response(400, 'Data gagal dihapus');
-		}
 	}
 }
 ?>

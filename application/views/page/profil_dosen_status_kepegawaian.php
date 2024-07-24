@@ -4,10 +4,10 @@ $reqId= $this->input->get('reqId');
 $arrtabledata= array(
     array("label"=>"No", "field"=> "NO", "display"=>"",  "width"=>"")
     , array("label"=>"Nama Dosen", "field"=> "NAMA", "display"=>"",  "width"=>"", "nowrap"=>"1")
-    , array("label"=>"Status (tetap/tidak tetap)", "field"=> "NAMA_STATUS", "display"=>"",  "width"=>"15%")
+    , array("label"=>"Status (tetap/tidak tetap)", "field"=> "STATUS", "display"=>"",  "width"=>"15%")
     , array("label"=>"NIDK/NIDN", "field"=> "NIDN", "display"=>"",  "width"=>"15%")
-    , array("label"=>"Jabatan Pegawai", "field"=> "JABATAN", "display"=>"",  "width"=>"15%")
-    , array("label"=>"Akademisi/Praktisi", "field"=> "NAMA_STATUS_AKADEMIS", "display"=>"",  "width"=>"15%")
+    , array("label"=>"Jabatan Pegawai", "field"=> "JABATAN_AKADEMIK", "display"=>"",  "width"=>"15%")
+    , array("label"=>"Akademisi/Praktisi", "field"=> "STATUS_AKADEMISI", "display"=>"",  "width"=>"15%")
     , array("label"=>"Perusahaan/Industri", "field"=> "PERUSAHAAN", "display"=>"",  "width"=>"15%")
 
     , array("label"=>"Warna", "field"=> "WARNA", "display"=>"1",  "width"=>"")
@@ -44,7 +44,7 @@ $arrtabledata= array(
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <?if ($this->adminusergroupid==1){?>
-                            <button class="btn btn-light-primary" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
+                            <!-- <button class="btn btn-light-primary" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button> -->
                     		<button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
                             <button class="btn btn-light-danger" id="btnBack"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali</button>
                         <?}?>	
@@ -194,29 +194,7 @@ jQuery(document).ready(function() {
     });
 
     $("#btnAdd, #btnUbahData").on("click", function () {
-        btnid= $(this).attr('id');
-
-        if(valinfoid == "" && btnid == "btnUbahData")
-        {
-            Swal.fire({
-                text: "Pilih salah satu data Riwayat terlebih dahulu.",
-                icon: "error",
-                buttonsStyling: false,
-                confirmButtonText: "Ok",
-                customClass: {
-                    confirmButton: "btn font-weight-bold btn-light-primary"
-                }
-            });
-            return false;
-        }
-
-        if(btnid == "btnUbahData")
-            vpilihid= valinfoid;
-        else
-            vpilihid= "";
-
-        // varurl= "app/index/pegawai_diklat_teknis_add?formulaid=<?=$formulaid?>&reqRowId="+vpilihid;
-        varurl= "app/page/profil_dosen_status_kepegawaian_add?reqId="+vpilihid;
+        varurl= "app/index/daftar_tabel_add?reqId=<?=$reqId?>";
         
         document.location.href = varurl;
     });

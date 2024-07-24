@@ -120,33 +120,14 @@ class DaftarTabel extends Entity{
 		return $this->selectLimit($str,$limit,$from); 
     }
 
-    function getCountByParams($paramsArray=array(), $statement='')
+    function selectByParamsAdd($paramsArray=array(),$limit=-1,$from=-1, $statement='')
 	{
 		$str = "
-		SELECT COUNT(1) AS ROWCOUNT 
-		FROM diklat_fungsional A WHERE DIKLAT_FUNGSIONAL_ID IS NOT NULL ".$statement; 
-				
-		foreach ($paramsArray as $key => $val)
-		{
-			$str .= " AND $key = '$val' ";
-		}
-		$this->query = $str;
-		// echo $str;exit;
-		$this->select($str); 
-		if($this->firstRow()) 
-			return $this->getField("ROWCOUNT"); 
-		else 
-			return 0;  
-    }
-
-    function selectByParamsField($paramsArray=array(),$limit=-1,$from=-1, $statement='')
-	{
-		$str = "
-		SELECT a.*,
-			dt.nama,
-			 ROW_NUMBER () OVER (ORDER BY a.daftar_tabel_id) as NO
-		FROM daftar_tabel_field A
-		left join daftar_tabel dt on a.daftar_tabel_id=dt.daftar_tabel_id
+		SELECT
+			a.*,
+			 ROW_NUMBER () OVER (ORDER BY b.dosen_id) as NO
+		FROM dosen A
+		inner join daftar_tabel_detil b on a.dosen_id=b.dosen_id
 		WHERE 1=1 "; 
 		
 		while(list($key,$val) = each($paramsArray))
@@ -154,11 +135,71 @@ class DaftarTabel extends Entity{
 			$str .= " AND $key = '$val' ";
 		}
 		
-		$str .= $statement." ORDER BY daftar_tabel_field_id ASC";
+		$str .= $statement." ORDER BY daftar_tabel_id ASC";
 		$this->query = $str;
 		// echo $statement;exit;
 				
 		return $this->selectLimit($str,$limit,$from); 
     }
+
+    function deleteTabelDosen()
+	{
+        $str = "
+        DELETE FROM daftar_tabel_detil
+        WHERE 
+        daftar_tabel_id = '".$this->getField("daftar_tabel_id")."'";
+		$this->query = $str;
+		// echo $str; exit;
+
+        return $this->execQuery($str);
+    }
+
+    function insertDosen()
+	{
+		$this->setField("daftar_tabel_detil_id", $this->getNextId("daftar_tabel_detil_id","daftar_tabel_detil"));
+
+		$str = "
+		INSERT INTO daftar_tabel_detil
+		(
+			daftar_tabel_detil_id, daftar_tabel_id, dosen_id
+		)
+		VALUES
+		(
+			".$this->getField("daftar_tabel_detil_id")."
+			, '".$this->getField("daftar_tabel_id")."'
+			, '".$this->getField("dosen_id")."'
+		)";
+
+		// echo $str; exit;
+
+		$this->id= $this->getField("daftar_tabel_detil_id");
+		$this->query = $str;
+
+		return $this->execQuery($str);
+    }
+
+    function selectByParamsDetil1($paramsArray=array(),$limit=-1,$from=-1, $statement='')
+	{
+		$str = "
+		SELECT
+			a.*,
+			 ROW_NUMBER () OVER (ORDER BY b.dosen_id) as NO
+		FROM dosen A
+		inner join daftar_tabel_detil b on a.dosen_id=b.dosen_id
+		WHERE 1=1 "; 
+		
+		while(list($key,$val) = each($paramsArray))
+		{
+			$str .= " AND $key = '$val' ";
+		}
+		
+		$str .= $statement." ORDER BY daftar_tabel_id ASC";
+		$this->query = $str;
+		// echo $statement;exit;
+				
+		return $this->selectLimit($str,$limit,$from); 
+    }
+
+
 } 
 ?>

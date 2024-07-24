@@ -2,22 +2,9 @@
 <?php
 include_once("functions/string.func.php");
 include_once("functions/date.func.php");
+$folder= $this->input->get('reqId');
+$reqFile= $this->input->get('reqFile');
 
-$this->load->model("base/Upload");
-$this->load->library('globalmenu');
-$table_nama= $this->input->get('table_nama');
-$table_field= $this->input->get('table_field');
-$dosen_id= $this->input->get('dosen_id');
-
-$setTable= new Upload();
-$setTable->selectByParams(array('table_field'=>$table_field,'dosen_id'=>$dosen_id));
-// echo $setTable->query;exit;
-$arrPDF=array();
-while($setTable->nextRow()){
-    $arrdata= [];
-    $arrdata["keterangan"]= $setTable->getField('KETERANGAN');
-    array_push($arrPDF, $arrdata);
-}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -78,30 +65,7 @@ while($setTable->nextRow()){
                         <div class="d-flex flex-column-fluid">
                             <div class="container">
                                 <div class="card card-custom" style="margin-top: 0px;">
-                                    <form class="form" id="ktloginform" method="POST" enctype="multipart/form-data">
-                                        <div class="w3-bar w3-black">
-                                            <?for($i=0;$i<count($arrPDF); $i++){?> 
-                                                <a class="w3-bar-item w3-button tablink <?if($i==0){echo 'w3-red';}?>" id="buttontable<?=$i?>" onclick="openCity(event,'table<?=$i?>')"> <?=$arrPDF[$i]['keterangan']?></a>
-                                            <?}?>
-                                        </div>
-
-                                        <?for($i=0;$i<count($arrPDF); $i++){?> 
-                                            <div id="table<?=$i?>" class="w3-container w3-border city" <?if($i!=0){echo 'style="display:none"';}?>>
-                                                <?
-                                                if (file_exists("uploads/".$dosen_id."/".$table_field."_".$i.".pdf")) {?>
-                                                    <div class="card-body">
-                                                        <iframe src="uploads/<?=$dosen_id?>/<?=$table_field?>_<?=$i?>.pdf" style="width:100%; height:75vh;" frameborder="0"></iframe>
-                                                    </div>
-                                                <?}
-                                                else{?>
-                                                    <div class="card-body" style="text-align: center;">
-                                                        Data Belum Diupload
-                                                    </div>
-                                                <?}?>
-                                            </div>
-                                        <?}?>
-                                        
-                                    </form>
+                                    <iframe src="uploads/<?=$folder?>/<?=$reqFile?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
                                 </div>
                             </div>
                         </div>
@@ -117,18 +81,12 @@ while($setTable->nextRow()){
 </html>
 
 <script>
-function openCity(evt, cityName) {
-  var i, x, tablinks;
-  x = document.getElementsByClassName("city");
-  for (i = 0; i < x.length; i++) {
-    x[i].style.display = "none";
-  }
-  tablinks = document.getElementsByClassName("tablink");
-  for (i = 0; i < x.length; i++) {
-    tablinks[i].className = tablinks[i].className.replace(" w3-red", "");
-  }
-  document.getElementById(cityName).style.display = "block";
-  evt.currentTarget.className += " w3-red";
-}
+    function openCity(cityName) {
+      var i;
+      var x = document.getElementsByClassName("city");
+      for (i = 0; i < x.length; i++) {
+        x[i].style.display = "none";  
+      }
+      document.getElementById(cityName).style.display = "block";  
+    }
 </script>
-

@@ -20,7 +20,7 @@ class ProfilDosen extends Entity{
 			dosen_id, nama, status, nidn, jabatan_akademik, status_akademisi, perusahaan, pendidikan_magister,
 			pendidikan_spesialis, bidang_keahlian, sertifikat_pendidikan, ts_2, ts_1, ts, avg,
 			ts_2_lain, ts_1_lain, ts_lain, avg_lain, avg_total, ps_diakreditasi, ps_lain_dalam, ps_lain_luar,
-			penelitian, pkm, penunjang, sks, avg_sks 
+			penelitian, pkm, penunjang, sks, avg_sks,google_scholar,pendidikan_diploma,pendidikan_sarjana
 		)
 		VALUES
 		(
@@ -51,7 +51,10 @@ class ProfilDosen extends Entity{
 			'".$this->getField('pkm')."',
 			'".$this->getField('penunjang')."',
 			'".$this->getField('sks')."',
-			'".$this->getField('avg_sks')."'
+			'".$this->getField('avg_sks')."',
+			'".$this->getField('google_scholar')."',
+			'".$this->getField('pendidikan_diploma')."',
+			'".$this->getField('pendidikan_sarjana')."'
 		)";
 
 		$this->id= $this->getField("dosen_id");
@@ -92,7 +95,10 @@ class ProfilDosen extends Entity{
 			pkm = '".$this->getField('pkm')."',
 			penunjang = '".$this->getField('penunjang')."',
 			sks = '".$this->getField('sks')."',
-			avg_sks = '".$this->getField('avg_sks')."'
+			avg_sks = '".$this->getField('avg_sks')."',
+			google_scholar = '".$this->getField('google_scholar')."',
+			pendidikan_diploma = '".$this->getField('pendidikan_diploma')."',
+			pendidikan_sarjana = '".$this->getField('pendidikan_sarjana')."'
 		WHERE dosen_id= '".$this->getField("dosen_id")."'
 		"; 
 		$this->query = $str;

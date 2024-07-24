@@ -6,7 +6,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
+class profil_tenaga_kependidikan_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -60,7 +60,7 @@ class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
 		// $sOrder = "";
 		// $set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement." AND (UPPER(B.GOL_RUANG) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(TEMPAT_LAHIR) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_LAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_BARU) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(AMBIL_FORMAT_NIP_BARU(NIP_BARU)) LIKE '%".strtoupper($_GET['sSearch'])."%' ) ", $sOrder);
 
-		$set->selectByParamsDetil1(array('b.DAFTAR_TABEL_ID'=>2), $dsplyRange, $dsplyStart, $statement, $sOrder);
+		$set->selectByParamsDetil1(array('b.DAFTAR_TABEL_ID'=>5), $dsplyRange, $dsplyStart, $statement, $sOrder);
 		
 		if(!empty($cekquery)){
 			echo $set->query;exit;
@@ -79,18 +79,29 @@ class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
 				{
 					$row[$valkey]= $set->getField($valkey);
 				}
-				else if ($valkey == "mata_kuliah"||$valkey=="Mata_kuliah_lain"||$valkey == "REKOGNISI_BIDANG"||$valkey == "JUDUL")
-				{
+				else if ($valkey == "sertifikat_lain"){
 					$val="'app/loadurl/main/lihat_pdf?dosen_id=".$set->getField('dosen_id')."&table_field=".strtolower($valkey)."'";
 					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">lihat data</a>';
 				}
 				else
 				{
-					if(strtolower($valkey) == strtolower("PENDIDIKAN_MAGISTER")){
+					if(strtolower($valkey) == strtolower("JABATAN_AKADEMIK")){
+						$tablefield='jabatan';
+					}
+					else if(strtolower($valkey) == strtolower("pendidikan_diploma")){
+						$tablefield='diploma';
+					}
+					else if(strtolower($valkey) == strtolower("pendidikan_sarjana")){
+						$tablefield='sarjana';
+					}
+					else if(strtolower($valkey) == strtolower("PENDIDIKAN_MAGISTER")){
 						$tablefield='magister';
 					}
+					else if(strtolower($valkey) == strtolower("PENDIDIKAN_SPESIALIS")){
+						$tablefield='doktor';
+					}
 					else{
-						$tablefield= str_replace('_', '', $valkey) ;
+						$tablefield=$valkey;
 					}
 
 					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('dosen_id')."&reqFile=".strtolower($tablefield)."'";

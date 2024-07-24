@@ -1,11 +1,11 @@
 <? 
 include_once(APPPATH.'/models/Entity.php');
 
-class Upload extends Entity{ 
+class Pdf extends Entity{ 
 
 	var $query;
 
-	function Upload()
+	function Pdf()
 	{
 		$this->Entity(); 
 	}

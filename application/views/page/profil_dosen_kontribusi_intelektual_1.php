@@ -2,21 +2,20 @@
 $reqId= $this->input->get('reqId');
 
 $arrtabledata= array(
-    array("label"=>"No", "field"=> "NO", "display"=>"",  "width"=>"")
-    , array("label"=>"Nama Dosen", "field"=> "NAMA", "display"=>"",  "width"=>"", "nowrap"=>"1")
-    , array("label"=>"Mata Kuliah yang Diampu pada PS yang Diakreditasi", "field"=> "mata_kuliah", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Mata Kuliah yang Diampu di PS Lain ", "field"=> "Mata_kuliah_lain", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Judul Bahan Ajar yang Dihasilkan ", "field"=> "JUDUL", "display"=>"",  "width"=>"10px")
-    , array("label"=>"TS-2", "field"=> "TOTAL_MAHASISWA_TS_2", "display"=>"",  "width"=>"10px")
-    , array("label"=>"TS-1", "field"=> "TOTAL_MAHASISWA_TS_1", "display"=>"",  "width"=>"10px")
-    , array("label"=>"TS", "field"=> "TOTAL_MAHASISWA_TS", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Rata-rata", "field"=> "TOTAL_MAHASISWA_AVG", "display"=>"",  "width"=>"10px")
-    , array("label"=>"TS-2", "field"=> "TOTAL_MAHASISWA_LAIN_TS_1", "display"=>"",  "width"=>"10px")
-    , array("label"=>"TS-1", "field"=> "TOTAL_MAHASISWA_LAIN_TS_2", "display"=>"",  "width"=>"10px")
-    , array("label"=>"TS", "field"=> "TOTAL_MAHASISWA_LAIN_TS", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Rata-rata", "field"=> "TOTAL_MAHASISWA_LAIN_AVG", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Rata-Rata Jumlah di Semua Program/ Semester", "field"=> "AVG_MAHASISWA", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Rekognisi Bidang Pendidikan dan Pengajaran", "field"=> "REKOGNISI_BIDANG", "display"=>"",  "width"=>"10px")
+    // array("label"=>"No", "field"=> "NO", "display"=>"",  "width"=>"")
+    array("label"=>"Nama Dosen", "field"=> "NAMA", "display"=>"",  "width"=>"", "nowrap"=>"1")
+    , array("label"=>"PS yang Diakreditasi", "field"=> "mata_kuliah", "display"=>"",  "width"=>"")
+    , array("label"=>"PS Lain ", "field"=> "Mata_kuliah_lain", "display"=>"",  "width"=>"")
+    , array("label"=>"Judul Bahan Ajar yang Dihasilkan ", "field"=> "JUDUL", "display"=>"",  "width"=>"")
+    , array("label"=>"TS-2", "field"=> "TS_2", "display"=>"",  "width"=>"")
+    , array("label"=>"TS-1", "field"=> "TS_1", "display"=>"",  "width"=>"")
+    , array("label"=>"TS", "field"=> "TS", "display"=>"",  "width"=>"")
+    , array("label"=>"Rata-rata", "field"=> "AVG", "display"=>"",  "width"=>"")
+    , array("label"=>"TS-2", "field"=> "TS_1_LAIN", "display"=>"",  "width"=>"")
+    , array("label"=>"TS-1", "field"=> "TS_2_LAIN", "display"=>"",  "width"=>"")
+    , array("label"=>"TS", "field"=> "TS_LAIN", "display"=>"",  "width"=>"")
+    , array("label"=>"Rata-rata", "field"=> "AVG_LAIN", "display"=>"",  "width"=>"")
+    , array("label"=>"Rekognisi Bidang Pendidikan dan Pengajaran", "field"=> "REKOGNISI_BIDANG", "display"=>"",  "width"=>"")
 
     , array("label"=>"Warna", "field"=> "WARNA", "display"=>"1",  "width"=>"")
     , array("label"=>"validasiid", "field"=> "TEMP_VALIDASI_HAPUS_ID", "display"=>"1", "width"=>"")
@@ -46,7 +45,7 @@ $arrtabledata= array(
                     <span class="card-icon">
                         <i class="flaticon2-notepad text-primary"></i>
                     </span>
-                    <h3 class="card-label">Tabel 2 Profil Dosen Berdasarkan Latar Belakang Keahlian </h3>
+                    <h3 class="card-label">Tabel 3a Profil Dosen Berdasarkan Kontribusi Intelektual </h3>
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
@@ -68,7 +67,40 @@ $arrtabledata= array(
                             <?php
                             foreach($arrtabledata as $valkey => $valitem) 
                             {
-                                echo "<th>".$valitem["label"]."</th>";
+                                if($valitem["field"]=='NAMA' || $valitem["field"]=='NO'){
+                                    echo "<th rowspan=3>".$valitem["label"]."</th>";
+                                }
+                                else if ($valitem["field"]=='mata_kuliah'){
+                                    echo "<th colspan=13 style='text-align:center'>Pendidikan dan Pengajaran</th>";
+                                }
+                            }
+                            ?>
+                        </tr>
+
+                        <tr>
+                            <?php
+                            foreach($arrtabledata as $valkey => $valitem) 
+                            {
+                               if($valitem["field"]=='NAMA' || $valitem["field"]=='NO' || $valitem["field"]=='Mata_kuliah_lain'){
+                                    // echo "<th rowspan=3>".$valitem["label"]."</th>";
+                                }
+                                else if ($valitem["field"]=='mata_kuliah'){
+                                    echo "<th colspan=2  style='text-align:center'>Mata kuliah yang Diampu</th>";
+                                }
+                                else{
+                                    echo "<th rowspan=2>".$valitem["label"]."</th>";
+                                }
+                            }
+                            ?>
+                        </tr>
+
+                        <tr>
+                            <?php
+                            foreach($arrtabledata as $valkey => $valitem) 
+                            {
+                                if($valitem["field"]=='mata_kuliah' || $valitem["field"]=='Mata_kuliah_lain'){
+                                    echo "<th>".$valitem["label"]."</th>";
+                                }
                             }
                             ?>
                         </tr>
@@ -201,29 +233,7 @@ jQuery(document).ready(function() {
     });
 
     $("#btnAdd, #btnUbahData").on("click", function () {
-        btnid= $(this).attr('id');
-
-        if(valinfoid == "" && btnid == "btnUbahData")
-        {
-            Swal.fire({
-                text: "Pilih salah satu data Riwayat terlebih dahulu.",
-                icon: "error",
-                buttonsStyling: false,
-                confirmButtonText: "Ok",
-                customClass: {
-                    confirmButton: "btn font-weight-bold btn-light-primary"
-                }
-            });
-            return false;
-        }
-
-        if(btnid == "btnUbahData")
-            vpilihid= valinfoid;
-        else
-            vpilihid= "";
-
-        // varurl= "app/index/pegawai_diklat_teknis_add?formulaid=<?=$formulaid?>&reqRowId="+vpilihid;
-        varurl= "app/index/pelatihan_fungsional_add?reqRowId="+vpilihid+"&reqId=<?=$reqId?>";
+        varurl= "app/index/daftar_tabel_add?reqId=<?=$reqId?>";
         
         document.location.href = varurl;
     });

@@ -6,7 +6,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
+class profil_dosen_kontribusi_intelektual_2_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -79,22 +79,16 @@ class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
 				{
 					$row[$valkey]= $set->getField($valkey);
 				}
-				else if ($valkey == "mata_kuliah"||$valkey=="Mata_kuliah_lain"||$valkey == "REKOGNISI_BIDANG"||$valkey == "JUDUL")
+				else if ($valkey == "praktik_professional"||$valkey=="penelitian")
 				{
-					$val="'app/loadurl/main/lihat_pdf?dosen_id=".$set->getField('dosen_id')."&table_field=".strtolower($valkey)."'";
+					$val="'app/loadurl/main/lihat_pdf_lengkap?dosen_id=".$set->getField('dosen_id')."&table_field=".strtolower($valkey)."'";
 					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">lihat data</a>';
 				}
 				else
 				{
-					if(strtolower($valkey) == strtolower("PENDIDIKAN_MAGISTER")){
-						$tablefield='magister';
-					}
-					else{
-						$tablefield= str_replace('_', '', $valkey) ;
-					}
 
-					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('dosen_id')."&reqFile=".strtolower($tablefield)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.strtoupper($set->getField($valkey)).'</a>';
+					
+					$row[$valkey]= '<a style="cursor: pointer" href="'.$set->getField('google_scholar').'" target="_blank" >klik disini</a>';
 				}
 			}
 			array_push($arrinfodata, $row);

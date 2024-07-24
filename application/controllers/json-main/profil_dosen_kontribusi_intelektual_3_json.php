@@ -6,7 +6,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
+class profil_dosen_kontribusi_intelektual_3_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -60,7 +60,7 @@ class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
 		// $sOrder = "";
 		// $set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement." AND (UPPER(B.GOL_RUANG) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(TEMPAT_LAHIR) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_LAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_BARU) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(AMBIL_FORMAT_NIP_BARU(NIP_BARU)) LIKE '%".strtoupper($_GET['sSearch'])."%' ) ", $sOrder);
 
-		$set->selectByParamsDetil1(array('b.DAFTAR_TABEL_ID'=>2), $dsplyRange, $dsplyStart, $statement, $sOrder);
+		$set->selectByParamsDetil1(array('b.DAFTAR_TABEL_ID'=>5), $dsplyRange, $dsplyStart, $statement, $sOrder);
 		
 		if(!empty($cekquery)){
 			echo $set->query;exit;
@@ -79,22 +79,19 @@ class profil_dosen_kontribusi_intelektual_1_json extends CI_Controller {
 				{
 					$row[$valkey]= $set->getField($valkey);
 				}
-				else if ($valkey == "mata_kuliah"||$valkey=="Mata_kuliah_lain"||$valkey == "REKOGNISI_BIDANG"||$valkey == "JUDUL")
-				{
-					$val="'app/loadurl/main/lihat_pdf?dosen_id=".$set->getField('dosen_id')."&table_field=".strtolower($valkey)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">lihat data</a>';
-				}
 				else
 				{
-					if(strtolower($valkey) == strtolower("PENDIDIKAN_MAGISTER")){
-						$tablefield='magister';
+					if(strtolower($valkey) == strtolower("pkm_mandiri")){
+						$tablefield='kegiatan_pkm_mandiri';
 					}
-					else{
-						$tablefield= str_replace('_', '', $valkey) ;
+					else if(strtolower($valkey) == strtolower("org_diluar")){
+						$tablefield='organisasi_diluar_ps';
 					}
-
-					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('dosen_id')."&reqFile=".strtolower($tablefield)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.strtoupper($set->getField($valkey)).'</a>';
+					else if(strtolower($valkey) == strtolower("rekognisi")){
+						$tablefield='rekognisi_bidang_pkm';
+					}
+					$val="'app/loadurl/main/lihat_pdf?dosen_id=".$set->getField('dosen_id')."&table_field=".strtolower($tablefield)."'";
+					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">lihat data</a>';
 				}
 			}
 			array_push($arrinfodata, $row);

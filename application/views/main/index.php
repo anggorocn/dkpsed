@@ -98,8 +98,8 @@ $arrcarimenuparent= $vfpeg->cariparentmenu($arrparam);
         <script type="text/javascript" src="lib/jquery-easyui-1.4.2/jquery.easyui.min.js"></script>
 
         <script>
-            function openAdd(pageUrl) {
-                eModal.iframe(pageUrl, 'Aplikasi')
+            function openAdd(pageUrl,judul) {
+                eModal.iframe(pageUrl, judul)
             }
             function closePopup() {
                 eModal.close();

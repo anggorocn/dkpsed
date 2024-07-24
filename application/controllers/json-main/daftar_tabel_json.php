@@ -79,7 +79,7 @@ class daftar_tabel_json extends CI_Controller {
 				{
 					if($set->getField('STATUS')==1){
 						// $icon='<i class="fa fa-folder" style="color:orange; font-size:18pt"></i>';
-						$icon='<a href="app/index/daftar_tabel_detil?reqId='.$set->getField('DAFTAR_TABEL_ID').'"><i class="fa fa-folder" style="color:orange; font-size:18pt"></i></a>';
+						$icon='<a href="app/page/'.$set->getField('PAGE').'?reqId='.$set->getField('daftar_tabel_id').'"><i class="fa fa-folder" style="color:orange; font-size:18pt"></i></a>';
 					}
 					else{
 						$icon='<i class="fa fa-close" style="color:red; font-size:18pt"></i>';
@@ -241,6 +241,37 @@ class daftar_tabel_json extends CI_Controller {
 		if($reqSimpan == 1)
 		{
 			echo json_response(200, $reqRowId."-Data berhasil disimpan.");
+		}
+		else
+		{
+			echo json_response(400, "Data gagal disimpan");
+		}
+				
+	}
+
+	function addDosen()
+	{
+		$this->load->model("base/DaftarTabel");
+
+		$reqId= $this->input->post("reqId");
+		$reqDosenId= $this->input->post("reqDosenId");
+		
+		$set = new DaftarTabel();
+		$set->setField("daftar_tabel_id", $reqId);
+
+		$set->deleteTabelDosen();
+		$reqSimpan= "";
+
+
+		for($i=0;$i<count($reqDosenId);$i++){
+			$set->setField("DOSEN_ID", $reqDosenId[$i]);
+			$set->insertDosen();
+			$reqSimpan= 1;
+		}
+
+		if($reqSimpan == 1)
+		{
+			echo json_response(200, $reqId."-Data berhasil disimpan.");
 		}
 		else
 		{

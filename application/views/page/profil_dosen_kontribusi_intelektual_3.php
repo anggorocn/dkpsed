@@ -4,17 +4,15 @@ $reqId= $this->input->get('reqId');
 $arrtabledata= array(
     array("label"=>"No", "field"=> "NO", "display"=>"",  "width"=>"")
     , array("label"=>"Nama Dosen", "field"=> "NAMA", "display"=>"",  "width"=>"", "nowrap"=>"1")
-    , array("label"=>"Magister/ Magister Terapan/ Spesialis", "field"=> "PENDIDIKAN_MAGISTER", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Doktor/Doktor Terapan/ Spesialis", "field"=> "PENDIDIKAN_SPESIALIS", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Bidang Keahlian", "field"=> "BIDANG_KEAHLIAN", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Sertifikat Pendidik Profesional", "field"=> "SERTIFIKAT_PENDIDIKAN", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Sertifikat Kompetensi/ Profesi/Industri", "field"=> "SERTIFIKAT_KOMPETENSI", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Kegiatan PkM Mandiri", "field"=> "pkm_mandiri", "display"=>"",  "width"=>"")
+    , array("label"=>" Organisasi diluar PS ", "field"=> "org_diluar", "display"=>"",  "width"=>"")
+    , array("label"=>" Rekognisi Bidang PkM", "field"=> "rekognisi", "display"=>"",  "width"=>"")
 
     , array("label"=>"Warna", "field"=> "WARNA", "display"=>"1",  "width"=>"")
     , array("label"=>"validasiid", "field"=> "TEMP_VALIDASI_HAPUS_ID", "display"=>"1", "width"=>"")
     , array("label"=>"validasihapusid", "field"=> "TEMP_VALIDASI_ID", "display"=>"1", "width"=>"")
     , array("label"=>"sorderdefault", "field"=> "SORDERDEFAULT", "display"=>"1", "width"=>"")
-    , array("label"=>"fieldid", "field"=> "Profil_Dosen_Latar_Belakang_Keahlian_id", "display"=>"1", "width"=>"")
+    , array("label"=>"fieldid", "field"=> "profil_dosen_kontribusi_intelektual_3_id", "display"=>"1", "width"=>"")
 );
 ?>
 
@@ -38,7 +36,7 @@ $arrtabledata= array(
                     <span class="card-icon">
                         <i class="flaticon2-notepad text-primary"></i>
                     </span>
-                    <h3 class="card-label">Tabel 2 Profil Dosen Berdasarkan Latar Belakang Keahlian </h3>
+                    <h3 class="card-label">Tabel 3c. Profil Dosen Berdasarkan Kontribusi Intelektual</h3>
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
@@ -56,25 +54,25 @@ $arrtabledata= array(
             <div class="card-body">
                 <table class="table table-bordered table-hover table-checkable" id="kt_datatable" style="margin-top: 13px !important">
                     <thead>
-                        <tr> 
-                            <?
+                        <tr>
+                            <?php
                             foreach($arrtabledata as $valkey => $valitem) 
-                            {   
-                                if($valitem["field"]!='PENDIDIKAN_MAGISTER' && $valitem["field"] !='PENDIDIKAN_SPESIALIS'){
-                                    echo "<th rowspan=2>".$valitem["label"]."</th>";
+                            {
+                                if($valitem["field"]=='NAMA'||$valitem["field"]=='NO'){
+                                    echo "<th rowspan='2'>".$valitem["label"]."</th>";
                                 }
-                                else if( $valitem["field"]!='PENDIDIKAN_MAGISTER'){
-                                    echo "<th colspan=2 style='text-align:center'>Pendidikan Pasca Sarjana</th>";
+                                else if($valitem["field"]=='pkm_mandiri'){
+                                    echo "<th colspan=3 style='text-align:center'>Kontribusi Sosial Masyarakat</th>";
                                 }
                             }
                             ?>
                         </tr>
 
-                        <tr> 
-                            <?
+                        <tr>
+                            <?php
                             foreach($arrtabledata as $valkey => $valitem) 
                             {
-                                if($valitem["field"]=='PENDIDIKAN_MAGISTER' || $valitem["field"] =='PENDIDIKAN_SPESIALIS'){
+                                if($valitem["field"]!='NAMA' && $valitem["field"]!='NO'){
                                     echo "<th>".$valitem["label"]."</th>";
                                 }
                             }
@@ -116,7 +114,7 @@ var valinfovalidasiid = '';
 var valinfovalidasihapusid = '';
 
 jQuery(document).ready(function() {
-    var jsonurl= "json-main/profil_dosen_latar_belakang_keahlian_json/json";
+    var jsonurl= "json-main/profil_dosen_kontribusi_intelektual_3_json/json";
     ajaxserverselectsingle.init(infotableid, jsonurl, arrdata);
 
     var infoid= [];
