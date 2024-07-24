@@ -234,16 +234,22 @@ $arrcarimenuparent= $vfpeg->cariparentmenu($arrparam);
                                             <span class="menu-text <?if($pg=='pengguna' || $pg=='prodi'){ echo 'activeFont';}?> "><i class="fa fa-gear <?if($pg=='pengguna' || $pg=='prodi'){ echo 'activeFont';}?>" aria-hidden="true" style="color: #FFFFFF;margin-right: 10px;"></i> Pengaturan</span>
                                             <i class="menu-arrow"></i>
                                         </a>
-                                        <div class="menu-submenu" <?if($pg=='pengguna' || $pg=='prodi' ||$pg=='pengguna_add'){?>style="display: block; overflow: hidden;<?}?>">
+                                        <div class="menu-submenu" <?if($pg=='pengguna' || $pg=='prodi' ||$pg=='pengguna_add' || $pg=='profil_dosen' || $pg=='profil_dosen_add'){?>style="display: block; overflow: hidden;<?}?>">
                                             <ul class="menu-subnav">
                                                 <li class="menu-item" aria-haspopup="true">
                                                     <a href="app/index/pengguna" class="menu-link <?if($pg=='pengguna'||$pg=='pengguna_add'){ echo 'active';}?>">
                                                         <span class="menu-text <?if($pg=='pengguna'||$pg=='pengguna_add'){ echo 'activeFont';}?>" style="margin:auto;margin-right:10px;">Pengguna</span>
                                                     </a>
                                                 </li>
-                                                <li class="menu-item" aria-haspopup="true">
+                                                <!-- <li class="menu-item" aria-haspopup="true">
                                                     <a href="app/index/prodi" class="menu-link <?if($pg=='prodi'){ echo 'active';}?>">
                                                         <span class="menu-text <?if($pg=='prodi'){ echo 'activeFont';}?>" style="margin:auto;margin-right:10px;">Program/Prodi</span>
+                                                    </a>
+                                                </li>
+ -->
+                                                <li class="menu-item" aria-haspopup="true">
+                                                    <a href="app/index/profil_dosen" class="menu-link <?if($pg=='profil_dosen' || $pg=='profil_dosen_add'){ echo 'active';}?>">
+                                                        <span class="menu-text <?if($pg=='profil_dosen' || $pg=='profil_dosen_add'){ echo 'activeFont';}?>" style="margin:auto;margin-right:10px;">Profil Dosen</span>
                                                     </a>
                                                 </li>
                                             </ul>

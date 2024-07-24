@@ -7,10 +7,7 @@ $pass= "admin";
 // print_r($this);exit;
 $sessinfopesan= $this->sessinfopesan;
 $sessvgenertecaptcha= $this->sessvgenertecaptcha;
-
 ?>
-
-
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -48,9 +45,7 @@ $sessvgenertecaptcha= $this->sessvgenertecaptcha;
         </style>
         
     </head>
-<?
-// echo 'ABC';exit;
-?>
+
     <body id="kt_body" class="header-fixed header-mobile-fixed subheader-enabled subheader-fixed aside-enabled aside-fixed aside-minimize-hoverable page-loading">
         <div class="d-flex flex-column flex-root">
             <div class="login login-4 login-signin-on d-flex flex-row-fluid" id="kt_login">

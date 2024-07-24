@@ -42,30 +42,21 @@ class Upload extends Entity{
     function update()
 	{
 		$str = "
-		UPDATE diklat_fungsional
+		UPDATE UPLOAD
 		SET    
-			PEGAWAI_ID= '".$this->getField("PEGAWAI_ID")."'
-			, TEMPAT= '".$this->getField("TEMPAT")."'
-			, PENYELENGGARA= '".$this->getField("PENYELENGGARA")."'
-			, TANGGAL_MULAI= ".$this->getField("TANGGAL_MULAI")."
-			, TANGGAL_SELESAI= ".$this->getField("TANGGAL_SELESAI")."
-			, NO_STTPP= '".$this->getField("NO_STTPP")."'
-			, TANGGAL_STTPP= ".$this->getField("TANGGAL_STTPP")."
-			, NAMA= '".$this->getField("NAMA")."'
-			, ANGKATAN= ".$this->getField("ANGKATAN")."
-			, TAHUN= ".$this->getField("TAHUN")."
-			, JUMLAH_JAM= ".$this->getField("JUMLAH_JAM")."
-			, LAST_UPDATE_USER= '".$this->getField("LAST_UPDATE_USER")."'
-			, LAST_UPDATE_DATE= ".$this->getField("LAST_UPDATE_DATE")."
-			, LAST_UPDATE_SATKER= '".$this->getField("LAST_UPDATE_SATKER")."'
-		WHERE DIKLAT_FUNGSIONAL_ID= '".$this->getField("DIKLAT_FUNGSIONAL_ID")."'
+			TABLE_ID= '".$this->getField("TABLE_ID")."'
+			, TABLE_NAMA= '".$this->getField("TABLE_NAMA")."'
+			, TABLE_FIELD= '".$this->getField("TABLE_FIELD")."'
+			, FILE= '".$this->getField("FILE")."'
+			, KETERANGAN= '".$this->getField("KETERANGAN")."'
+		WHERE UPLOAD_ID= '".$this->getField("UPLOAD_ID")."'
 		"; 
 		$this->query = $str;
 
 		// untuk buat log data
 		// parse pertama sesuai nama table
 		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "UPDATE", $str);
+		// echo $str;exit;
 
 		return $this->execQuery($str);
     }

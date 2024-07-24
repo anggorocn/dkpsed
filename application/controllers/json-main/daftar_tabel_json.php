@@ -79,7 +79,7 @@ class daftar_tabel_json extends CI_Controller {
 				{
 					if($set->getField('STATUS')==1){
 						// $icon='<i class="fa fa-folder" style="color:orange; font-size:18pt"></i>';
-						$icon='<a href="app/page/'.$set->getField('PAGE').'"><i class="fa fa-folder" style="color:orange; font-size:18pt"></i></a>';
+						$icon='<a href="app/index/daftar_tabel_detil?reqId='.$set->getField('DAFTAR_TABEL_ID').'"><i class="fa fa-folder" style="color:orange; font-size:18pt"></i></a>';
 					}
 					else{
 						$icon='<i class="fa fa-close" style="color:red; font-size:18pt"></i>';

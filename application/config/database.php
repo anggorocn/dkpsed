@@ -51,14 +51,14 @@ $active_record = TRUE;
 
 $db['default'] = array(
 	// 'dsn'	   => 'pgsql:host=localhost;port=5432;dbname=simpeg_lamongan_27_06_2022;user=postgres;password=root',
-	'dsn'	   => 'pgsql:host=localhost;port=5432;dbname=simpeg_mojokerto_2023;user=postgres;password=root',
+	// 'dsn'	   => 'pgsql:host=localhost;port=5432;dbname=simpeg_mojokerto_2023;user=postgres;password=root',
 	'port' => '5432',
 	'username' => 'postgres',
 	'hostname' => '192.168.88.100',
 	'password' => 'root',
 	// 'database' => 'simpeg_lamongan_27_06_2022',
 	// 'database' => 'cat_kaltim_2023',
-	'database' => 'dkpsed',
+	'database' => 'dkpsed_baru',
 	'dbdriver' => 'postgre',
 	'dbprefix' => '',
 	'pconnect' => FALSE,

@@ -138,5 +138,27 @@ class DaftarTabel extends Entity{
 		else 
 			return 0;  
     }
+
+    function selectByParamsField($paramsArray=array(),$limit=-1,$from=-1, $statement='')
+	{
+		$str = "
+		SELECT a.*,
+			dt.nama,
+			 ROW_NUMBER () OVER (ORDER BY a.daftar_tabel_id) as NO
+		FROM daftar_tabel_field A
+		left join daftar_tabel dt on a.daftar_tabel_id=dt.daftar_tabel_id
+		WHERE 1=1 "; 
+		
+		while(list($key,$val) = each($paramsArray))
+		{
+			$str .= " AND $key = '$val' ";
+		}
+		
+		$str .= $statement." ORDER BY daftar_tabel_field_id ASC";
+		$this->query = $str;
+		// echo $statement;exit;
+				
+		return $this->selectLimit($str,$limit,$from); 
+    }
 } 
 ?>

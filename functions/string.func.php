@@ -1615,6 +1615,35 @@ function toAlpha($data){
 
 }
 
+function uploaddata($reqId,$reqNama,$reqFile){
+	$folderPath = "uploads/".$reqId.'/'.;
+    $targetDir = $folderPath."/"; // Direktori tempat menyimpan file yang diunggah
+    $fileName = basename($reqFile["name"]); // Nama asli file yang diunggah
+    $targetFilePath = $targetDir . $fileName; // Path lengkap file yang diunggah
+
+    // Ambil ekstensi file yang diunggah
+    $fileType = pathinfo($targetFilePath, PATHINFO_EXTENSION);
+
+    // Generate nama file baru dengan tambahan timestamp untuk menghindari nama file yang sama
+    $newFileName = $reqNama.'.' . $fileType;
+    $targetFilePath = $targetDir . $newFileName; // Path lengkap file baru
+    $imageFileType = strtolower(pathinfo($targetFilePath, PATHINFO_EXTENSION)); //cek ekstensi
+
+    // Cek jika file sudah ada
+    if (file_exists($targetFilePath)) {
+    	unlink($targetFilePath);
+    }
+
+    // Batasi jenis file yang diizinkan (contoh untuk gambar)
+    if ($imageFileType != "pdf"){
+        echo "Maaf, hanya file PDF yang diizinkan.";
+    	exit;
+    }
+
+    move_uploaded_file($reqFile["tmp_name"], $targetFilePath);
+	return '1';
+}
+
 
 
 // <option value=''></option>
