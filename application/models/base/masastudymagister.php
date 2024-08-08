@@ -104,8 +104,8 @@ class MasaStudyMagister extends Entity{
 		$str = "
 		SELECT
 			*,
-			 ROW_NUMBER () OVER (ORDER BY lulusan_prodi_magister_id) as NO
-		FROM lulusan_prodi_magister A
+			 ROW_NUMBER () OVER (ORDER BY lulusan_prodi_id) as NO
+		FROM lulusan_prodi A
 		WHERE 1=1 "; 
 		
 		while(list($key,$val) = each($paramsArray))
@@ -113,7 +113,7 @@ class MasaStudyMagister extends Entity{
 			$str .= " AND $key = '$val' ";
 		}
 		
-		$str .= $statement." ORDER BY lulusan_prodi_magister_id ASC";
+		$str .= $statement." ORDER BY lulusan_prodi_id ASC";
 		$this->query = $str;
 		// echo $statement;exit;
 				

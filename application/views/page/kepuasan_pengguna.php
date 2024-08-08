@@ -1,20 +1,16 @@
 <?php
 $reqId= $this->input->get('reqId');
+$reqTipe= 2;
 
 $arrtabledata= array(
     array("label"=>"No", "field"=> "NO", "display"=>"",  "width"=>"")
-    , array("label"=>"Tahun Masuk", "field"=> "tahun", "display"=>"",  "width"=>"", "nowrap"=>"1")
-    , array("label"=>"Jumlah Mahasiswa Diterima", "field"=> "jumlah", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Akhir TS-6", "field"=> "ts_6", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Akhir TS-5", "field"=> "ts_5", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Akhir TS-4", "field"=> "ts_4", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Akhir TS-3", "field"=> "ts_3", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Akhir TS-2", "field"=> "ts_2", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Akhir TS-1", "field"=> "ts_1", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Akhir TS", "field"=> "ts", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Jumlah Lulusan s.d. Akhir TS", "field"=> "jumlah_akhir_ts", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Rata- rata Masa Studi", "field"=> "avg", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Standar Pendidikan Tinggi yang ditetapkan oleh Perguruan Tinggi", "field"=> "standart", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Jenis Kemampuan", "field"=> "jenis", "display"=>"",  "width"=>"", "nowrap"=>"1")
+    , array("label"=>"Sangat Baik", "field"=> "nilai_a", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Baik", "field"=> "nilai_b", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Cukup", "field"=> "nilai_c", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Kurang", "field"=> "nilai_d", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Rencana Tindak Lanjut oleh UPPS/PS", "field"=> "rencana", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Kesesuaian dengan Target Profil Lulusan yang ditetapkan UPPS/PS", "field"=> "keterangan", "display"=>"",  "width"=>"10px")
 
     , array("label"=>"Warna", "field"=> "WARNA", "display"=>"1",  "width"=>"")
     , array("label"=>"validasiid", "field"=> "TEMP_VALIDASI_HAPUS_ID", "display"=>"1", "width"=>"")
@@ -44,13 +40,12 @@ $arrtabledata= array(
                     <span class="card-icon">
                         <i class="flaticon2-notepad text-primary"></i>
                     </span>
-                    <h3 class="card-label">Tabel 11. Masa Studi Lulusan Program Studi (Program Doktor dan Doktor Terapan)</h3>
+                    <h3 class="card-label">Tabel 17. Kepuasan Pengguna (Khusus program Diploma Tiga/Sarjana/Sarjana Terapan/Magister/Magister Terapan)</h3>
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <?if ($this->adminusergroupid==1){?>
-                            <button class="btn btn-light-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
                     		<button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
                             <button class="btn btn-light-danger" id="btnBack"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali</button>
                         <?}?>	
@@ -67,11 +62,11 @@ $arrtabledata= array(
                             <?
                             foreach($arrtabledata as $valkey => $valitem) 
                             {   
-                                if($valitem["field"]=='NO' || $valitem["field"] =='tahun' || $valitem["field"] =='jumlah' || $valitem["field"] =='jumlah_akhir_ts' || $valitem["field"] =='avg' || $valitem["field"] =='standart'){
+                                if($valitem["field"]=='NO' ||$valitem["field"]=='jenis' || $valitem["field"] =='rencana' || $valitem["field"] =='keterangan'){
                                     echo "<th rowspan=2>".$valitem["label"]."</th>";
                                 }
-                                else if( $valitem["field"]=='ts_6'){
-                                    echo "<th colspan=7 style='text-align:center'>Jumlah Mahasiswa yang Lulus pada</th>";
+                                else if( $valitem["field"]=='nilai_a'){
+                                    echo "<th colspan=4 style='text-align:center'>Tingkat Kepuasan Pengguna (%)</th>";
                                 }
                             }
                             ?>
@@ -81,7 +76,7 @@ $arrtabledata= array(
                             <?
                             foreach($arrtabledata as $valkey => $valitem) 
                             {
-                                if( $valitem["field"] =='ts_6'|| $valitem["field"] =='ts_5'|| $valitem["field"] =='ts_4'|| $valitem["field"] =='ts_3'|| $valitem["field"] =='ts_2'|| $valitem["field"] =='ts_1'|| $valitem["field"] =='ts'){
+                                if($valitem["field"] =='nilai_a'||$valitem["field"] =='nilai_b'||$valitem["field"] =='nilai_c'||$valitem["field"] =='nilai_d'){
                                     echo "<th>".$valitem["label"]."</th>";
                                 }
                             }
@@ -123,7 +118,7 @@ var valinfovalidasiid = '';
 var valinfovalidasihapusid = '';
 
 jQuery(document).ready(function() {
-    var jsonurl= "json-main/masa_studi_lulusan_json/json?reqTingkatan=doktor";
+    var jsonurl= "json-main/kepuasan_pengguna_json/json";
     ajaxserverselectsingle.init(infotableid, jsonurl, arrdata);
 
     var infoid= [];
@@ -216,28 +211,7 @@ jQuery(document).ready(function() {
     });
 
     $("#btnAdd, #btnUbahData").on("click", function () {
-        btnid= $(this).attr('id');
-
-        if(valinfoid == "" && btnid == "btnUbahData")
-        {
-            Swal.fire({
-                text: "Pilih salah satu data terlebih dahulu.",
-                icon: "error",
-                buttonsStyling: false,
-                confirmButtonText: "Ok",
-                customClass: {
-                    confirmButton: "btn font-weight-bold btn-light-primary"
-                }
-            });
-            return false;
-        }
-
-        if(btnid == "btnUbahData")
-            vpilihid= valinfoid;
-        else
-            vpilihid= "";
-
-        varurl= "app/page/masa_studi_lulusan_doktor_add?reqId=<?=$reqId?>&reqRowId="+vpilihid;
+        varurl= "app/index/daftar_tabel_add?reqId=<?=$reqId?>";
         
         document.location.href = varurl;
     });

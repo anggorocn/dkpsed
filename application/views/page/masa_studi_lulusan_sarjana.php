@@ -44,12 +44,13 @@ $arrtabledata= array(
                     <span class="card-icon">
                         <i class="flaticon2-notepad text-primary"></i>
                     </span>
-                    <h3 class="card-label">Tabel 9. Masa Studi Lulusan Program Studi (Khusus Program Sarjana dan Sarjana Terapan)</h3>
+                    <h3 class="card-label">Tabel 9. Masa Studi Lulusan Program Studi (Program Sarjana & Sarjana Terapan)</h3>
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <?if ($this->adminusergroupid==1){?>
+                            <button class="btn btn-light-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
                     		<button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
                             <button class="btn btn-light-danger" id="btnBack"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali</button>
                         <?}?>	
@@ -122,7 +123,7 @@ var valinfovalidasiid = '';
 var valinfovalidasihapusid = '';
 
 jQuery(document).ready(function() {
-    var jsonurl= "json-main/masa_studi_lulusan_sarjana_json/json";
+    var jsonurl= "json-main/masa_studi_lulusan_json/json?reqTingkatan=s1";
     ajaxserverselectsingle.init(infotableid, jsonurl, arrdata);
 
     var infoid= [];
@@ -215,7 +216,28 @@ jQuery(document).ready(function() {
     });
 
     $("#btnAdd, #btnUbahData").on("click", function () {
-        varurl= "app/index/daftar_tabel_add?reqId=<?=$reqId?>";
+        btnid= $(this).attr('id');
+
+        if(valinfoid == "" && btnid == "btnUbahData")
+        {
+            Swal.fire({
+                text: "Pilih salah satu data terlebih dahulu.",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+            return false;
+        }
+
+        if(btnid == "btnUbahData")
+            vpilihid= valinfoid;
+        else
+            vpilihid= "";
+
+        varurl= "app/page/masa_studi_lulusan_sarjana_add?reqId=<?=$reqId?>&reqRowId="+vpilihid;
         
         document.location.href = varurl;
     });

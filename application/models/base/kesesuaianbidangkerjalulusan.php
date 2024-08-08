@@ -1,11 +1,11 @@
 <? 
 include_once(APPPATH.'/models/Entity.php');
 
-class MasaStudyDoktor extends Entity{ 
+class KesesuaianBidangKerjaLulusan extends Entity{ 
 
 	var $query;
 
-	function MasaStudyDoktor()
+	function KesesuaianBidangKerjaLulusan()
 	{
 		$this->Entity(); 
 	}
@@ -104,8 +104,8 @@ class MasaStudyDoktor extends Entity{
 		$str = "
 		SELECT
 			*,
-			 ROW_NUMBER () OVER (ORDER BY lulusan_prodi_id) as NO
-		FROM lulusan_prodi A
+			 ROW_NUMBER () OVER (ORDER BY kesesuaian_bidang_kerja_lulusan_id) as NO
+		FROM kesesuaian_bidang_kerja_lulusan A
 		WHERE 1=1 "; 
 		
 		while(list($key,$val) = each($paramsArray))
@@ -113,7 +113,7 @@ class MasaStudyDoktor extends Entity{
 			$str .= " AND $key = '$val' ";
 		}
 		
-		$str .= $statement." ORDER BY lulusan_prodi_id ASC";
+		$str .= $statement." ORDER BY kesesuaian_bidang_kerja_lulusan_id ASC";
 		$this->query = $str;
 		// echo $statement;exit;
 				

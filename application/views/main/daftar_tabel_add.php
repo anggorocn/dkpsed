@@ -55,7 +55,7 @@ if(!empty($reqId))
                     <div class="form-group row">
                         <label class="col-form-label text-right col-lg-2 col-sm-12">Dosen</label>
                         <div class="col-lg-10 col-sm-12">
-                            <a onclick="create_tr(1)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah Upload</a>
+                            <a onclick="create_tr(1)" class="btn btn-light-success"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</a>
                             
                             <table class='tableadd' >
                                 <thead>
@@ -154,7 +154,7 @@ if(!empty($reqId))
                             }
                         }).then(function() {
                             reqid=response.message.split('-');
-                            document.location.href = "app/page/profil_dosen_status_kepegawaian_add?reqId="+reqid[0];
+                            document.location.href = "app/index/daftar_tabel_add?reqId="+reqid[0];
                         });
                     },
                     error: function(xhr, status, error) {

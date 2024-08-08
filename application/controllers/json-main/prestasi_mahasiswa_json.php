@@ -166,15 +166,25 @@ class prestasi_mahasiswa_json extends CI_Controller {
 
 	function add()
 	{
-		$this->load->model("base/ProfilDosenStatusKepegawaian");
+		$this->load->model("base/PrestasiMahasiswa");
 		$this->load->model("base/Upload");
 
 		$reqId= $this->input->post("reqId");
-		$reqName= $this->input->post("reqName");
+		$reqNama= $this->input->post("reqNama");
+		$reqStatus= $this->input->post("reqStatus");
+		$reqTahun= $this->input->post("reqTahun");
+		$reqTingkat= $this->input->post("reqTingkat");
+		$reqJuara= $this->input->post("reqJuara");
+		$reqStandar= $this->input->post("reqStandar");
 
-		$set = new ProfilDosenStatusKepegawaian();
-		$set->setField("profil_dosen_status_kepegawaian_id", $reqId);
-		$set->setField("NAMA", $reqName);
+		$set = new PrestasiMahasiswa();
+		$set->setField("prestasi_id", $reqId);
+		$set->setField("nama", $reqNama);
+		$set->setField("jenis", $reqStatus);
+		$set->setField("tahun", $reqTahun);
+		$set->setField("tingkat", $reqTingkat);
+		$set->setField("juara", $reqJuara);
+		$set->setField("standart", $reqStandar);
 
 		$reqSimpan= "";
 		if ($reqId == "")
@@ -197,116 +207,15 @@ class prestasi_mahasiswa_json extends CI_Controller {
 		}
 
 		if($reqSimpan==1){
-			$reqKettable1= $this->input->post("reqKettable1");
-			$reqFiletable1= $this->input->post("reqFiletable1");
-			$reqFileExisttable1= $this->input->post("reqFileExisttable1");
-			$reqidtable1= $this->input->post("reqidtable1");
-
-			$reqKettable2= $this->input->post("reqKettable2");
-			$reqFiletable2= $this->input->post("reqFiletable2");
-			$reqFileExisttable2= $this->input->post("reqFileExisttable2");
-			$reqidtable2= $this->input->post("reqidtable2");
-
-			$reqKettable3= $this->input->post("reqKettable3");
-			$reqFiletable3= $this->input->post("reqFiletable3");
-			$reqFileExisttable3= $this->input->post("reqFileExisttable3");
-			$reqidtable3= $this->input->post("reqidtable3");
-
-			$reqKettable4= $this->input->post("reqKettable4");
-			$reqFiletable4= $this->input->post("reqFiletable4");
-			$reqFileExisttable4= $this->input->post("reqFileExisttable4");
-			$reqidtable4= $this->input->post("reqidtable4");
-
-			$reqKettable5= $this->input->post("reqKettable5");
-			$reqFiletable5= $this->input->post("reqFiletable5");
-			$reqFileExisttable5= $this->input->post("reqFileExisttable5");
-			$reqidtable5= $this->input->post("reqidtable5");
-
-			for($i=0;$i<count($reqKettable1);$i++){
-				$setUpload = new Upload();
-				$setUpload->setField("upload_id", $reqidtable1[$i]);
-				$setUpload->setField("KETERANGAN", $reqKettable1[$i]);
-				$setUpload->setField("TABLE_NAMA", 'profil_dosen_status_kepegawaian');
-				$setUpload->setField("TABLE_FIELD", 'status');
-				$setUpload->setField("TABLE_ID", $reqId);
-				if ($reqidtable1[$i] == "")
-				{
-					$setUpload->insert();
-				}
-				else
-				{	
-					$setUpload->update();
-				}
+			$folderPath = "uploads/prestasi";
+			if (!file_exists($folderPath)) {
+			    // Membuat folder jika belum ada
+			    mkdir($folderPath, 0777, true);
 			}
-
-			for($i=0;$i<count($reqKettable2);$i++){
-				$setUpload = new Upload();
-				$setUpload->setField("upload_id", $reqidtable2[$i]);
-				$setUpload->setField("KETERANGAN", $reqKettable2[$i]);
-				$setUpload->setField("TABLE_NAMA", 'profil_dosen_status_kepegawaian');
-				$setUpload->setField("TABLE_FIELD", 'nidn');
-				$setUpload->setField("TABLE_ID", $reqId);
-				if ($reqidtable2[$i] == "")
-				{
-					$setUpload->insert();
-				}
-				else
-				{	
-					$setUpload->update();
-				}
+			if (!empty($_FILES["reqFile"]["type"])) {
+				// echo "sasasa";exit;
+				uploaddata('prestasi','prestasi_'.$reqId,$_FILES["reqFile"]);
 			}
-
-			for($i=0;$i<count($reqKettable3);$i++){
-				$setUpload = new Upload();
-				$setUpload->setField("upload_id", $reqidtable3[$i]);
-				$setUpload->setField("KETERANGAN", $reqKettable3[$i]);
-				$setUpload->setField("TABLE_NAMA", 'profil_dosen_status_kepegawaian');
-				$setUpload->setField("TABLE_FIELD", 'jabatan');
-				$setUpload->setField("TABLE_ID", $reqId);
-				if ($reqidtable3[$i] == "")
-				{
-					$setUpload->insert();
-				}
-				else
-				{	
-					$setUpload->update();
-				}
-			}
-
-			for($i=0;$i<count($reqKettable4);$i++){
-				$setUpload = new Upload();
-				$setUpload->setField("upload_id", $reqidtable4[$i]);
-				$setUpload->setField("KETERANGAN", $reqKettable4[$i]);
-				$setUpload->setField("TABLE_NAMA", 'profil_dosen_status_kepegawaian');
-				$setUpload->setField("TABLE_FIELD", 'status_akademis');
-				$setUpload->setField("TABLE_ID", $reqId);
-				if ($reqidtable4[$i] == "")
-				{
-					$setUpload->insert();
-				}
-				else
-				{	
-					$setUpload->update();
-				}
-			}
-
-			for($i=0;$i<count($reqKettable5);$i++){
-				$setUpload = new Upload();
-				$setUpload->setField("upload_id", $reqidtable5[$i]);
-				$setUpload->setField("KETERANGAN", $reqKettable5[$i]);
-				$setUpload->setField("TABLE_NAMA", 'profil_dosen_status_kepegawaian');
-				$setUpload->setField("TABLE_FIELD", 'perusahaan');
-				$setUpload->setField("TABLE_ID", $reqId);
-				if ($reqidtable5[$i] == "")
-				{
-					$setUpload->insert();
-				}
-				else
-				{	
-					$setUpload->update();
-				}
-			}
-
 		}
 
 		if($reqSimpan == 1)

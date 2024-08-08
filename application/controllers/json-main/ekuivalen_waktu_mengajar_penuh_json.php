@@ -60,7 +60,7 @@ class ekuivalen_waktu_mengajar_penuh_json extends CI_Controller {
 		// $sOrder = "";
 		// $set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement." AND (UPPER(B.GOL_RUANG) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(TEMPAT_LAHIR) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_LAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_BARU) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(AMBIL_FORMAT_NIP_BARU(NIP_BARU)) LIKE '%".strtoupper($_GET['sSearch'])."%' ) ", $sOrder);
 
-		$set->selectByParamsDetil1(array('b.DAFTAR_TABEL_ID'=>2), $dsplyRange, $dsplyStart, $statement, $sOrder);
+		$set->selectByParamsDetil1(array('b.DAFTAR_TABEL_ID'=>6), $dsplyRange, $dsplyStart, $statement, $sOrder);
 		
 		if(!empty($cekquery)){
 			echo $set->query;exit;

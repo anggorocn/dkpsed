@@ -6,7 +6,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class profil_tenaga_kependidikan_json extends CI_Controller {
+class kepuasan_pengguna_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -35,9 +35,9 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 	function json()
 	{
 		ini_set('memory_limit', '-1');
-		$this->load->model("base/DaftarTabel");
+		$this->load->model("base/KepuasanPengguna");
 
-		$set= new DaftarTabel();
+		$set= new KepuasanPengguna();
 
 		if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
 			$columnsDefault = [];
@@ -45,8 +45,10 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 				$columnsDefault[ $field ] = "true";
 			}
 		}
-		$reqId = $this->input->get("reqId");
+		
 		$cekquery= $this->input->get("c");
+		$reqId= $this->input->get('reqId');
+		$reqTahun= $this->input->get('reqTahun');
 		// print_r($columnsDefault);exit;
 
 		$displaystart= -1;
@@ -57,10 +59,14 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 		$userpegawaimode= $this->userpegawaimode;
 		$adminuserid= $this->adminuserid;
 
+		if($reqTahun==''){
+			$reqTahun=2020;
+			// $reqTahun=date("Y");
+		}
 		// $sOrder = "";
 		// $set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement." AND (UPPER(B.GOL_RUANG) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(TEMPAT_LAHIR) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_LAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_BARU) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(AMBIL_FORMAT_NIP_BARU(NIP_BARU)) LIKE '%".strtoupper($_GET['sSearch'])."%' ) ", $sOrder);
-
-		$set->selectByParamsDetil1(array('b.DAFTAR_TABEL_ID'=>7), $dsplyRange, $dsplyStart, $statement, $sOrder);
+		$statement="and tahun =".$reqTahun;
+		$set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement, $sOrder);
 		
 		if(!empty($cekquery)){
 			echo $set->query;exit;
@@ -75,37 +81,17 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 				{
 					$row[$valkey]= "1";
 				}
-				else if ($valkey == "NAMA" || $valkey == "NO")
+				else if ($valkey == "ts_1"||$valkey == "ts_2"||$valkey == "ts_3"||$valkey == "ts_4"||$valkey == "ts_5"||$valkey == "ts_6"||$valkey == "ts" )
 				{
-					$row[$valkey]= $set->getField($valkey);
-				}
-				else if ($valkey == "sertifikat_lain"){
-					$val="'app/loadurl/main/lihat_pdf?dosen_id=".$set->getField('dosen_id')."&table_field=".strtolower($valkey)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">lihat data</a>';
+					if($set->getField($valkey)==''||$set->getField($valkey)=='0'){
+						$row[$valkey]= '<i class="fa fa-close" aria-hidden="true" style="color:red"></i>';
+					}else{
+						$row[$valkey]= strtoupper($set->getField($valkey));
+					}
 				}
 				else
 				{
-					if(strtolower($valkey) == strtolower("JABATAN_AKADEMIK")){
-						$tablefield='jabatan';
-					}
-					else if(strtolower($valkey) == strtolower("pendidikan_diploma")){
-						$tablefield='diploma';
-					}
-					else if(strtolower($valkey) == strtolower("pendidikan_sarjana")){
-						$tablefield='sarjana';
-					}
-					else if(strtolower($valkey) == strtolower("PENDIDIKAN_MAGISTER")){
-						$tablefield='magister';
-					}
-					else if(strtolower($valkey) == strtolower("PENDIDIKAN_SPESIALIS")){
-						$tablefield='doktor';
-					}
-					else{
-						$tablefield=$valkey;
-					}
-
-					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('dosen_id')."&reqFile=".strtolower($tablefield)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.strtoupper($set->getField($valkey)).'</a>';
+					$row[$valkey]= strtoupper($set->getField($valkey));
 				}
 			}
 			array_push($arrinfodata, $row);

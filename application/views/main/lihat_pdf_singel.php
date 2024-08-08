@@ -65,7 +65,11 @@ $reqFile= $this->input->get('reqFile');
                         <div class="d-flex flex-column-fluid">
                             <div class="container">
                                 <div class="card card-custom" style="margin-top: 0px;">
-                                    <iframe src="uploads/<?=$folder?>/<?=$reqFile?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
+                                    <?if($reqFile=='prestasi'){?>
+                                        <iframe src="uploads/<?=$reqFile?>/<?=$reqFile?>_<?=$folder?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
+                                    <?}else{?>
+                                        <iframe src="uploads/<?=$folder?>/<?=$reqFile?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
+                                    <?}?>
                                 </div>
                             </div>
                         </div>

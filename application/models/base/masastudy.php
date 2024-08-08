@@ -12,74 +12,60 @@ class MasaStudy extends Entity{
 
 	function insert()
 	{
-		$this->setField("DIKLAT_FUNGSIONAL_ID", $this->getNextId("DIKLAT_FUNGSIONAL_ID","diklat_fungsional"));
+		$this->setField("lulusan_prodi_id", $this->getNextId("lulusan_prodi_id","lulusan_prodi"));
 
 		$str = "
-		INSERT INTO diklat_fungsional
+		INSERT INTO lulusan_prodi
 		(
-			DIKLAT_FUNGSIONAL_ID, PEGAWAI_ID, TEMPAT, PENYELENGGARA, TANGGAL_MULAI, TANGGAL_SELESAI, NO_STTPP, TANGGAL_STTPP
-			, NAMA, ANGKATAN, TAHUN, JUMLAH_JAM
-			, LAST_CREATE_USER, LAST_CREATE_DATE, LAST_CREATE_SATKER
+			lulusan_prodi_id, tahun, jumlah, jenjang, ts_6, ts_5, ts_4, ts_3, ts_2, ts_1
+			, ts, jumlah_akhir_ts, avg, standart
 		)
 		VALUES
 		(
-			".$this->getField("DIKLAT_FUNGSIONAL_ID")."
-			, '".$this->getField("PEGAWAI_ID")."'
-			, '".$this->getField("TEMPAT")."'
-			, '".$this->getField("PENYELENGGARA")."'
-			, ".$this->getField("TANGGAL_MULAI")."
-			, ".$this->getField("TANGGAL_SELESAI")."
-			, '".$this->getField("NO_STTPP")."'
-			, ".$this->getField("TANGGAL_STTPP")."
-			, '".$this->getField("NAMA")."'
-			, ".$this->getField("ANGKATAN")."
-			, ".$this->getField("TAHUN")."
-			, ".$this->getField("JUMLAH_JAM")."
-			, '".$this->getField("LAST_CREATE_USER")."'
-			, ".$this->getField("LAST_CREATE_DATE")."
-			, '".$this->getField("LAST_CREATE_SATKER")."'
+			".$this->getField("lulusan_prodi_id")."
+			, '".$this->getField("tahun")."'
+			, '".$this->getField("jumlah")."'
+			, '".$this->getField("jenjang")."'
+			, ".$this->getField("ts_6")."
+			, ".$this->getField("ts_5")."
+			, ".$this->getField("ts_4")."
+			, ".$this->getField("ts_3")."
+			, ".$this->getField("ts_2")."
+			, ".$this->getField("ts_1")."
+			, ".$this->getField("ts")."
+			, '".$this->getField("jumlah_akhir_ts")."'
+			, '".$this->getField("avg")."'
+			, '".$this->getField("standart")."'
 		)";
 
-		$this->id= $this->getField("DIKLAT_FUNGSIONAL_ID");
+		$this->id= $this->getField("lulusan_prodi_id");
 		$this->query = $str;
 		// echo $str;exit;
-
-		// untuk buat log data
-		// parse pertama sesuai nama table
-		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "INSERT", $str);
-
 		return $this->execQuery($str);
     }
 
     function update()
 	{
 		$str = "
-		UPDATE diklat_fungsional
+		UPDATE lulusan_prodi
 		SET    
-			PEGAWAI_ID= '".$this->getField("PEGAWAI_ID")."'
-			, TEMPAT= '".$this->getField("TEMPAT")."'
-			, PENYELENGGARA= '".$this->getField("PENYELENGGARA")."'
-			, TANGGAL_MULAI= ".$this->getField("TANGGAL_MULAI")."
-			, TANGGAL_SELESAI= ".$this->getField("TANGGAL_SELESAI")."
-			, NO_STTPP= '".$this->getField("NO_STTPP")."'
-			, TANGGAL_STTPP= ".$this->getField("TANGGAL_STTPP")."
-			, NAMA= '".$this->getField("NAMA")."'
-			, ANGKATAN= ".$this->getField("ANGKATAN")."
-			, TAHUN= ".$this->getField("TAHUN")."
-			, JUMLAH_JAM= ".$this->getField("JUMLAH_JAM")."
-			, LAST_UPDATE_USER= '".$this->getField("LAST_UPDATE_USER")."'
-			, LAST_UPDATE_DATE= ".$this->getField("LAST_UPDATE_DATE")."
-			, LAST_UPDATE_SATKER= '".$this->getField("LAST_UPDATE_SATKER")."'
-		WHERE DIKLAT_FUNGSIONAL_ID= '".$this->getField("DIKLAT_FUNGSIONAL_ID")."'
+			tahun= '".$this->getField("tahun")."'
+			, jumlah= '".$this->getField("jumlah")."'
+			, jenjang= '".$this->getField("jenjang")."'
+			, ts_6= ".$this->getField("ts_6")."
+			, ts_5= ".$this->getField("ts_5")."
+			, ts_4= ".$this->getField("ts_4")."
+			, ts_3= ".$this->getField("ts_3")."
+			, ts_2= ".$this->getField("ts_2")."
+			, ts_1= ".$this->getField("ts_1")."
+			, ts= ".$this->getField("ts")."
+			, jumlah_akhir_ts= ".$this->getField("jumlah_akhir_ts")."
+			, avg= ".$this->getField("avg")."
+			, standart= '".$this->getField("standart")."'
+		WHERE lulusan_prodi_id= '".$this->getField("lulusan_prodi_id")."'
 		"; 
 		$this->query = $str;
-
-		// untuk buat log data
-		// parse pertama sesuai nama table
-		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "UPDATE", $str);
-
+		// echo $str;exit;
 		return $this->execQuery($str);
     }
 
@@ -104,8 +90,8 @@ class MasaStudy extends Entity{
 		$str = "
 		SELECT
 			*,
-			 ROW_NUMBER () OVER (ORDER BY lulusan_prodi_d3_id) as NO
-		FROM lulusan_prodi_d3 A
+			 ROW_NUMBER () OVER (ORDER BY lulusan_prodi_id) as NO
+		FROM lulusan_prodi A
 		WHERE 1=1 "; 
 		
 		while(list($key,$val) = each($paramsArray))
@@ -113,7 +99,7 @@ class MasaStudy extends Entity{
 			$str .= " AND $key = '$val' ";
 		}
 		
-		$str .= $statement." ORDER BY lulusan_prodi_d3_id ASC";
+		$str .= $statement." ORDER BY lulusan_prodi_id ASC";
 		$this->query = $str;
 		// echo $statement;exit;
 				

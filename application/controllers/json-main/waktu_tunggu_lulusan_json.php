@@ -6,7 +6,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class profil_tenaga_kependidikan_json extends CI_Controller {
+class waktu_tunggu_lulusan_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -35,9 +35,9 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 	function json()
 	{
 		ini_set('memory_limit', '-1');
-		$this->load->model("base/DaftarTabel");
+		$this->load->model("base/WaktuTungguLulusan");
 
-		$set= new DaftarTabel();
+		$set= new WaktuTungguLulusan();
 
 		if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
 			$columnsDefault = [];
@@ -45,8 +45,10 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 				$columnsDefault[ $field ] = "true";
 			}
 		}
-		$reqId = $this->input->get("reqId");
+		
 		$cekquery= $this->input->get("c");
+		$reqId= $this->input->get('reqId');
+		$reqTipe= $this->input->get('reqTipe');
 		// print_r($columnsDefault);exit;
 
 		$displaystart= -1;
@@ -60,7 +62,8 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 		// $sOrder = "";
 		// $set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement." AND (UPPER(B.GOL_RUANG) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(TEMPAT_LAHIR) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_LAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_BARU) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(AMBIL_FORMAT_NIP_BARU(NIP_BARU)) LIKE '%".strtoupper($_GET['sSearch'])."%' ) ", $sOrder);
 
-		$set->selectByParamsDetil1(array('b.DAFTAR_TABEL_ID'=>7), $dsplyRange, $dsplyStart, $statement, $sOrder);
+		$statement="and tingkatan='".$reqTipe."'";
+		$set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement, $sOrder);
 		
 		if(!empty($cekquery)){
 			echo $set->query;exit;
@@ -75,37 +78,17 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 				{
 					$row[$valkey]= "1";
 				}
-				else if ($valkey == "NAMA" || $valkey == "NO")
+				else if ($valkey == "ts_1"||$valkey == "ts_2"||$valkey == "ts_3"||$valkey == "ts_4"||$valkey == "ts_5"||$valkey == "ts_6"||$valkey == "ts" )
 				{
-					$row[$valkey]= $set->getField($valkey);
-				}
-				else if ($valkey == "sertifikat_lain"){
-					$val="'app/loadurl/main/lihat_pdf?dosen_id=".$set->getField('dosen_id')."&table_field=".strtolower($valkey)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">lihat data</a>';
+					if($set->getField($valkey)==''||$set->getField($valkey)=='0'){
+						$row[$valkey]= '<i class="fa fa-close" aria-hidden="true" style="color:red"></i>';
+					}else{
+						$row[$valkey]= strtoupper($set->getField($valkey));
+					}
 				}
 				else
 				{
-					if(strtolower($valkey) == strtolower("JABATAN_AKADEMIK")){
-						$tablefield='jabatan';
-					}
-					else if(strtolower($valkey) == strtolower("pendidikan_diploma")){
-						$tablefield='diploma';
-					}
-					else if(strtolower($valkey) == strtolower("pendidikan_sarjana")){
-						$tablefield='sarjana';
-					}
-					else if(strtolower($valkey) == strtolower("PENDIDIKAN_MAGISTER")){
-						$tablefield='magister';
-					}
-					else if(strtolower($valkey) == strtolower("PENDIDIKAN_SPESIALIS")){
-						$tablefield='doktor';
-					}
-					else{
-						$tablefield=$valkey;
-					}
-
-					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('dosen_id')."&reqFile=".strtolower($tablefield)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.strtoupper($set->getField($valkey)).'</a>';
+					$row[$valkey]= strtoupper($set->getField($valkey));
 				}
 			}
 			array_push($arrinfodata, $row);
@@ -188,59 +171,61 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 
 	function add()
 	{
-		$this->load->model("base/DaftarTabel");
+		$this->load->model("base/WaktuTungguLulusan");
 
 		$reqId= $this->input->post("reqId");
 		$reqRowId= $this->input->post("reqRowId");
 		$reqMode= $this->input->post("reqMode");
 
-		$reqNamaDiklat= $this->input->post("reqNamaDiklat");
-		$reqTempat= $this->input->post("reqTempat");
-		$reqPenyelenggara= $this->input->post("reqPenyelenggara");
-		$reqTglMulai= $this->input->post("reqTglMulai");
-		$reqNoSTTPP= $this->input->post("reqNoSTTPP");
-		$reqTglSelesai= $this->input->post("reqTglSelesai");
-		$reqTglSTTPP= $this->input->post("reqTglSTTPP");
-		$reqJumlahJam= $this->input->post("reqJumlahJam");
-		$reqAngkatan= $this->input->post("reqAngkatan");
 		$reqTahun= $this->input->post("reqTahun");
+		$reqJumlah= $this->input->post("reqJumlah");
+		$reqJumlahTerlacak= $this->input->post("reqJumlahTerlacak");
+		$reqJumlahDipesan= $this->input->post("reqJumlahDipesan");
+		$reqWaktu11= $this->input->post("reqWaktu11");
+		$reqWaktu12= $this->input->post("reqWaktu12");
+		$reqWaktu13= $this->input->post("reqWaktu13");
+		$reqWaktu21= $this->input->post("reqWaktu21");
+		$reqWaktu22= $this->input->post("reqWaktu22");
+		$reqWaktu23= $this->input->post("reqWaktu23");
+		$reqWaktu31= $this->input->post("reqWaktu31");
+		$reqWaktu32= $this->input->post("reqWaktu32");
+		$reqWaktu33= $this->input->post("reqWaktu33");
+		$reqStandar= $this->input->post("reqStandar");
+		$reqJenjang= $this->input->post("reqJenjang");
 		
-		$set = new DaftarTabel();
-		$set->setField("DIKLAT_FUNGSIONAL_ID", $reqRowId);
-		$set->setField("PEGAWAI_ID", $reqId);
+		$set = new WaktuTungguLulusan();
+		$set->setField("waktu_tunggu_lulusan_id", $reqId);
 
-		$set->setField("NAMA", $reqNamaDiklat);
-		$set->setField("TEMPAT", $reqTempat);
-		$set->setField("TANGGAL_STTPP", dateToDBCheck($reqTglSTTPP));
-		$set->setField("PENYELENGGARA", $reqPenyelenggara);
-		$set->setField("NO_STTPP", $reqNoSTTPP);
-		$set->setField("TANGGAL_MULAI", dateToDBCheck($reqTglMulai));
-		$set->setField("TANGGAL_SELESAI", dateToDBCheck($reqTglSelesai));
-		$set->setField("JUMLAH_JAM", ValToNullDB($reqJumlahJam));
-		$set->setField("ANGKATAN", ValToNullDB($reqAngkatan));
-		$set->setField("TAHUN", ValToNullDB($reqTahun));
+		$set->setField("tahun", $reqTahun);
+		$set->setField("jumlah", $reqJumlah);
+		$set->setField("jumlah_terlacak", $reqJumlahTerlacak);
+		$set->setField("jumlah_dipesan", $reqJumlahDipesan);
+		$set->setField("waktu1_1", $reqWaktu11);
+		$set->setField("waktu1_2", $reqWaktu12);
+		$set->setField("waktu1_3", $reqWaktu13);
+		$set->setField("waktu2_1", $reqWaktu21);
+		$set->setField("waktu2_2", $reqWaktu22);
+		$set->setField("waktu2_3", $reqWaktu23);
+		$set->setField("waktu3_1", $reqWaktu31);
+		$set->setField("waktu3_2", $reqWaktu32);
+		$set->setField("waktu3_3", $reqWaktu33);
+		$set->setField("standar", $reqStandar);
+		$set->setField("tingkatan", $reqJenjang);
 
 		$adminusernama= $this->adminuserloginnama;
 		$userSatkerId= $this->adminsatkerid;
 
 		$reqSimpan= "";
-		if ($reqMode == "insert")
+		if ($reqId == "")
 		{
-
-			$set->setField("LAST_CREATE_USER", $adminusernama);
-			$set->setField("LAST_CREATE_DATE", "NOW()");	
-			$set->setField("LAST_CREATE_SATKER", $userSatkerId);
-	
 			if($set->insert())
 			{
 				$reqSimpan= 1;
+				$reqId= $set->id;
 			}
 		}
 		else
 		{	
-			$set->setField("LAST_UPDATE_USER", $adminusernama);
-			$set->setField("LAST_UPDATE_DATE", "NOW()");	
-			$set->setField("LAST_UPDATE_SATKER", $userSatkerId);
 			if($set->update())
 			{
 				$reqSimpan= 1;
@@ -249,7 +234,7 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 
 		if($reqSimpan == 1)
 		{
-			echo json_response(200, $reqRowId."-Data berhasil disimpan.");
+			echo json_response(200, $reqId."-Data berhasil disimpan.");
 		}
 		else
 		{

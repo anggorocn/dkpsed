@@ -12,42 +12,27 @@ class PrestasiMahasiswa extends Entity{
 
 	function insert()
 	{
-		$this->setField("DIKLAT_FUNGSIONAL_ID", $this->getNextId("DIKLAT_FUNGSIONAL_ID","diklat_fungsional"));
+		$this->setField("prestasi_id", $this->getNextId("prestasi_id","prestasi"));
 
 		$str = "
-		INSERT INTO diklat_fungsional
+		INSERT INTO prestasi
 		(
-			DIKLAT_FUNGSIONAL_ID, PEGAWAI_ID, TEMPAT, PENYELENGGARA, TANGGAL_MULAI, TANGGAL_SELESAI, NO_STTPP, TANGGAL_STTPP
-			, NAMA, ANGKATAN, TAHUN, JUMLAH_JAM
-			, LAST_CREATE_USER, LAST_CREATE_DATE, LAST_CREATE_SATKER
+			prestasi_id, nama, jenis, tahun, tingkat, juara, standart
 		)
 		VALUES
 		(
-			".$this->getField("DIKLAT_FUNGSIONAL_ID")."
-			, '".$this->getField("PEGAWAI_ID")."'
-			, '".$this->getField("TEMPAT")."'
-			, '".$this->getField("PENYELENGGARA")."'
-			, ".$this->getField("TANGGAL_MULAI")."
-			, ".$this->getField("TANGGAL_SELESAI")."
-			, '".$this->getField("NO_STTPP")."'
-			, ".$this->getField("TANGGAL_STTPP")."
-			, '".$this->getField("NAMA")."'
-			, ".$this->getField("ANGKATAN")."
-			, ".$this->getField("TAHUN")."
-			, ".$this->getField("JUMLAH_JAM")."
-			, '".$this->getField("LAST_CREATE_USER")."'
-			, ".$this->getField("LAST_CREATE_DATE")."
-			, '".$this->getField("LAST_CREATE_SATKER")."'
+			".$this->getField("prestasi_id")."
+			, '".$this->getField("nama")."'
+			, '".$this->getField("jenis")."'
+			, '".$this->getField("tahun")."'
+			, '".$this->getField("tingkat")."'
+			, '".$this->getField("juara")."'
+			, '".$this->getField("standart")."'
 		)";
 
-		$this->id= $this->getField("DIKLAT_FUNGSIONAL_ID");
+		$this->id= $this->getField("prestasi_id");
 		$this->query = $str;
-		// echo $str;exit;
-
-		// untuk buat log data
-		// parse pertama sesuai nama table
-		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "INSERT", $str);
+		// echo $str; exit;
 
 		return $this->execQuery($str);
     }
@@ -55,30 +40,18 @@ class PrestasiMahasiswa extends Entity{
     function update()
 	{
 		$str = "
-		UPDATE diklat_fungsional
+		UPDATE prestasi
 		SET    
-			PEGAWAI_ID= '".$this->getField("PEGAWAI_ID")."'
-			, TEMPAT= '".$this->getField("TEMPAT")."'
-			, PENYELENGGARA= '".$this->getField("PENYELENGGARA")."'
-			, TANGGAL_MULAI= ".$this->getField("TANGGAL_MULAI")."
-			, TANGGAL_SELESAI= ".$this->getField("TANGGAL_SELESAI")."
-			, NO_STTPP= '".$this->getField("NO_STTPP")."'
-			, TANGGAL_STTPP= ".$this->getField("TANGGAL_STTPP")."
-			, NAMA= '".$this->getField("NAMA")."'
-			, ANGKATAN= ".$this->getField("ANGKATAN")."
-			, TAHUN= ".$this->getField("TAHUN")."
-			, JUMLAH_JAM= ".$this->getField("JUMLAH_JAM")."
-			, LAST_UPDATE_USER= '".$this->getField("LAST_UPDATE_USER")."'
-			, LAST_UPDATE_DATE= ".$this->getField("LAST_UPDATE_DATE")."
-			, LAST_UPDATE_SATKER= '".$this->getField("LAST_UPDATE_SATKER")."'
-		WHERE DIKLAT_FUNGSIONAL_ID= '".$this->getField("DIKLAT_FUNGSIONAL_ID")."'
+			nama= '".$this->getField("nama")."'
+			, jenis= '".$this->getField("jenis")."'
+			, tahun= '".$this->getField("tahun")."'
+			, tingkat= '".$this->getField("tingkat")."'
+			, juara= '".$this->getField("juara")."'
+			, standart= '".$this->getField("standart")."'
+		WHERE prestasi_id= '".$this->getField("prestasi_id")."'
 		"; 
 		$this->query = $str;
-
-		// untuk buat log data
-		// parse pertama sesuai nama table
-		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "UPDATE", $str);
+		// echo $str;exit;
 
 		return $this->execQuery($str);
     }
