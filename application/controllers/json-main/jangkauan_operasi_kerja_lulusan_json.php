@@ -169,59 +169,45 @@ class jangkauan_operasi_kerja_lulusan_json extends CI_Controller {
 
 	function add()
 	{
-		$this->load->model("base/DaftarTabel");
+		$this->load->model("base/JangkauanOperasiKerjaLulusan");
 
 		$reqId= $this->input->post("reqId");
 		$reqRowId= $this->input->post("reqRowId");
 		$reqMode= $this->input->post("reqMode");
 
-		$reqNamaDiklat= $this->input->post("reqNamaDiklat");
-		$reqTempat= $this->input->post("reqTempat");
-		$reqPenyelenggara= $this->input->post("reqPenyelenggara");
-		$reqTglMulai= $this->input->post("reqTglMulai");
-		$reqNoSTTPP= $this->input->post("reqNoSTTPP");
-		$reqTglSelesai= $this->input->post("reqTglSelesai");
-		$reqTglSTTPP= $this->input->post("reqTglSTTPP");
-		$reqJumlahJam= $this->input->post("reqJumlahJam");
-		$reqAngkatan= $this->input->post("reqAngkatan");
 		$reqTahun= $this->input->post("reqTahun");
+		$reqJumlahDiterima= $this->input->post("reqJumlahDiterima");
+		$reqJumlahTerlacak= $this->input->post("reqJumlahTerlacak");
+		$reqLokal= $this->input->post("reqLokal");
+		$reqNasional= $this->input->post("reqNasional");
+		$reqInternasional= $this->input->post("reqInternasional");
+		$reqKeterangan= $this->input->post("reqKeterangan");
 		
-		$set = new DaftarTabel();
-		$set->setField("DIKLAT_FUNGSIONAL_ID", $reqRowId);
-		$set->setField("PEGAWAI_ID", $reqId);
+		$set = new JangkauanOperasiKerjaLulusan();
+		$set->setField("jangkauan_operasi_wilayah_lulusan_id", $reqId);
 
-		$set->setField("NAMA", $reqNamaDiklat);
-		$set->setField("TEMPAT", $reqTempat);
-		$set->setField("TANGGAL_STTPP", dateToDBCheck($reqTglSTTPP));
-		$set->setField("PENYELENGGARA", $reqPenyelenggara);
-		$set->setField("NO_STTPP", $reqNoSTTPP);
-		$set->setField("TANGGAL_MULAI", dateToDBCheck($reqTglMulai));
-		$set->setField("TANGGAL_SELESAI", dateToDBCheck($reqTglSelesai));
-		$set->setField("JUMLAH_JAM", ValToNullDB($reqJumlahJam));
-		$set->setField("ANGKATAN", ValToNullDB($reqAngkatan));
-		$set->setField("TAHUN", ValToNullDB($reqTahun));
+		$set->setField("tahun", $reqTahun);
+		$set->setField("jumlah", $reqJumlahDiterima);
+		$set->setField("jumlah_terlacak", $reqJumlahTerlacak);
+		$set->setField("lokal", $reqLokal);
+		$set->setField("nasional", $reqNasional);
+		$set->setField("internasional", $reqInternasional);
+		$set->setField("keterangan", $reqKeterangan);
 
 		$adminusernama= $this->adminuserloginnama;
 		$userSatkerId= $this->adminsatkerid;
 
 		$reqSimpan= "";
-		if ($reqMode == "insert")
+		if ($reqId == "")
 		{
-
-			$set->setField("LAST_CREATE_USER", $adminusernama);
-			$set->setField("LAST_CREATE_DATE", "NOW()");	
-			$set->setField("LAST_CREATE_SATKER", $userSatkerId);
-	
 			if($set->insert())
 			{
 				$reqSimpan= 1;
+				$reqId= $set->id;
 			}
 		}
 		else
 		{	
-			$set->setField("LAST_UPDATE_USER", $adminusernama);
-			$set->setField("LAST_UPDATE_DATE", "NOW()");	
-			$set->setField("LAST_UPDATE_SATKER", $userSatkerId);
 			if($set->update())
 			{
 				$reqSimpan= 1;
@@ -230,7 +216,7 @@ class jangkauan_operasi_kerja_lulusan_json extends CI_Controller {
 
 		if($reqSimpan == 1)
 		{
-			echo json_response(200, $reqRowId."-Data berhasil disimpan.");
+			echo json_response(200, $reqId."-Data berhasil disimpan.");
 		}
 		else
 		{

@@ -58,7 +58,7 @@ $arrtabledata= array(
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <?if ($this->adminusergroupid==1){?>
-                            <button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
+                            <button class="btn btn-light-primary" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
                             <button class="btn btn-light-danger" id="btnBack"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali</button>
                         <?}?>   
                     </div>
@@ -85,6 +85,7 @@ $arrtabledata= array(
                 ">
                     <thead>
                         <tr>
+                            <th rowspan="2" data-options="field:'aksi'" style="width:100px" ></th>
                             <th rowspan="2" data-options="field:'NAMA'" >Jenis Sumber/Penggunaan</th>
                             <th colspan="4" height="100px">Unit Pengelola Program Studi <br>(dalam Jutaan Rupiah)</th>
                             <th colspan=4>Program Studi yang Di Akreditasi (Jt)</th>
@@ -114,3 +115,24 @@ $arrtabledata= array(
 
     </div>
 </div>
+
+
+<script type="text/javascript">
+    $("#btnAdd").on("click", function () {
+        varurl= "app/index/profil_keuangan_program_studi_diakreditasi_add?";
+        
+        document.location.href = varurl;
+    }); 
+
+    function addchild(reqParent, reqId) {
+        varurl= "app/index/profil_keuangan_program_studi_diakreditasi_add?reqParent="+reqParent;
+        
+        document.location.href = varurl;
+    }
+
+    function updatechild(reqParent, reqId) {
+        varurl= "app/index/profil_keuangan_program_studi_diakreditasi_add?reqParent="+reqParent+"&reqId="+reqId;
+        
+        document.location.href = varurl;
+    }
+</script>

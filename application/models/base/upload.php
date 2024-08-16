@@ -235,6 +235,28 @@ class Upload extends Entity{
 		return $this->selectLimit($str,$limit,$from); 
     }
 
+
+    function selectByParamsLuaran($paramsArray=array(),$limit=-1,$from=-1, $statement='')
+	{
+		$str = "
+		SELECT
+			a.*,
+			 ROW_NUMBER () OVER (ORDER BY luaran_penelitian_mahasiswa_Detail_id DESC) as NO
+		FROM luaran_penelitian_mahasiswa_Detail A
+		WHERE 1=1 "; 
+		
+		while(list($key,$val) = each($paramsArray))
+		{
+			$str .= " AND $key = '$val' ";
+		}
+		
+		$str .= $statement." ORDER BY luaran_penelitian_mahasiswa_Detail_id DESC";
+		$this->query = $str;
+		// echo $str;exit;
+				
+		return $this->selectLimit($str,$limit,$from); 
+    }
+
     function getCountByParams($paramsArray=array(), $statement='')
 	{
 		$str = "

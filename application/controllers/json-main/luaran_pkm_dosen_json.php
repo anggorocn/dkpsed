@@ -6,7 +6,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class publikasi_ilmiah_mahasiswa_json extends CI_Controller {
+class luaran_pkm_dosen_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -35,9 +35,9 @@ class publikasi_ilmiah_mahasiswa_json extends CI_Controller {
 	function json()
 	{
 		ini_set('memory_limit', '-1');
-		$this->load->model("base/PublikasiIlmiahMahasiswa");
+		$this->load->model("base/LuaranPkmDosen");
 
-		$set= new PublikasiIlmiahMahasiswa();
+		$set= new LuaranPkmDosen();
 
 		if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
 			$columnsDefault = [];
@@ -61,7 +61,7 @@ class publikasi_ilmiah_mahasiswa_json extends CI_Controller {
 
 		// $sOrder = "";
 		// $set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement." AND (UPPER(B.GOL_RUANG) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(TEMPAT_LAHIR) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_LAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_BARU) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(AMBIL_FORMAT_NIP_BARU(NIP_BARU)) LIKE '%".strtoupper($_GET['sSearch'])."%' ) ", $sOrder);
-		$statement="and GOLONGAN ='".$reqTipe."'";
+		$statement="and tipe ='".$reqTipe."'";
 		$set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement, $sOrder);
 		
 		if(!empty($cekquery)){
@@ -162,30 +162,28 @@ class publikasi_ilmiah_mahasiswa_json extends CI_Controller {
 
 	function add()
 	{
-		$this->load->model("base/PublikasiIlmiahMahasiswa");
+		$this->load->model("base/LuaranPkmDosen");
 
 		$reqId= $this->input->post("reqId");
 		$reqRowId= $this->input->post("reqRowId");
 		$reqMode= $this->input->post("reqMode");
 
 		$reqNama= $this->input->post("reqNama");
-		$reqTS2= $this->input->post("reqTS2");
-		$reqTS1= $this->input->post("reqTS1");
-		$reqTS= $this->input->post("reqTS");
-		$reqJumlah= $this->input->post("reqJumlah");
-		$reqStandar= $this->input->post("reqStandar");
-		$reqGolongan= $this->input->post("reqGolongan");
+		$reqTahun= $this->input->post("reqTahun");
+		$reqKeterangan= $this->input->post("reqKeterangan");
+		$reqSumber= $this->input->post("reqSumber");
+		$reqJenis= $this->input->post("reqJenis");
+		$reqTipe= $this->input->post("reqTipe");
 		
-		$set = new PublikasiIlmiahMahasiswa();
-		$set->setField("PUBLIKASI_MAHASISWA_ID", $reqId);
+		$set = new LuaranPkmDosen();
+		$set->setField("PENELITIAN_DOSEN_ID", $reqId);
 
 		$set->setField("NAMA", $reqNama);
-		$set->setField("TS_2", $reqTS2);
-		$set->setField("TS_1", $reqTS1);
-		$set->setField("TS", $reqTS);
-		$set->setField("JUMLAH", $reqJumlah);
-		$set->setField("STANDAR", $reqStandar);
-		$set->setField("GOLONGAN", $reqGolongan);
+		$set->setField("TAHUN", $reqTahun);
+		$set->setField("KETERANGAN", $reqKeterangan);
+		$set->setField("SUMBER_DAYA_ID", $reqSumber);
+		$set->setField("JENIS_PUBLIKASI_ID", $reqJenis);
+		$set->setField("TIPE", $reqTipe);
 
 		if ($reqId == "")
 		{

@@ -15,7 +15,7 @@ $arrtabledata= array(
     , array("label"=>"validasiid", "field"=> "TEMP_VALIDASI_HAPUS_ID", "display"=>"1", "width"=>"")
     , array("label"=>"validasihapusid", "field"=> "TEMP_VALIDASI_ID", "display"=>"1", "width"=>"")
     , array("label"=>"sorderdefault", "field"=> "SORDERDEFAULT", "display"=>"1", "width"=>"")
-    , array("label"=>"fieldid", "field"=> "lulusan_prodi_id", "display"=>"1", "width"=>"")
+    , array("label"=>"fieldid", "field"=> "kesesuaian_bidang_kerja_lulusan_id", "display"=>"1", "width"=>"")
 );
 ?>
 
@@ -39,12 +39,13 @@ $arrtabledata= array(
                     <span class="card-icon">
                         <i class="flaticon2-notepad text-primary"></i>
                     </span>
-                    <h3 class="card-label">Tabel 15. Kesesuaian Bidang Kerja Lulusan (Khusus Program Diploma Tiga/Sarjana/Sarjana Terapan/Magister/Magister Terapan)</h3>
+                    <h3 class="card-label">Tabel 15. Kesesuaian Bidang Kerja Lulusan <br>(Khusus Program Diploma Tiga/Sarjana/Sarjana Terapan/Magister/Magister Terapan)</h3>
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <?if ($this->adminusergroupid==1){?>
+                            <button class="btn btn-light-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
                     		<button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
                             <button class="btn btn-light-danger" id="btnBack"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali</button>
                         <?}?>	
@@ -210,7 +211,28 @@ jQuery(document).ready(function() {
     });
 
     $("#btnAdd, #btnUbahData").on("click", function () {
-        varurl= "app/index/daftar_tabel_add?reqId=<?=$reqId?>";
+        btnid= $(this).attr('id');
+
+        if(valinfoid == "" && btnid == "btnUbahData")
+        {
+            Swal.fire({
+                text: "Pilih salah satu data terlebih dahulu.",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+            return false;
+        }
+
+        if(btnid == "btnUbahData")
+            vpilihid= valinfoid;
+        else
+            vpilihid= "";
+
+        varurl= "app/page/kesesuaian_bidang_kerja_lulusan_add?reqId=<?=$reqId?>&reqRowId="+vpilihid;
         
         document.location.href = varurl;
     });

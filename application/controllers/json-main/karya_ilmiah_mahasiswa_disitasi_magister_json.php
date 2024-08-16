@@ -6,7 +6,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class publikasi_ilmiah_mahasiswa_json extends CI_Controller {
+class karya_ilmiah_mahasiswa_disitasi_magister_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -35,9 +35,9 @@ class publikasi_ilmiah_mahasiswa_json extends CI_Controller {
 	function json()
 	{
 		ini_set('memory_limit', '-1');
-		$this->load->model("base/PublikasiIlmiahMahasiswa");
+		$this->load->model("base/KaryaIlmiah");
 
-		$set= new PublikasiIlmiahMahasiswa();
+		$set= new KaryaIlmiah();
 
 		if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
 			$columnsDefault = [];
@@ -162,30 +162,28 @@ class publikasi_ilmiah_mahasiswa_json extends CI_Controller {
 
 	function add()
 	{
-		$this->load->model("base/PublikasiIlmiahMahasiswa");
+		$this->load->model("base/KaryaIlmiah");
 
 		$reqId= $this->input->post("reqId");
 		$reqRowId= $this->input->post("reqRowId");
 		$reqMode= $this->input->post("reqMode");
 
 		$reqNama= $this->input->post("reqNama");
-		$reqTS2= $this->input->post("reqTS2");
-		$reqTS1= $this->input->post("reqTS1");
-		$reqTS= $this->input->post("reqTS");
+		$reqJudul= $this->input->post("reqJudul");
 		$reqJumlah= $this->input->post("reqJumlah");
 		$reqStandar= $this->input->post("reqStandar");
 		$reqGolongan= $this->input->post("reqGolongan");
+		$reqDesc= $this->input->post("reqDesc");
 		
-		$set = new PublikasiIlmiahMahasiswa();
-		$set->setField("PUBLIKASI_MAHASISWA_ID", $reqId);
+		$set = new KaryaIlmiah();
+		$set->setField("KARYA_ILMIAH_ID", $reqId);
 
 		$set->setField("NAMA", $reqNama);
-		$set->setField("TS_2", $reqTS2);
-		$set->setField("TS_1", $reqTS1);
-		$set->setField("TS", $reqTS);
+		$set->setField("JUDUL", $reqJudul);
 		$set->setField("JUMLAH", $reqJumlah);
 		$set->setField("STANDAR", $reqStandar);
 		$set->setField("GOLONGAN", $reqGolongan);
+		$set->setField("DESKRIPSI", $reqDesc);
 
 		if ($reqId == "")
 		{

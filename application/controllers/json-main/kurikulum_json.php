@@ -6,7 +6,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class profil_keuangan_program_studi_diakreditasi_json extends CI_Controller {
+class kurikulum_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -49,9 +49,9 @@ class profil_keuangan_program_studi_diakreditasi_json extends CI_Controller {
 		$reqPencarian = trim($this->input->get("reqPencarian"));
 		$reqMode = $this->input->get("reqMode");
 
-		$this->load->model("base/ProfilKeuanganProgramStudiDiakreditasi");
+		$this->load->model("base/Kurikulum");
 
-		$set = new ProfilKeuanganProgramStudiDiakreditasi();
+		$set = new Kurikulum();
 
 		if ($reqPencarian == "")
 		{
@@ -65,7 +65,7 @@ class profil_keuangan_program_studi_diakreditasi_json extends CI_Controller {
 
 
 		$rowCount = $set->getCountByParams($arrStatement, $statement . $statement_privacy);
-		$set->selectByParams($arrStatement, $rows, $offset, $statement . $statement_privacy, " ORDER BY profil_keuangan_prodi_id ASC ");
+		$set->selectByParams($arrStatement, $rows, $offset, $statement . $statement_privacy, " ORDER BY kurikulum_id ASC ");
 		// echo $set->query;exit;
 		$i = 0;
 		$items = array();
@@ -74,13 +74,13 @@ class profil_keuangan_program_studi_diakreditasi_json extends CI_Controller {
 			
 			$check =$set->getField("USER_BANTU");
 
-			$row['id'] = coalesce($set->getField("KODE_SO"), $set->getField("set_ID"));
+			$row['id'] = coalesce($set->getField("KODE_SO"), $set->getField("KURIKULUM_ID"));
 			$row['parentId'] = $set->getField("KODE_PARENT");
 			$row['text'] = $set->getField("NAMA");
-			$row['set_ID']	= $set->getField("profil_keuangan_prodi_id");
-			$row['set_ID_PARENT']	= $set->getField("profil_keuangan_prodi_id_parent");
-			$row['NAMA'] = $set->getField("NAMA");
-			$idchild="'".$set->getField("profil_keuangan_prodi_id")."'";
+			$row['set_ID']	= $set->getField("KURIKULUM_ID");
+			$row['set_ID_PARENT']	= $set->getField("KURIKULUM_ID_PARENT");
+			$row['nama'] = '<b>'.$set->getField("NAMA").'</b>';
+			$idchild="'".$set->getField("KURIKULUM_ID")."'";
 			$id="''";
 			$row['aksi'] = '
 			<button class="btn btn-light-primary" onclick="addchild('.$idchild.')"><i class="fa fa-plus" aria-hidden="true"></i></button>
@@ -124,40 +124,14 @@ class profil_keuangan_program_studi_diakreditasi_json extends CI_Controller {
 
 	function children($id, $satkerId)
 	{
-		$this->load->model("ProfilKeuanganProgramStudiDiakreditasi");
-		$set = new ProfilKeuanganProgramStudiDiakreditasi();
+		$this->load->model("Kurikulum");
+		$set = new Kurikulum();
+		$tot_sks=0;
 
 		$arrStatement = array("COALESCE(NULLIF(KODE_PARENT, ''), '0')" => $id);
 
 		$rowCount = $set->getCountByParams($arrStatement, $statement . $statement_privacy);
-
-		$tot_pengelolah_ts_2= 0;
-		$tot_pengelolah_ts_1= 0;
-		$tot_pengelolah_ts= 0;
-		$tot_pengelolah_avg= 0;
-		$tot_prodi_ts_2= 0;
-		$tot_prodi_ts_1= 0;
-		$tot_prodi_ts= 0;
-		$tot_prodi_avg= 0;
-		$tot_prodi_ts_2_persen= 0;
-		$tot_prodi_ts_1_persen= 0;
-		$tot_prodi_ts_persen= 0;
-		$tot_prodi_lain_ts_2_persen= 0;
-		$tot_prodi_lain_ts_1_persen= 0;
-		$tot_prodi_lain_persen= 0;
-
-		$set->selectByParams($arrStatement, $rows, $offset, $statement . $statement_privacy, " ORDER BY profil_keuangan_prodi_id ASC ");
-
-		while ($set->nextRow()) {
-			$tot_pengelolah_ts_2= $tot_pengelolah_ts_2+$set->getField('pengelolah_ts_2');
-			$tot_pengelolah_ts_1= $tot_pengelolah_ts_1+$set->getField('pengelolah_ts_1');
-			$tot_pengelolah_ts= $tot_pengelolah_ts+$set->getField('pengelolah_ts');
-			$tot_prodi_ts_2= $tot_prodi_ts_2+$set->getField('prodi_ts_2');
-			$tot_prodi_ts_1= $tot_prodi_ts_1+$set->getField('prodi_ts_1');
-			$tot_prodi_ts= $tot_prodi_ts+$set->getField('prodi_ts');
-		}
-
-		$set->selectByParams($arrStatement, $rows, $offset, $statement . $statement_privacy, " ORDER BY profil_keuangan_prodi_id ASC ");
+		$set->selectByParams($arrStatement, $rows, $offset, $statement . $statement_privacy, " ORDER BY kurikulum_id ASC ");
 		// echo $set->query;exit;
 		$i = 0;
 
@@ -168,40 +142,18 @@ class profil_keuangan_program_studi_diakreditasi_json extends CI_Controller {
 			$row['id']				= coalesce($set->getField("KODE_SO"), $set->getField("set_ID"));
 			$row['parentId']		= $set->getField("KODE_PARENT");
 			$row['text']			= $set->getField("NAMA");
-			$row['NAMA']			= $set->getField("NAMA");
-			$id="'".$set->getField("profil_keuangan_prodi_id")."'";
-			$idparent="'".$set->getField("profil_keuangan_prodi_id_parent")."'";
+			$row['no']			= $i+1;
+			$row['nama']			= $set->getField("NAMA");
+			$row['kode']			= $set->getField("kode");
+			$row['sks']			= $set->getField("sks");
+
+			$id="'".$set->getField("KURIKULUM_ID")."'";
+			$idparent="'".$set->getField("KURIKULUM_ID_PARENT")."'";
 			$row['aksi']			= '
 				<button class="btn btn-light-warning" onclick="updatechild( '.$idparent.','.$id.')"><i class="fa fa-pen" aria-hidden="true"></i></button>
-				<button class="btn btn-light-danger" id="btnUbahData"><i class="fa fa-trash" aria-hidden="true"></i></button>
+					<button class="btn btn-light-danger" id="btnUbahData"><i class="fa fa-trash" aria-hidden="true"></i></button>
 				';
-			$row['pengelolah_ts_2']=numberToIna($set->getField('pengelolah_ts_2', false));
-			$row['pengelolah_ts_1']=numberToIna($set->getField('pengelolah_ts_1',''));
-			$row['pengelolah_ts']=numberToIna($set->getField('pengelolah_ts',''));
-			$row['pengelolah_avg']=numberToIna($set->getField('pengelolah_avg',''));
-			$row['prodi_ts_2']=numberToIna($set->getField('prodi_ts_2',''));
-			$row['prodi_ts_1']=numberToIna($set->getField('prodi_ts_1',''));
-			$row['prodi_ts']=numberToIna($set->getField('prodi_ts',''));
-			$row['prodi_avg']=numberToIna($set->getField('prodi_avg',''));
-
-			$prodi_ts_2_persen=($set->getField('pengelolah_ts_2')*100)/$tot_pengelolah_ts_2;
-			$row['prodi_ts_2_persen']=number_format($prodi_ts_2_persen,2,",",".")." %";
-
-			$prodi_ts_1_persen=($set->getField('pengelolah_ts_1')*100)/$tot_pengelolah_ts_1;
-			$row['prodi_ts_1_persen']=number_format($prodi_ts_1_persen,2,",",".")." %";
-
-			$prodi_ts_persen=($set->getField('pengelolah_ts')*100)/$tot_pengelolah_ts;
-			$row['prodi_ts_persen']=number_format($prodi_ts_persen,2,",",".")." %";
-
-			$prodi_lain_ts_2_persen=($set->getField('prodi_ts_2')*100)/$tot_prodi_ts_2;
-			$row['prodi_lain_ts_2_persen']=number_format($prodi_lain_ts_2_persen,2,",",".")." %";
-
-			$prodi_lain_ts_1_persen=($set->getField('prodi_ts_1')*100)/$tot_prodi_ts_1;
-			$row['prodi_lain_ts_1_persen']=number_format($prodi_lain_ts_1_persen,2,",",".")." %";
-
-			$prodi_lain_persen=($set->getField('prodi_ts')*100)/$tot_prodi_ts;
-			$row['prodi_lain_persen']=number_format($prodi_lain_persen,2,",",".")." %";
-
+			$row['keterangan']			= $set->getField("keterangan");
 			$state = $this->has_child($row['id']);
 
 
@@ -210,19 +162,13 @@ class profil_keuangan_program_studi_diakreditasi_json extends CI_Controller {
 				$row['children'] 		= $this->children($set->getField("KODE_SO"), $satkerId);
 
 			$i++;
+			$tot_sks= $tot_sks+ coalesce($set->getField('sks'),0);
 			array_push($items, $row);
 			unset($row);
 		}
 
-			$row['NAMA']			= 'TOTAL';
-			$row['pengelolah_ts_2']=numberToIna($tot_pengelolah_ts_2,'');
-			$row['pengelolah_ts_1']=numberToIna($tot_pengelolah_ts_1,'');
-			$row['pengelolah_ts']=numberToIna($tot_pengelolah_ts,'');
-			$row['pengelolah_avg']=numberToIna($tot_pengelolah_avg,'');
-			$row['prodi_ts_2']=numberToIna($tot_prodi_ts_2,'');
-			$row['prodi_ts_1']=numberToIna($tot_prodi_ts_1,'');
-			$row['prodi_ts']=numberToIna($tot_prodi_ts,'');
-			$row['prodi_avg']=numberToIna($tot_prodi_avg,'');
+			$row['nama']			= 'TOTAL';
+			$row['sks']=$tot_sks;
 			array_push($items, $row);
 			unset($row);
 
@@ -231,52 +177,41 @@ class profil_keuangan_program_studi_diakreditasi_json extends CI_Controller {
 
 	function has_child($id)
 	{
-		$this->load->model("ProfilKeuanganProgramStudiDiakreditasi");
-		$set = new ProfilKeuanganProgramStudiDiakreditasi();
+		$this->load->model("Kurikulum");
+		$set = new Kurikulum();
 		$adaData = $set->getCountByParams(array("COALESCE(NULLIF(KODE_PARENT, ''), '0')" => $id));
 		return $adaData > 0 ? true : false;
 	}
 
 	function add()
 	{
-		$this->load->model("base/ProfilKeuanganProgramStudiDiakreditasi");
+		$this->load->model("base/Kurikulum");
 
 		$reqId= $this->input->post("reqId");
 		$reqIdParent= $this->input->post("reqIdParent");
 
 		$reqNama= $this->input->post("reqNama");
+		$reqSks= $this->input->post("reqSks");
+		$reqKeterangan= $this->input->post("reqKeterangan");
+		$reqKode= $this->input->post("reqKode");
 		$reqIdParent= $this->input->post("reqIdParent");
 		if ($reqIdParent == ""){
 			$reqIdParent= '0';
 		}
 
-		$reqPengelolahTS2= $this->input->post("reqPengelolahTS2");
-		$reqPengelolahTS1= $this->input->post("reqPengelolahTS1");
-		$reqPengelolahTS= $this->input->post("reqPengelolahTS");
-		$reqProdiTS2= $this->input->post("reqProdiTS2");
-		$reqProdiTS1= $this->input->post("reqProdiTS1");
-		$reqProdiTS= $this->input->post("reqProdiTS");
-
-		$set = new ProfilKeuanganProgramStudiDiakreditasi();
+		$set = new Kurikulum();
 		$set->setField("KODE_SO", $reqId);
 		$set->setField("KODE_PARENT", $reqIdParent);
 		$set->setField("NAMA", $reqNama);
-		$set->setField("profil_keuangan_prodi_id", $reqId);
-		$set->setField("profil_keuangan_prodi_id_parent", $reqIdParent);
-
-		$set->setField("pengelolah_ts_2", ValToNull($reqPengelolahTS2));
-		$set->setField("pengelolah_ts_1", ValToNull($reqPengelolahTS1));
-		$set->setField("pengelolah_ts", ValToNull($reqPengelolahTS));
-		$set->setField("pengelolah_avg", ValToNull(($reqPengelolahTS2+$reqPengelolahTS1+$reqPengelolahTS)/3));
-		$set->setField("prodi_ts_2", ValToNull($reqProdiTS2));
-		$set->setField("prodi_ts_1", ValToNull($reqProdiTS1));
-		$set->setField("prodi_ts", ValToNull($reqProdiTS));
-		$set->setField("prodi_avg", ValToNull(($reqProdiTS2+$reqProdiTS1+$reqProdiTS)/3));
-
+		$set->setField("KURIKULUM_ID", $reqId);
+		$set->setField("KURIKULUM_ID_PARENT", $reqIdParent);
+		$set->setField("SKS", $reqSks);
+		$set->setField("KETERANGAN", $reqKeterangan);
+		$set->setField("KODE", $reqKode);
 		if ($reqId == "")
 		{
-			$setMax = new ProfilKeuanganProgramStudiDiakreditasi();
-			$setMax->selectByParamsMaxHead(array('profil_keuangan_prodi_id_parent'=>$reqIdParent));
+			$setMax = new Kurikulum();
+			$setMax->selectByParamsMaxHead(array('kurikulum_id_parent'=>$reqIdParent));
 			$setMax->firstRow();
 			$rowCount= $setMax->getField('max');
 
@@ -292,7 +227,7 @@ class profil_keuangan_program_studi_diakreditasi_json extends CI_Controller {
 				$reqId=$reqIdParent.sprintf("%02d", $rowCount+1);		
 			}
 
-			$set->setField("profil_keuangan_prodi_id", $reqId);
+			$set->setField("KURIKULUM_ID", $reqId);
 			$set->setField("KODE_SO", $reqId);
 			
 			if($set->insert())

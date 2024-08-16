@@ -12,42 +12,30 @@ class KepuasanPengguna extends Entity{
 
 	function insert()
 	{
-		$this->setField("DIKLAT_FUNGSIONAL_ID", $this->getNextId("DIKLAT_FUNGSIONAL_ID","diklat_fungsional"));
+		$this->setField("KEPUASAN_PENGGUNA_ID", $this->getNextId("KEPUASAN_PENGGUNA_ID","KEPUASAN_PENGGUNA"));
 
 		$str = "
-		INSERT INTO diklat_fungsional
+		INSERT INTO KEPUASAN_PENGGUNA
 		(
-			DIKLAT_FUNGSIONAL_ID, PEGAWAI_ID, TEMPAT, PENYELENGGARA, TANGGAL_MULAI, TANGGAL_SELESAI, NO_STTPP, TANGGAL_STTPP
-			, NAMA, ANGKATAN, TAHUN, JUMLAH_JAM
-			, LAST_CREATE_USER, LAST_CREATE_DATE, LAST_CREATE_SATKER
+			KEPUASAN_PENGGUNA_ID, TAHUN, JENIS, NILAI_A, NILAI_B, NILAI_C, NILAI_D, RENCANA
+			, KETERANGAN
 		)
 		VALUES
 		(
-			".$this->getField("DIKLAT_FUNGSIONAL_ID")."
-			, '".$this->getField("PEGAWAI_ID")."'
-			, '".$this->getField("TEMPAT")."'
-			, '".$this->getField("PENYELENGGARA")."'
-			, ".$this->getField("TANGGAL_MULAI")."
-			, ".$this->getField("TANGGAL_SELESAI")."
-			, '".$this->getField("NO_STTPP")."'
-			, ".$this->getField("TANGGAL_STTPP")."
-			, '".$this->getField("NAMA")."'
-			, ".$this->getField("ANGKATAN")."
-			, ".$this->getField("TAHUN")."
-			, ".$this->getField("JUMLAH_JAM")."
-			, '".$this->getField("LAST_CREATE_USER")."'
-			, ".$this->getField("LAST_CREATE_DATE")."
-			, '".$this->getField("LAST_CREATE_SATKER")."'
+			".$this->getField("KEPUASAN_PENGGUNA_ID")."
+			, '".$this->getField("TAHUN")."'
+			, '".$this->getField("JENIS")."'
+			, '".$this->getField("NILAI_A")."'
+			, '".$this->getField("NILAI_B")."'
+			, '".$this->getField("NILAI_C")."'
+			, '".$this->getField("NILAI_D")."'
+			, '".$this->getField("RENCANA")."'
+			, '".$this->getField("KETERANGAN")."'
 		)";
 
-		$this->id= $this->getField("DIKLAT_FUNGSIONAL_ID");
+		$this->id= $this->getField("KEPUASAN_PENGGUNA_ID");
 		$this->query = $str;
 		// echo $str;exit;
-
-		// untuk buat log data
-		// parse pertama sesuai nama table
-		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "INSERT", $str);
 
 		return $this->execQuery($str);
     }
@@ -55,30 +43,19 @@ class KepuasanPengguna extends Entity{
     function update()
 	{
 		$str = "
-		UPDATE diklat_fungsional
+		UPDATE KEPUASAN_PENGGUNA
 		SET    
-			PEGAWAI_ID= '".$this->getField("PEGAWAI_ID")."'
-			, TEMPAT= '".$this->getField("TEMPAT")."'
-			, PENYELENGGARA= '".$this->getField("PENYELENGGARA")."'
-			, TANGGAL_MULAI= ".$this->getField("TANGGAL_MULAI")."
-			, TANGGAL_SELESAI= ".$this->getField("TANGGAL_SELESAI")."
-			, NO_STTPP= '".$this->getField("NO_STTPP")."'
-			, TANGGAL_STTPP= ".$this->getField("TANGGAL_STTPP")."
-			, NAMA= '".$this->getField("NAMA")."'
-			, ANGKATAN= ".$this->getField("ANGKATAN")."
-			, TAHUN= ".$this->getField("TAHUN")."
-			, JUMLAH_JAM= ".$this->getField("JUMLAH_JAM")."
-			, LAST_UPDATE_USER= '".$this->getField("LAST_UPDATE_USER")."'
-			, LAST_UPDATE_DATE= ".$this->getField("LAST_UPDATE_DATE")."
-			, LAST_UPDATE_SATKER= '".$this->getField("LAST_UPDATE_SATKER")."'
-		WHERE DIKLAT_FUNGSIONAL_ID= '".$this->getField("DIKLAT_FUNGSIONAL_ID")."'
+			TAHUN= '".$this->getField("TAHUN")."'
+			, JENIS= '".$this->getField("JENIS")."'
+			, NILAI_A= '".$this->getField("NILAI_A")."'
+			, NILAI_B= '".$this->getField("NILAI_B")."'
+			, NILAI_C= '".$this->getField("NILAI_C")."'
+			, NILAI_D= '".$this->getField("NILAI_D")."'
+			, RENCANA= '".$this->getField("RENCANA")."'
+			, KETERANGAN= '".$this->getField("KETERANGAN")."'
+		WHERE KEPUASAN_PENGGUNA_ID= '".$this->getField("KEPUASAN_PENGGUNA_ID")."'
 		"; 
 		$this->query = $str;
-
-		// untuk buat log data
-		// parse pertama sesuai nama table
-		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "UPDATE", $str);
 
 		return $this->execQuery($str);
     }
@@ -104,7 +81,7 @@ class KepuasanPengguna extends Entity{
 		$str = "
 		SELECT
 			*,
-			 ROW_NUMBER () OVER (ORDER BY kepuasan_pengguna_id) as NO
+			 ROW_NUMBER () OVER (ORDER BY kepuasan_pengguna_id desc) as NO
 		FROM kepuasan_pengguna A
 		WHERE 1=1 "; 
 		
@@ -113,7 +90,7 @@ class KepuasanPengguna extends Entity{
 			$str .= " AND $key = '$val' ";
 		}
 		
-		$str .= $statement." ORDER BY kepuasan_pengguna_id ASC";
+		$str .= $statement." ORDER BY kepuasan_pengguna_id desc";
 		$this->query = $str;
 		// echo $statement;exit;
 				

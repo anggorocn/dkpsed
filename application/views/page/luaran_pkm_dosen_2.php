@@ -4,17 +4,17 @@ $reqTipe= 2;
 
 $arrtabledata= array(
     array("label"=>"No", "field"=> "NO", "display"=>"",  "width"=>"")
-    , array("label"=>"Luaran Penelitian", "field"=> "jenis", "display"=>"",  "width"=>"", "nowrap"=>"1")
-    , array("label"=>"Tahun (YYYY)", "field"=> "jenis", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Keterangan", "field"=> "nilai_a", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Sumber Pembiayaan", "field"=> "nilai_a", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Jenis Publikasi", "field"=> "nilai_a", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Luaran Penelitian", "field"=> "nama", "display"=>"",  "width"=>"", "nowrap"=>"1")
+    , array("label"=>"Tahun (YYYY)", "field"=> "tahun", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Keterangan", "field"=> "keterangan", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Sumber Pembiayaan", "field"=> "nama_sumber_daya", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Jenis Publikasi", "field"=> "nama_jenis_publikasi", "display"=>"",  "width"=>"10px")
 
     , array("label"=>"Warna", "field"=> "WARNA", "display"=>"1",  "width"=>"")
     , array("label"=>"validasiid", "field"=> "TEMP_VALIDASI_HAPUS_ID", "display"=>"1", "width"=>"")
     , array("label"=>"validasihapusid", "field"=> "TEMP_VALIDASI_ID", "display"=>"1", "width"=>"")
     , array("label"=>"sorderdefault", "field"=> "SORDERDEFAULT", "display"=>"1", "width"=>"")
-    , array("label"=>"fieldid", "field"=> "lulusan_prodi_id", "display"=>"1", "width"=>"")
+    , array("label"=>"fieldid", "field"=> "PENELITIAN_DOSEN_ID", "display"=>"1", "width"=>"")
 );
 ?>
 
@@ -44,9 +44,10 @@ $arrtabledata= array(
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <?if ($this->adminusergroupid==1){?>
-                    		<button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
+                            <button class="btn btn-light-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
+                            <button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
                             <button class="btn btn-light-danger" id="btnBack"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali</button>
-                        <?}?>	
+                        <?}?>   
                     </div>
 
                     <!-- <button class="btn btn-light-primary" onclick="myFunction()"><i class="fa fa-sitemap" aria-hidden="true"></i> Satker</button> -->
@@ -100,7 +101,7 @@ var valinfovalidasiid = '';
 var valinfovalidasihapusid = '';
 
 jQuery(document).ready(function() {
-    var jsonurl= "json-main/publikasi_ilmiah_mahasiswa_json/json?reqTipe=UMUM";
+    var jsonurl= "json-main/luaran_pkm_dosen_json/json?reqTipe=b";
     ajaxserverselectsingle.init(infotableid, jsonurl, arrdata);
 
     var infoid= [];
@@ -193,7 +194,28 @@ jQuery(document).ready(function() {
     });
 
     $("#btnAdd, #btnUbahData").on("click", function () {
-        varurl= "app/index/daftar_tabel_add?reqId=<?=$reqId?>";
+        btnid= $(this).attr('id');
+
+        if(valinfoid == "" && btnid == "btnUbahData")
+        {
+            Swal.fire({
+                text: "Pilih salah satu data terlebih dahulu.",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+            return false;
+        }
+
+        if(btnid == "btnUbahData")
+            vpilihid= valinfoid;
+        else
+            vpilihid= "";
+
+        varurl= "app/page/luaran_pkm_dosen_add?reqId=<?=$reqId?>&reqRowId="+vpilihid+"&reqTipe=b";
         
         document.location.href = varurl;
     });

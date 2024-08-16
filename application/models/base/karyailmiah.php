@@ -1,36 +1,35 @@
 <? 
 include_once(APPPATH.'/models/Entity.php');
 
-class PublikasiIlmiahMahasiswa extends Entity{ 
+class KaryaIlmiah extends Entity{ 
 
 	var $query;
 
-	function PublikasiIlmiahMahasiswa()
+	function KaryaIlmiah()
 	{
 		$this->Entity(); 
 	}
 
 	function insert()
 	{
-		$this->setField("PUBLIKASI_MAHASISWA_ID", $this->getNextId("PUBLIKASI_MAHASISWA_ID","PUBLIKASI_MAHASISWA"));
+		$this->setField("KARYA_ILMIAH_ID", $this->getNextId("KARYA_ILMIAH_ID","KARYA_ILMIAH"));
 
 		$str = "
-		INSERT INTO PUBLIKASI_MAHASISWA
+		INSERT INTO KARYA_ILMIAH
 		(
-			PUBLIKASI_MAHASISWA_ID, NAMA, TS_2, TS_1, TS, JUMLAH, STANDAR, GOLONGAN		)
+			KARYA_ILMIAH_ID, NAMA, JUDUL, JUMLAH, STANDAR, GOLONGAN, DESKRIPSI)
 		VALUES
 		(
-			".$this->getField("PUBLIKASI_MAHASISWA_ID")."
+			".$this->getField("KARYA_ILMIAH_ID")."
 			, '".$this->getField("NAMA")."'
-			, '".$this->getField("TS_2")."'
-			, '".$this->getField("TS_1")."'
-			, '".$this->getField("TS")."'
+			, '".$this->getField("JUDUL")."'
 			, '".$this->getField("JUMLAH")."'
 			, '".$this->getField("STANDAR")."'
 			, '".$this->getField("GOLONGAN")."'
+			, '".$this->getField("DESKRIPSI")."'
 		)";
 
-		$this->id= $this->getField("PUBLIKASI_MAHASISWA_ID");
+		$this->id= $this->getField("KARYA_ILMIAH_ID");
 		$this->query = $str;
 		// echo $str;exit;
 		return $this->execQuery($str);
@@ -39,16 +38,15 @@ class PublikasiIlmiahMahasiswa extends Entity{
     function update()
 	{
 		$str = "
-		UPDATE PUBLIKASI_MAHASISWA
+		UPDATE KARYA_ILMIAH
 		SET    
 			NAMA= '".$this->getField("NAMA")."'
-			, TS_2= '".$this->getField("TS_2")."'
-			, TS_1= '".$this->getField("TS_1")."'
-			, TS= '".$this->getField("TS")."'
+			, JUDUL= '".$this->getField("JUDUL")."'
 			, JUMLAH= '".$this->getField("JUMLAH")."'
 			, STANDAR= '".$this->getField("STANDAR")."'
 			, GOLONGAN= '".$this->getField("GOLONGAN")."'
-		WHERE PUBLIKASI_MAHASISWA_ID= '".$this->getField("PUBLIKASI_MAHASISWA_ID")."'
+			, DESKRIPSI= '".$this->getField("DESKRIPSI")."'
+		WHERE KARYA_ILMIAH_ID= '".$this->getField("KARYA_ILMIAH_ID")."'
 		"; 
 		$this->query = $str;
 		return $this->execQuery($str);
@@ -75,8 +73,8 @@ class PublikasiIlmiahMahasiswa extends Entity{
 		$str = "
 		SELECT
 			*,
-			 ROW_NUMBER () OVER (ORDER BY publikasi_mahasiswa_id DESC) as NO
-		FROM publikasi_mahasiswa A
+			 ROW_NUMBER () OVER (ORDER BY KARYA_ILMIAH_ID DESC) as NO
+		FROM KARYA_ILMIAH A
 		WHERE 1=1 "; 
 		
 		while(list($key,$val) = each($paramsArray))
@@ -84,7 +82,7 @@ class PublikasiIlmiahMahasiswa extends Entity{
 			$str .= " AND $key = '$val' ";
 		}
 		
-		$str .= $statement." ORDER BY publikasi_mahasiswa_id DESC";
+		$str .= $statement." ORDER BY KARYA_ILMIAH_ID DESC";
 		$this->query = $str;
 		// echo $statement;exit;
 				

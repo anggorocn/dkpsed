@@ -1,8 +1,12 @@
 <?php
 $reqId= $this->input->get('reqId');
-
 ?>
 
+<style type="text/css">
+    .datagrid-cell{
+        font-size: 20px;
+    }
+</style>
 <!-- SELECT2 -->
 <link href="lib/select2totreemaster/src/select2totree.css" rel="stylesheet">
 <script src="lib/select2/select2.min.js"></script>
@@ -25,151 +29,63 @@ $reqId= $this->input->get('reqId');
                     </span>
                     <h3 class="card-label">Kurikulum</h3>
                 </div>
+                <div class="card-toolbar">
+                    <div class="dropdown dropdown-inline mr-2">
+                        <?if ($this->adminusergroupid==1){?>
+                            <button class="btn btn-light-primary" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
+                        <?}?>   
+                    </div>
+                </div>
             </div>
 
-            <div class="card-body" >
-                <table style="width:100%">
-                    <tr>
-                        <td><b>No</b></td>
-                        <td><b>Kode</b></td>
-                        <td><b>Mata Kuliah</b></td>
-                        <td><b>SKS</b></td>
-                        <td><b>Keterangan</b></td>
-                        <td><b>Aksi</b></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td colspan="5"><b>Semester 1</b></td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>AIK0008</td>
-                        <td>Al-Islam dan Kemuhammadiyahan </td>
-                        <td>2</td>
-                        <td>Umum</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>304001</td>
-                        <td>Human Capital Management</td>
-                        <td>3</td>
-                        <td>Umum</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>304002</td>
-                        <td>Manajemen Keuangan </td>
-                        <td>3</td>
-                        <td>Umum</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>304003</td>
-                        <td>Manajemen Pemasaran </td>
-                        <td>3</td>
-                        <td>Umum</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>304004</td>
-                        <td>Metode Kuantitatif Bisnis </td>
-                        <td>3</td>
-                        <td>Umum</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>6</td>
-                        <td>304005</td>
-                        <td>Metodologi Penelitian </td>
-                        <td>3</td>
-                        <td>Umum</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td colspan="5"><b>Semester 2</b></td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>304006</td>
-                        <td>Manajemen Strategik </td>
-                        <td>3</td>
-                        <td>Umum</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>304007</td>
-                        <td>Manajemen Operasi dan Produksi </td>
-                        <td>3</td>
-                        <td>Umum</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>304008</td>
-                        <td>Sistem Informasi Manajemen </td>
-                        <td>3</td>
-                        <td>Umum</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>4</td>
-                        <td>304009</td>
-                        <td>Perencanaan SDM</td>
-                        <td>3</td>
-                        <td>Konsentrasi </td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>5</td>
-                        <td>304010</td>
-                        <td>Evaluasi Kinerja</td>
-                        <td>3</td>
-                        <td>Konsentrasi </td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td colspan="5"><b>Semester 3</b></td>
-                    </tr>
-                    <tr>
-                        <td>1</td>
-                        <td>304017</td>
-                        <td>Ekonomi Islam </td>
-                        <td>2</td>
-                        <td>Pilihan</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>304018</td>
-                        <td>Kewirausahaan </td>
-                        <td>2</td>
-                        <td>Pilihan</td>
-                        <td><a href="app/index/lihat_pdf">Lihat RPS</a></td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>304019</td>
-                        <td>Tesis </td>
-                        <td>6</td>
-                        <td>Tugas Akhir</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td colspan="2"> </td>
-                        <td><b>Total SKS</b></td>
-                        <td><b>42</b></td>
-                    </tr>
+            <div class="card-body">
+                <table id="treeSatker" class="easyui-treegrid" style="width:100%; height:600px" data-options="
+                    url: '<?=base_url()?>json-main/kurikulum_json/treetable/',
+                    pagination: true,            
+                    pageSize: 50,
+                    pageList: [50, 100],
+                    method: 'get',
+                    idField: 'id',
+                    treeField: 'NAMA',
+                   onBeforeLoad: function(row,param){
+                        if (!row) {    // load top level rows
+                            param.id = 0;    // set id=0, indicate to load new page rows
+                        }
+                    },
+                ">
+                    <thead>
+                        <tr>
+                            <th data-options="field:'no'">No</th>
+                            <th data-options="field:'nama',width:400">Mata Kuliah</th>
+                            <th data-options="field:'kode'">Kode</th>
+                            <th data-options="field:'sks'">SKS</th>
+                            <th data-options="field:'keterangan'">Keterangan</th>
+                            <th data-options="field:'aksi', align:'right'"></th>
+                        </tr>
+                    </thead>
                 </table>
-
             </div>
         </div>
 
     </div>
 </div>
+
+<script type="text/javascript">
+    $("#btnAdd").on("click", function () {
+        varurl= "app/index/kurikulum_add?";
+        
+        document.location.href = varurl;
+    }); 
+
+    function addchild(reqParent, reqId) {
+        varurl= "app/index/kurikulum_add?reqParent="+reqParent;
+        
+        document.location.href = varurl;
+    }
+
+    function updatechild(reqParent, reqId) {
+        varurl= "app/index/kurikulum_add?reqParent="+reqParent+"&reqId="+reqId;
+        
+        document.location.href = varurl;
+    }
+</script>

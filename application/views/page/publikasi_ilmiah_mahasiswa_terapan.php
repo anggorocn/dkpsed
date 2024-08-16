@@ -4,7 +4,7 @@ $reqTipe= 2;
 
 $arrtabledata= array(
     array("label"=>"No", "field"=> "NO", "display"=>"",  "width"=>"")
-    , array("label"=>"Jenis ", "field"=> "nama", "display"=>"",  "width"=>"", "nowrap"=>"1")
+    , array("label"=>"Nama ", "field"=> "nama", "display"=>"",  "width"=>"", "nowrap"=>"1")
     , array("label"=>"TS-2", "field"=> "ts_2", "display"=>"",  "width"=>"10px")
     , array("label"=>"TS-1", "field"=> "ts_1", "display"=>"",  "width"=>"10px")
     , array("label"=>"TS", "field"=> "ts", "display"=>"",  "width"=>"10px")
@@ -15,7 +15,7 @@ $arrtabledata= array(
     , array("label"=>"validasiid", "field"=> "TEMP_VALIDASI_HAPUS_ID", "display"=>"1", "width"=>"")
     , array("label"=>"validasihapusid", "field"=> "TEMP_VALIDASI_ID", "display"=>"1", "width"=>"")
     , array("label"=>"sorderdefault", "field"=> "SORDERDEFAULT", "display"=>"1", "width"=>"")
-    , array("label"=>"fieldid", "field"=> "lulusan_prodi_id", "display"=>"1", "width"=>"")
+    , array("label"=>"fieldid", "field"=> "publikasi_mahasiswa_id", "display"=>"1", "width"=>"")
 );
 ?>
 
@@ -39,12 +39,13 @@ $arrtabledata= array(
                     <span class="card-icon">
                         <i class="flaticon2-notepad text-primary"></i>
                     </span>
-                    <h3 class="card-label">Tabel 18. Publikasi Ilmiah Mahasiswa (Khusus Progam Magister dan Doktor)</h3>
+                    <h3 class="card-label">Tabel 19 Pagelaran/Pameran/Presentasi/Publikasi Ilmiah Mahasiswa <br>(Khusus Program Sarjana Terapan/Magister Terapan/Doktor Terapan)</h3>
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <?if ($this->adminusergroupid==1){?>
+                            <button class="btn btn-light-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
                             <button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
                             <button class="btn btn-light-danger" id="btnBack"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali</button>
                         <?}?>   
@@ -210,7 +211,28 @@ jQuery(document).ready(function() {
     });
 
     $("#btnAdd, #btnUbahData").on("click", function () {
-        varurl= "app/index/daftar_tabel_add?reqId=<?=$reqId?>";
+        btnid= $(this).attr('id');
+
+        if(valinfoid == "" && btnid == "btnUbahData")
+        {
+            Swal.fire({
+                text: "Pilih salah satu data terlebih dahulu.",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+            return false;
+        }
+
+        if(btnid == "btnUbahData")
+            vpilihid= valinfoid;
+        else
+            vpilihid= "";
+
+        varurl= "app/page/publikasi_ilmiah_mahasiswa_terapan_add?reqId=<?=$reqId?>&reqRowId="+vpilihid;
         
         document.location.href = varurl;
     });

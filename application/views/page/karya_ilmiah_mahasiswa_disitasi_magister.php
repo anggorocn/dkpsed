@@ -4,16 +4,16 @@ $reqTipe= 2;
 
 $arrtabledata= array(
     array("label"=>"No", "field"=> "NO", "display"=>"",  "width"=>"")
-    , array("label"=>"Nama Mahasiswa", "field"=> "jenis", "display"=>"",  "width"=>"", "nowrap"=>"1")
-    , array("label"=>"Judul Artikel yang Disitasi (Jurnal/Buku, Volume, Tahun, Nomor, Halaman)", "field"=> "nilai_a", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Jumlah Sitasi", "field"=> "nilai_b", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Standar Pendidikan Tinggi yang ditetapkan oleh Perguruan Tinggi", "field"=> "nilai_c", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Nama Mahasiswa", "field"=> "nama", "display"=>"",  "width"=>"", "nowrap"=>"1")
+    , array("label"=>"Judul Artikel yang Disitasi (Jurnal/Buku, Volume, Tahun, Nomor, Halaman)", "field"=> "judul", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Jumlah Sitasi", "field"=> "jumlah", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Standar Pendidikan Tinggi yang ditetapkan oleh Perguruan Tinggi", "field"=> "standar", "display"=>"",  "width"=>"10px")
 
     , array("label"=>"Warna", "field"=> "WARNA", "display"=>"1",  "width"=>"")
     , array("label"=>"validasiid", "field"=> "TEMP_VALIDASI_HAPUS_ID", "display"=>"1", "width"=>"")
     , array("label"=>"validasihapusid", "field"=> "TEMP_VALIDASI_ID", "display"=>"1", "width"=>"")
     , array("label"=>"sorderdefault", "field"=> "SORDERDEFAULT", "display"=>"1", "width"=>"")
-    , array("label"=>"fieldid", "field"=> "lulusan_prodi_id", "display"=>"1", "width"=>"")
+    , array("label"=>"fieldid", "field"=> "karya_ilmiah_id", "display"=>"1", "width"=>"")
 );
 ?>
 
@@ -43,6 +43,7 @@ $arrtabledata= array(
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <?if ($this->adminusergroupid==1){?>
+                            <button class="btn btn-light-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
                     		<button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
                             <button class="btn btn-light-danger" id="btnBack"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali</button>
                         <?}?>	
@@ -99,7 +100,7 @@ var valinfovalidasiid = '';
 var valinfovalidasihapusid = '';
 
 jQuery(document).ready(function() {
-    var jsonurl= "json-main/publikasi_ilmiah_mahasiswa_json/json?reqTipe=UMUM";
+    var jsonurl= "json-main/karya_ilmiah_mahasiswa_disitasi_magister_json/json?reqTipe=UMUM";
     ajaxserverselectsingle.init(infotableid, jsonurl, arrdata);
 
     var infoid= [];
@@ -192,7 +193,28 @@ jQuery(document).ready(function() {
     });
 
     $("#btnAdd, #btnUbahData").on("click", function () {
-        varurl= "app/index/daftar_tabel_add?reqId=<?=$reqId?>";
+        btnid= $(this).attr('id');
+
+        if(valinfoid == "" && btnid == "btnUbahData")
+        {
+            Swal.fire({
+                text: "Pilih salah satu data terlebih dahulu.",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+            return false;
+        }
+
+        if(btnid == "btnUbahData")
+            vpilihid= valinfoid;
+        else
+            vpilihid= "";
+
+        varurl= "app/page/karya_ilmiah_mahasiswa_disitasi_magister_add?reqId=<?=$reqId?>&reqRowId="+vpilihid;
         
         document.location.href = varurl;
     });

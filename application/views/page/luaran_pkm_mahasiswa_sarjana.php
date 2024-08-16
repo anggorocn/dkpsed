@@ -4,10 +4,8 @@ $reqTipe= 2;
 
 $arrtabledata= array(
     array("label"=>"No", "field"=> "NO", "display"=>"",  "width"=>"")
-    , array("label"=>"Judul Luaran Penelitian/PkM", "field"=> "jenis", "display"=>"",  "width"=>"", "nowrap"=>"1")
-    , array("label"=>"Tahun", "field"=> "nilai_a", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Keterangan", "field"=> "nilai_b", "display"=>"",  "width"=>"10px")
-    , array("label"=>"Standar Pendidikan Tinggi yang ditetapkan oleh Perguruan Tinggi", "field"=> "nilai_c", "display"=>"",  "width"=>"10px")
+    , array("label"=>"Judul Luaran Penelitian/PkM", "field"=> "nama", "display"=>"",  "width"=>"", "nowrap"=>"1")
+    , array("label"=>"Detail", "field"=> "luaran", "display"=>"",  "width"=>"300px")
 
     , array("label"=>"Warna", "field"=> "WARNA", "display"=>"1",  "width"=>"")
     , array("label"=>"validasiid", "field"=> "TEMP_VALIDASI_HAPUS_ID", "display"=>"1", "width"=>"")
@@ -37,12 +35,13 @@ $arrtabledata= array(
                     <span class="card-icon">
                         <i class="flaticon2-notepad text-primary"></i>
                     </span>
-                    <h3 class="card-label">Tabel 22. Luaran Penelitian/Pkm yang Dihasilkan Mahasiswa (Khusus Program Sarjana/Sarjana Terapan/Magister/Magister Terapan/Doktor/Doktor Terapan)               </h3>
+                    <h3 class="card-label">Tabel 22. Luaran Penelitian/Pkm yang Dihasilkan Mahasiswa <br>( Sarjana/Sarjana Terapan/Magister/Magister Terapan/Doktor/Doktor Terapan)               </h3>
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <?if ($this->adminusergroupid==1){?>
+                            <button class="btn btn-light-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
                     		<button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
                             <button class="btn btn-light-danger" id="btnBack"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali</button>
                         <?}?>	
@@ -99,7 +98,7 @@ var valinfovalidasiid = '';
 var valinfovalidasihapusid = '';
 
 jQuery(document).ready(function() {
-    var jsonurl= "json-main/publikasi_ilmiah_mahasiswa_json/json?reqTipe=UMUM";
+    var jsonurl= "json-main/luaran_pkm_mahasiswa_sarjana_json/json?";
     ajaxserverselectsingle.init(infotableid, jsonurl, arrdata);
 
     var infoid= [];
@@ -192,7 +191,28 @@ jQuery(document).ready(function() {
     });
 
     $("#btnAdd, #btnUbahData").on("click", function () {
-        varurl= "app/index/daftar_tabel_add?reqId=<?=$reqId?>";
+        btnid= $(this).attr('id');
+
+        if(valinfoid == "" && btnid == "btnUbahData")
+        {
+            Swal.fire({
+                text: "Pilih salah satu data terlebih dahulu.",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+            return false;
+        }
+
+        if(btnid == "btnUbahData")
+            vpilihid= valinfoid;
+        else
+            vpilihid= "";
+
+        varurl= "app/page/luaran_pkm_mahasiswa_sarjana_add?reqId=<?=$reqId?>&reqRowId="+vpilihid;
         
         document.location.href = varurl;
     });

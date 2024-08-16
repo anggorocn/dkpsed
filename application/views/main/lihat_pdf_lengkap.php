@@ -55,6 +55,12 @@ $dosen_id= $this->input->get('dosen_id');
                                                             <th>Judul Artikel</th>
                                                             <th>Lihat</th>
                                                         </tr>
+                                                    <?}
+                                                    else if($table_field=='luaran'){?>
+                                                        <tr>
+                                                            <th>Judul</th>
+                                                            <th>Keterangan</th>
+                                                        </tr>
                                                     <?}?>
                                                 </thead>
                                                 <tbody>
@@ -112,6 +118,32 @@ $dosen_id= $this->input->get('dosen_id');
                                                         <?
                                                         $i++;
                                                         }
+                                                    }else if($table_field=='luaran'){
+                                                        $set= new Upload();
+                                                        $set->selectByParamsLuaran(array('luaran_penelitian_mahasiswa_id'=>$dosen_id));
+                                                        // echo $setTable->query;exit;
+                                                        $i=0;
+                                                        while($set->nextRow()){
+                                                            $reqJudul= $set->getField('JUDUL');
+                                                            $reqTahun= $set->getField('Tahun');
+                                                            $reqKeterangan= $set->getField('Keterangan');
+                                                            $reqSitasi= $set->getField('TAHUN');
+                                                            $reqId= $set->getField('luaran_penelitian_mahasiswa_detail_id');
+                                                            ?>
+                                                            <tr>
+                                                                <input type="hidden" id='reqJudul<?=$reqId?>' value="<?=$reqJudul?>">
+                                                                <input type="hidden" id='reqSitasi<?=$reqId?>' value="<?=$reqTahun?>">
+                                                                <input type="hidden" id='reqRekognisi<?=$reqId?>' value="<?=$reqKeterangan?>">
+                                                                <td>
+                                                                   <?=$reqJudul?><br>(<?=$reqTahun?>)
+                                                                </td>
+                                                                <td>
+                                                                    <a class="btn btn-light-success" onclick="muncul(<?=$reqId?>,<?=$i?>)"></i> Lihat PDF</a>
+                                                                </td>
+                                                            </tr>        
+                                                        <?
+                                                        $i++;
+                                                        }
                                                     }?>
                                                 </tbody>
                                             </table>
@@ -128,6 +160,11 @@ $dosen_id= $this->input->get('dosen_id');
                                                 Judul Artikel yang Disitasi : <span id='reqJudulTemp'></span><br>
                                                 Jumlah Sitasi : <span id='reqSitasiTemp'></span><br>
                                                 Rekognisi Bidang Penelitian : <span id='reqRekognisiTemp'></span><br>
+                                            <?}
+                                            else if($table_field=='luaran'){?>
+                                                Judul : <span id='reqJudulTemp'></span><br>
+                                                Tahun : <span id='reqSitasiTemp'></span><br>
+                                                Keterangan : <span id='reqRekognisiTemp'></span><br>
                                             <?}?>
                                             <iframe id='pdfViewer' src="uploads/sample.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
                                         </div>
@@ -163,7 +200,7 @@ $dosen_id= $this->input->get('dosen_id');
             $('#reqRekogTemp').html($('#reqRekog'+arg).val());
             $('#pdfViewer').attr('src', 'uploads/<?=$dosen_id?>/praktik_dan_profesional_'+id+'.pdf');
         <?}
-        else if($table_field=='penelitian'){?>
+        else if($table_field=='penelitian'||$table_field=='luaran'){?>
             $('#reqJudulTemp').html($('#reqJudul'+arg).val());
             $('#reqSitasiTemp').html($('#reqSitasi'+arg).val());
             $('#reqRekognisiTemp').html($('#reqRekognisi'+arg).val());

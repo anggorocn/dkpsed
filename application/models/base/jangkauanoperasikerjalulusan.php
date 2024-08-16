@@ -12,66 +12,44 @@ class JangkauanOperasiKerjaLulusan extends Entity{
 
 	function insert()
 	{
-		$this->setField("DIKLAT_FUNGSIONAL_ID", $this->getNextId("DIKLAT_FUNGSIONAL_ID","diklat_fungsional"));
+		$this->setField("jangkauan_operasi_wilayah_lulusan_id", $this->getNextId("jangkauan_operasi_wilayah_lulusan_id","jangkauan_operasi_wilayah_lulusan"));
 
 		$str = "
-		INSERT INTO diklat_fungsional
+		INSERT INTO jangkauan_operasi_wilayah_lulusan
 		(
-			DIKLAT_FUNGSIONAL_ID, PEGAWAI_ID, TEMPAT, PENYELENGGARA, TANGGAL_MULAI, TANGGAL_SELESAI, NO_STTPP, TANGGAL_STTPP
-			, NAMA, ANGKATAN, TAHUN, JUMLAH_JAM
-			, LAST_CREATE_USER, LAST_CREATE_DATE, LAST_CREATE_SATKER
+			jangkauan_operasi_wilayah_lulusan_id, tahun, jumlah, jumlah_terlacak, lokal, nasional, internasional, keterangan
 		)
 		VALUES
 		(
-			".$this->getField("DIKLAT_FUNGSIONAL_ID")."
-			, '".$this->getField("PEGAWAI_ID")."'
-			, '".$this->getField("TEMPAT")."'
-			, '".$this->getField("PENYELENGGARA")."'
-			, ".$this->getField("TANGGAL_MULAI")."
-			, ".$this->getField("TANGGAL_SELESAI")."
-			, '".$this->getField("NO_STTPP")."'
-			, ".$this->getField("TANGGAL_STTPP")."
-			, '".$this->getField("NAMA")."'
-			, ".$this->getField("ANGKATAN")."
-			, ".$this->getField("TAHUN")."
-			, ".$this->getField("JUMLAH_JAM")."
-			, '".$this->getField("LAST_CREATE_USER")."'
-			, ".$this->getField("LAST_CREATE_DATE")."
-			, '".$this->getField("LAST_CREATE_SATKER")."'
+			".$this->getField("jangkauan_operasi_wilayah_lulusan_id")."
+			, '".$this->getField("tahun")."'
+			, '".$this->getField("jumlah")."'
+			, '".$this->getField("jumlah_terlacak")."'
+			, '".$this->getField("lokal")."'
+			, '".$this->getField("nasional")."'
+			, '".$this->getField("internasional")."'
+			, '".$this->getField("keterangan")."'
 		)";
 
-		$this->id= $this->getField("DIKLAT_FUNGSIONAL_ID");
+		$this->id= $this->getField("jangkauan_operasi_wilayah_lulusan_id");
 		$this->query = $str;
 		// echo $str;exit;
-
-		// untuk buat log data
-		// parse pertama sesuai nama table
-		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "INSERT", $str);
-
 		return $this->execQuery($str);
     }
 
     function update()
 	{
 		$str = "
-		UPDATE diklat_fungsional
+		UPDATE jangkauan_operasi_wilayah_lulusan
 		SET    
-			PEGAWAI_ID= '".$this->getField("PEGAWAI_ID")."'
-			, TEMPAT= '".$this->getField("TEMPAT")."'
-			, PENYELENGGARA= '".$this->getField("PENYELENGGARA")."'
-			, TANGGAL_MULAI= ".$this->getField("TANGGAL_MULAI")."
-			, TANGGAL_SELESAI= ".$this->getField("TANGGAL_SELESAI")."
-			, NO_STTPP= '".$this->getField("NO_STTPP")."'
-			, TANGGAL_STTPP= ".$this->getField("TANGGAL_STTPP")."
-			, NAMA= '".$this->getField("NAMA")."'
-			, ANGKATAN= ".$this->getField("ANGKATAN")."
-			, TAHUN= ".$this->getField("TAHUN")."
-			, JUMLAH_JAM= ".$this->getField("JUMLAH_JAM")."
-			, LAST_UPDATE_USER= '".$this->getField("LAST_UPDATE_USER")."'
-			, LAST_UPDATE_DATE= ".$this->getField("LAST_UPDATE_DATE")."
-			, LAST_UPDATE_SATKER= '".$this->getField("LAST_UPDATE_SATKER")."'
-		WHERE DIKLAT_FUNGSIONAL_ID= '".$this->getField("DIKLAT_FUNGSIONAL_ID")."'
+			tahun= '".$this->getField("tahun")."'
+			, jumlah= '".$this->getField("jumlah")."'
+			, jumlah_terlacak= '".$this->getField("jumlah_terlacak")."'
+			, lokal= '".$this->getField("lokal")."'
+			, nasional= '".$this->getField("nasional")."'
+			, internasional= '".$this->getField("internasional")."'
+			, keterangan= '".$this->getField("keterangan")."'
+		WHERE jangkauan_operasi_wilayah_lulusan_id= '".$this->getField("jangkauan_operasi_wilayah_lulusan_id")."'
 		"; 
 		$this->query = $str;
 

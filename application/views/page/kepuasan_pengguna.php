@@ -4,6 +4,7 @@ $reqTipe= 2;
 
 $arrtabledata= array(
     array("label"=>"No", "field"=> "NO", "display"=>"",  "width"=>"")
+    , array("label"=>"Tahun", "field"=> "tahun", "display"=>"",  "width"=>"", "nowrap"=>"1")
     , array("label"=>"Jenis Kemampuan", "field"=> "jenis", "display"=>"",  "width"=>"", "nowrap"=>"1")
     , array("label"=>"Sangat Baik", "field"=> "nilai_a", "display"=>"",  "width"=>"10px")
     , array("label"=>"Baik", "field"=> "nilai_b", "display"=>"",  "width"=>"10px")
@@ -16,7 +17,7 @@ $arrtabledata= array(
     , array("label"=>"validasiid", "field"=> "TEMP_VALIDASI_HAPUS_ID", "display"=>"1", "width"=>"")
     , array("label"=>"validasihapusid", "field"=> "TEMP_VALIDASI_ID", "display"=>"1", "width"=>"")
     , array("label"=>"sorderdefault", "field"=> "SORDERDEFAULT", "display"=>"1", "width"=>"")
-    , array("label"=>"fieldid", "field"=> "lulusan_prodi_id", "display"=>"1", "width"=>"")
+    , array("label"=>"fieldid", "field"=> "kepuasan_pengguna_id", "display"=>"1", "width"=>"")
 );
 ?>
 
@@ -40,12 +41,13 @@ $arrtabledata= array(
                     <span class="card-icon">
                         <i class="flaticon2-notepad text-primary"></i>
                     </span>
-                    <h3 class="card-label">Tabel 17. Kepuasan Pengguna (Khusus program Diploma Tiga/Sarjana/Sarjana Terapan/Magister/Magister Terapan)</h3>
+                    <h3 class="card-label">Tabel 17. Kepuasan Pengguna <br>(program Diploma Tiga/Sarjana/Sarjana Terapan/Magister/Magister Terapan)</h3>
                 </div>
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
                         <?if ($this->adminusergroupid==1){?>
+                            <button class="btn btn-light-success" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
                     		<button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
                             <button class="btn btn-light-danger" id="btnBack"><i class="fa fa-arrow-left" aria-hidden="true"></i> Kembali</button>
                         <?}?>	
@@ -62,7 +64,7 @@ $arrtabledata= array(
                             <?
                             foreach($arrtabledata as $valkey => $valitem) 
                             {   
-                                if($valitem["field"]=='NO' ||$valitem["field"]=='jenis' || $valitem["field"] =='rencana' || $valitem["field"] =='keterangan'){
+                                if($valitem["field"]=='NO' ||$valitem["field"]=='tahun' ||$valitem["field"]=='jenis' || $valitem["field"] =='rencana' || $valitem["field"] =='keterangan'){
                                     echo "<th rowspan=2>".$valitem["label"]."</th>";
                                 }
                                 else if( $valitem["field"]=='nilai_a'){
@@ -211,7 +213,28 @@ jQuery(document).ready(function() {
     });
 
     $("#btnAdd, #btnUbahData").on("click", function () {
-        varurl= "app/index/daftar_tabel_add?reqId=<?=$reqId?>";
+        btnid= $(this).attr('id');
+
+        if(valinfoid == "" && btnid == "btnUbahData")
+        {
+            Swal.fire({
+                text: "Pilih salah satu data terlebih dahulu.",
+                icon: "error",
+                buttonsStyling: false,
+                confirmButtonText: "Ok",
+                customClass: {
+                    confirmButton: "btn font-weight-bold btn-light-primary"
+                }
+            });
+            return false;
+        }
+
+        if(btnid == "btnUbahData")
+            vpilihid= valinfoid;
+        else
+            vpilihid= "";
+
+        varurl= "app/page/kepuasan_pengguna_add?reqId=<?=$reqId?>&reqRowId="+vpilihid;
         
         document.location.href = varurl;
     });
