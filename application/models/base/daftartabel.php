@@ -83,6 +83,53 @@ class DaftarTabel extends Entity{
 		return $this->execQuery($str);
     }
 
+    function insertTabel()
+	{
+		$this->setField("daftar_tabel_id", $this->getNextId("daftar_tabel_id","daftar_tabel"));
+
+		$str = "
+		INSERT INTO daftar_tabel
+		(
+			daftar_tabel_id, NAMA, NAMA_SHEET, PAGE, D3, S1, S2, S3,STATUS
+		)
+		VALUES
+		(
+			".$this->getField("daftar_tabel_id")."
+			, '".$this->getField("NAMA")."'
+			, '".$this->getField("NAMA_SHEET")."'
+			, '".$this->getField("PAGE")."'
+			, '".$this->getField("D3")."'
+			, '".$this->getField("S1")."'
+			, '".$this->getField("S2")."'
+			, '".$this->getField("S3")."'
+			, '".$this->getField("STATUS")."'
+		)";
+
+		$this->id= $this->getField("daftar_tabel_id");
+		$this->query = $str;
+		return $this->execQuery($str);
+    }
+
+    function updateTabel()
+	{
+		$str = "
+		UPDATE daftar_tabel
+		SET    
+			NAMA= '".$this->getField("NAMA")."'
+			, NAMA_SHEET= '".$this->getField("NAMA_SHEET")."'
+			, PAGE= '".$this->getField("PAGE")."'
+			, D3= '".$this->getField("D3")."'
+			, S1= '".$this->getField("S1")."'
+			, S2= '".$this->getField("S2")."'
+			, S3= '".$this->getField("S3")."'
+			, STATUS= '".$this->getField("STATUS")."'
+		WHERE daftar_tabel_id= '".$this->getField("daftar_tabel_id")."'
+		"; 
+		$this->query = $str;
+
+		return $this->execQuery($str);
+    }
+
     function delete()
 	{
         $str = "
@@ -96,6 +143,16 @@ class DaftarTabel extends Entity{
 		// parse ke dua sesuai aksi
 		$this->setlogdata("diklat_fungsional", "DELETE", $str);
 
+        return $this->execQuery($str);
+    }
+
+    function deleteTabel()
+	{
+        $str = "
+        DELETE FROM daftar_tabel
+        WHERE 
+        daftar_tabel_id = '".$this->getField("daftar_tabel_id")."'";
+		$this->query = $str;
         return $this->execQuery($str);
     }
 

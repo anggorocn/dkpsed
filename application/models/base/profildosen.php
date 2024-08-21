@@ -102,29 +102,17 @@ class ProfilDosen extends Entity{
 		WHERE dosen_id= '".$this->getField("dosen_id")."'
 		"; 
 		$this->query = $str;
-		// echo $str;exit;
-
-		// untuk buat log data
-		// parse pertama sesuai nama table
-		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "UPDATE", $str);
-
 		return $this->execQuery($str);
     }
 
     function delete()
 	{
         $str = "
-        DELETE FROM diklat_fungsional
+        DELETE FROM DOSEN
         WHERE 
-        DIKLAT_FUNGSIONAL_ID = '".$this->getField("DIKLAT_FUNGSIONAL_ID")."'";
+        DOSEN_ID = '".$this->getField("DOSEN_ID")."'";
 		$this->query = $str;
-
-		// untuk buat log data
-		// parse pertama sesuai nama table
-		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "DELETE", $str);
-
+		// echo $str;exit;
         return $this->execQuery($str);
     }
 

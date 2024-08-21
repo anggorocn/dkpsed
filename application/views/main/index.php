@@ -221,8 +221,8 @@ $arrcarimenuparent= $vfpeg->cariparentmenu($arrparam);
                             <!--begin::Menu Nav-->
                             <ul class="menu-nav">
                                 <li class="menu-item menu-item-submenu  menu-item-here" aria-haspopup="true" data-menu-toggle="hover">
-                                    <a href="app/index/home" class="menu-link menu-toggle <?if($pg=='home' || $pg==''){ echo 'active';}?>" >
-                                        <span class="menu-text" <?if($pg=='home' || $pg==''){ echo 'activeFont';}?>>
+                                    <a href="app/index/home" class="menu-link menu-toggle <?if(Selectpage($pg,'home')!=null){ echo 'active';}?>" >
+                                        <span class="menu-text" <?if(Selectpage($pg,'home')!=''){ echo 'activeFont';}?>>
                                             <i class="fa fa-home" aria-hidden="true" style="color: #FFFFFF;margin-right: 10px;"></i> Home
                                         </span>
                                         <i class="menu-arrow"></i>
@@ -230,7 +230,7 @@ $arrcarimenuparent= $vfpeg->cariparentmenu($arrparam);
                                 </li>
                                 <?if($this->adminusergroupid==1){?>
                                     <li class="menu-item menu-item-submenu menu-item-here" aria-haspopup="true" data-menu-toggle="hover">
-                                        <a href="javascript:void(0);" class="menu-link menu-toggle <?if($pg=='pengguna' || $pg=='pengguna_add'|| $pg=='prodi'){ echo 'active';}?>">
+                                        <a href="javascript:void(0);" class="menu-link menu-toggle <?if(Selectpage($pg,'pengaturan')!=''){ echo 'active';}?>">
                                             <span class="menu-text <?if($pg=='pengguna' || $pg=='prodi'){ echo 'activeFont';}?> "><i class="fa fa-gear <?if($pg=='pengguna' || $pg=='prodi'){ echo 'activeFont';}?>" aria-hidden="true" style="color: #FFFFFF;margin-right: 10px;"></i> Pengaturan</span>
                                             <i class="menu-arrow"></i>
                                         </a>
@@ -241,12 +241,6 @@ $arrcarimenuparent= $vfpeg->cariparentmenu($arrparam);
                                                         <span class="menu-text <?if($pg=='pengguna'||$pg=='pengguna_add'){ echo 'activeFont';}?>" style="margin:auto;margin-right:10px;">Pengguna</span>
                                                     </a>
                                                 </li>
-                                                <!-- <li class="menu-item" aria-haspopup="true">
-                                                    <a href="app/index/prodi" class="menu-link <?if($pg=='prodi'){ echo 'active';}?>">
-                                                        <span class="menu-text <?if($pg=='prodi'){ echo 'activeFont';}?>" style="margin:auto;margin-right:10px;">Program/Prodi</span>
-                                                    </a>
-                                                </li>
- -->
                                                 <li class="menu-item" aria-haspopup="true">
                                                     <a href="app/index/profil_dosen" class="menu-link <?if($pg=='profil_dosen' || $pg=='profil_dosen_add'){ echo 'active';}?>">
                                                         <span class="menu-text <?if($pg=='profil_dosen' || $pg=='profil_dosen_add'){ echo 'activeFont';}?>" style="margin:auto;margin-right:10px;">Profil Dosen</span>
@@ -267,7 +261,7 @@ $arrcarimenuparent= $vfpeg->cariparentmenu($arrparam);
                                     </li>
                                 <?}?>
                                 <li class="menu-item menu-item-submenu  menu-item-here" aria-haspopup="true" data-menu-toggle="hover">
-                                    <a href="app/index/daftar_tabel" class="menu-link menu-toggle <?if($pg=='daftar_tabel' ){ echo 'active';}?>">
+                                    <a href="app/index/daftar_tabel" class="menu-link menu-toggle <?if(Selectpage($pg,'daftar_tabel')!='' ){ echo 'active';}?>">
                                         <span class="menu-text">
                                             <i class="fa fa-table" aria-hidden="true" style="color: #FFFFFF;margin-right: 10px;"></i> Daftar Tabel
                                         </span>
@@ -275,19 +269,19 @@ $arrcarimenuparent= $vfpeg->cariparentmenu($arrparam);
                                     </a>
                                 </li>
                                 <li class="menu-item menu-item-submenu  menu-item-here" aria-haspopup="true" data-menu-toggle="hover">
-                                    <a href="app/index/evaluasi_diri" class="menu-link menu-toggle <?if($pg=='evaluasi_diri'){ echo 'active';}?>">
-                                        <span class="menu-text"><i class="fa fa-check-square" aria-hidden="true" style="color: #FFFFFF;margin-right: 10px;"></i> Evaluasi Diri</span>
+                                    <a href="app/index/evaluasi_diri" class="menu-link menu-toggle <?if(Selectpage($pg,'evaluasi_diri')!=''){ echo 'active';}?>">
+                                        <span class="menu-text"><i class="fa fa-check-square" aria-hidden="true" style="color: #FFFFFF;margin-right: 10px;"></i> Evaluasi Diri <??></span>
                                         <i class="menu-arrow"></i>
                                     </a>
                                 </li>
                                 <li class="menu-item menu-item-submenu  menu-item-here" aria-haspopup="true" data-menu-toggle="hover">
-                                    <a href="app/index/home" class="menu-link menu-toggle">
+                                    <a href="app/index/penilaian" class="menu-link menu-toggle<?if(Selectpage($pg,'penilaian')!=''){ echo 'active';}?>">
                                         <span class="menu-text"><i class="fa fa-edit" aria-hidden="true" style="color: #FFFFFF;margin-right: 10px;"></i> Penilaian</span>
                                         <i class="menu-arrow"></i>
                                     </a>
                                 </li>
                                 <li class="menu-item menu-item-submenu  menu-item-here" aria-haspopup="true" data-menu-toggle="hover">
-                                    <a href="app/index/kurikulum" class="menu-link menu-toggle <?if($pg=='kurikulum' ){ echo 'active';}?>"  >
+                                    <a href="app/index/kurikulum" class="menu-link menu-toggle <?if(Selectpage($pg,'kurikulum')!=''){ echo 'active';}?>"  >
                                         <span class="menu-text"><i class="fa fa-edit" aria-hidden="true" style="color: #FFFFFF;margin-right: 10px;"></i> Kurikulum</span>
                                         <i class="menu-arrow"></i>
                                     </a>

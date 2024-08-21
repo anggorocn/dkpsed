@@ -138,7 +138,7 @@ jQuery(document).ready(function() {
         }
         else
         {
-            urlAjax= "json-main/daftar_tabel_json/delete?reqRowId="+valinfoid;
+            urlAjax= "json-main/profil_dosen_json/delete?reqRowId="+valinfoid;
             swal.fire({
                 title: 'Apakah anda yakin untuk hapus data?',
                 type: 'warning',
@@ -168,7 +168,7 @@ jQuery(document).ready(function() {
                                 showConfirmButton: false,
                                 timer: 2000
                             }).then(function() {
-                                document.location.href = "app/index/pelatihan_fungsional?reqId=<?=$reqId?>";
+                                document.location.href = "app/index/profil_dosen";
                             });
                         },
                         complete: function() {

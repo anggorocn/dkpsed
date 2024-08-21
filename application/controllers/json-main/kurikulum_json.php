@@ -34,12 +34,10 @@ class kurikulum_json extends CI_Controller {
 
 	function treetable()
 	{
-		$reqUnitKerjaId = $this->input->get("reqUnitKerjaId");
+		$reqJurusan = $this->input->get("reqJurusan");
 
-		if ($reqUnitKerjaId == "")
-			$reqUnitKerjaId = $this->CABANG_ID;
-
-		// echo $reqUnitKerjaId;exit;
+		if ($reqJurusan == "")
+			$reqJurusan = 1;
 
 		$page = isset($_GET['page']) ? intval($_GET['page']) : 1;
 		$rows = isset($_GET['rows']) ? intval($_GET['rows']) : 50;
@@ -52,7 +50,6 @@ class kurikulum_json extends CI_Controller {
 		$this->load->model("base/Kurikulum");
 
 		$set = new Kurikulum();
-
 		if ($reqPencarian == "")
 		{
 			$arrStatement = array("COALESCE(NULLIF(KODE_PARENT, ''), '0')" => 0);
@@ -63,6 +60,7 @@ class kurikulum_json extends CI_Controller {
 			$statement = " AND (UPPER(NAMA) LIKE '%" . strtoupper($reqPencarian) . "%' OR UPPER(JABATAN) LIKE '%" . strtoupper($reqPencarian) . "%' OR UPPER(NAMA_PEGAWAI) LIKE '%" . strtoupper($reqPencarian) . "%' OR UPPER(NIP) LIKE '%" . strtoupper($reqPencarian) . "%') ";
 		}
 
+		$statement .= 'and jurusan_id='.$reqJurusan;
 
 		$rowCount = $set->getCountByParams($arrStatement, $statement . $statement_privacy);
 		$set->selectByParams($arrStatement, $rows, $offset, $statement . $statement_privacy, " ORDER BY kurikulum_id ASC ");
@@ -116,6 +114,11 @@ class kurikulum_json extends CI_Controller {
 
 		}
 
+		$row['nama']			= 'TOTAL SELURUH SKS';
+		$row['sks']=$tot_sks;
+		array_push($items, $row);
+
+
 		$result["rows"] = $items;
 		$result["total"] = $this->TREETABLE_COUNT;
 
@@ -149,9 +152,11 @@ class kurikulum_json extends CI_Controller {
 
 			$id="'".$set->getField("KURIKULUM_ID")."'";
 			$idparent="'".$set->getField("KURIKULUM_ID_PARENT")."'";
+			$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('KURIKULUM_ID')."&reqFile=kurikulum'";
 			$row['aksi']			= '
+				<button class="btn btn-light-success" onclick="openAdd('.$val.')">Lihat RPS</button>
 				<button class="btn btn-light-warning" onclick="updatechild( '.$idparent.','.$id.')"><i class="fa fa-pen" aria-hidden="true"></i></button>
-					<button class="btn btn-light-danger" id="btnUbahData"><i class="fa fa-trash" aria-hidden="true"></i></button>
+				<button class="btn btn-light-danger" onclick="hapusTree('.$id.')"><i class="fa fa-trash" aria-hidden="true"></i></button>
 				';
 			$row['keterangan']			= $set->getField("keterangan");
 			$state = $this->has_child($row['id']);
@@ -195,6 +200,7 @@ class kurikulum_json extends CI_Controller {
 		$reqKeterangan= $this->input->post("reqKeterangan");
 		$reqKode= $this->input->post("reqKode");
 		$reqIdParent= $this->input->post("reqIdParent");
+		$reqJurusan= $this->input->post("reqJurusan");
 		if ($reqIdParent == ""){
 			$reqIdParent= '0';
 		}
@@ -208,6 +214,7 @@ class kurikulum_json extends CI_Controller {
 		$set->setField("SKS", $reqSks);
 		$set->setField("KETERANGAN", $reqKeterangan);
 		$set->setField("KODE", $reqKode);
+		$set->setField("JURUSAN_ID", $reqJurusan);
 		if ($reqId == "")
 		{
 			$setMax = new Kurikulum();
@@ -243,6 +250,18 @@ class kurikulum_json extends CI_Controller {
 			}
 		}
 
+		$folderPath = "uploads/kurikulum";
+
+		// Cek apakah folder sudah ada atau belum
+		if (!file_exists($folderPath)) {
+		    // Membuat folder jika belum ada
+		    mkdir($folderPath, 0777, true);
+		}
+
+		if (!empty($_FILES["reqFile"]["type"])) {
+			uploaddata('kurikulum','kurikulum'.$reqId,$_FILES["reqFile"]);
+		}
+
 		if($reqSimpan == 1)
 		{
 			echo json_response(200, $reqId."-Data berhasil disimpan.");
@@ -252,6 +271,40 @@ class kurikulum_json extends CI_Controller {
 			echo json_response(400, "Data gagal disimpan");
 		}
 				
+	}
+
+	function delete()
+	{
+		$this->load->model("base/kurikulum");
+		$set = new kurikulum();
+		
+		$reqRowId= $this->input->get('reqRowId');
+		$reqMode= $this->input->get('reqMode');
+
+		$set->setField("kurikulum_id", $reqRowId);
+		$reqSimpan="";
+		if($set->delete())
+		{
+			$reqSimpan=1;
+		}
+
+		$folderPath = "uploads/kurikulum/kurikulum".$reqRowId.".pdf";
+		// Cek apakah folder sudah ada atau belum
+		if (file_exists($folderPath)) {
+		    // echo $folderPath;exit;
+			// rmdir($folderPath);
+			unlink($folderPath);
+		}
+
+
+		if($reqSimpan == 1 )
+		{
+			echo json_response(200, 'Data berhasil dihapus');
+		}
+		else
+		{
+			echo json_response(400, 'Data gagal dihapus');
+		}
 	}
 }
 ?>

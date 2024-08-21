@@ -10,7 +10,7 @@ $arrtabledata= array(
     , array("label"=>"validasiid", "field"=> "TEMP_VALIDASI_HAPUS_ID", "display"=>"1", "width"=>"")
     , array("label"=>"validasihapusid", "field"=> "TEMP_VALIDASI_ID", "display"=>"1", "width"=>"")
     , array("label"=>"sorderdefault", "field"=> "SORDERDEFAULT", "display"=>"1", "width"=>"")
-    , array("label"=>"fieldid", "field"=> "DIKLAT_FUNGSIONAL_ID", "display"=>"1", "width"=>"")
+    , array("label"=>"fieldid", "field"=> "DAFTAR_TABEL_ID", "display"=>"1", "width"=>"")
 );
 ?>
 
@@ -39,11 +39,11 @@ $arrtabledata= array(
                 <div class="card-toolbar">
                     <!--begin::Dropdown-->
                     <div class="dropdown dropdown-inline mr-2">
-                        <!-- <?if ($this->adminusergroupid==1){?>
+                        <?if ($this->adminusergroupid==1){?>
                         	<button class="btn btn-light-primary" id="btnAdd"><i class="fa fa-plus" aria-hidden="true"></i> Tambah</button>
                     		<button class="btn btn-light-warning" id="btnUbahData"><i class="fa fa-pen" aria-hidden="true"></i> Edit</button>
                     		<button class="btn btn-light-danger" id="btnDelete"><i class="fa fa-trash" aria-hidden="true"></i> Hapus</button>
-                        <?}?>	 -->
+                        <?}?>	
                     </div>
 
                     <!-- <button class="btn btn-light-primary" onclick="myFunction()"><i class="fa fa-sitemap" aria-hidden="true"></i> Satker</button> -->
@@ -138,7 +138,7 @@ jQuery(document).ready(function() {
         }
         else
         {
-            urlAjax= "json-main/daftar_tabel_json/delete?reqRowId="+valinfoid;
+            urlAjax= "json-main/daftar_tabel_json/deleteTable?reqRowId="+valinfoid;
             swal.fire({
                 title: 'Apakah anda yakin untuk hapus data?',
                 type: 'warning',
@@ -168,7 +168,7 @@ jQuery(document).ready(function() {
                                 showConfirmButton: false,
                                 timer: 2000
                             }).then(function() {
-                                document.location.href = "app/index/pelatihan_fungsional?reqId=<?=$reqId?>";
+                                document.location.href = "app/index/daftar_tabel";
                             });
                         },
                         complete: function() {
@@ -212,7 +212,7 @@ jQuery(document).ready(function() {
             vpilihid= "";
 
         // varurl= "app/index/pegawai_diklat_teknis_add?formulaid=<?=$formulaid?>&reqRowId="+vpilihid;
-        varurl= "app/index/pelatihan_fungsional_add?reqRowId="+vpilihid+"&reqId=<?=$reqId?>";
+        varurl= "app/index/daftar_tabel_ubah?reqId="+vpilihid;
         
         document.location.href = varurl;
     });

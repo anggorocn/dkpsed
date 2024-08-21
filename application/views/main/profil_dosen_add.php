@@ -1186,7 +1186,7 @@ if(!empty($reqId))
 			        		}
 			        	}).then(function() {
 			        		reqid=response.message.split('-');
-			        		// document.location.href = "app/page/dosen_add?reqId="+reqid[0];
+			        		document.location.href = "app/index/profil_dosen";
 			        	});
 			        },
 			        error: function(xhr, status, error) {
@@ -1232,7 +1232,7 @@ if(!empty($reqId))
 
 <script type="text/javascript">
      $("#btnBack").on("click", function () {
-        varurl= "app/page/profil_dosen";
+        varurl= "app/index/profil_dosen";
         document.location.href = varurl;
     });
 

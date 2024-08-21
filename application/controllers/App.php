@@ -32,24 +32,7 @@ class App extends CI_Controller {
 		$this->adminuserloginnama= $this->session->userdata("adminuserloginnama".$configvlxsessfolder);
 		$this->adminusernama= $this->session->userdata("adminusernama".$configvlxsessfolder);
 		$this->adminusergroupid= $this->session->userdata("adminusergroupid".$configvlxsessfolder);
-		$this->adminuserpegawaiid= $this->session->userdata("adminuserpegawaiid".$configvlxsessfolder);
-		$this->adminsatkerid= $this->session->userdata("adminsatkerid".$configvlxsessfolder);
-		$this->sesstree= $this->session->userdata("sesstree".$configvlxsessfolder);
-		$this->sessdatatree= $this->session->userdata("sessdatatree".$configvlxsessfolder);
-		$this->adminuserPegawaiProses= $this->session->userdata("adminuserPegawaiProses".$configvlxsessfolder);
-		$this->adminuserDUKProses= $this->session->userdata("adminuserDUKProses".$configvlxsessfolder);
-		$this->adminuserKGBProses= $this->session->userdata("adminuserKGBProses".$configvlxsessfolder);
-		$this->adminuserKPProses= $this->session->userdata("adminuserKPProses".$configvlxsessfolder);
-		$this->adminuserPensiunProses= $this->session->userdata("adminuserPensiunProses".$configvlxsessfolder);
-		$this->adminuserAnjabProses= $this->session->userdata("adminuserAnjabProses".$configvlxsessfolder);
-		$this->adminuserMutasiProses= $this->session->userdata("adminuserMutasiProses".$configvlxsessfolder);
-		$this->adminuserHukumanProses= $this->session->userdata("adminuserHukumanProses".$configvlxsessfolder);
-		$this->adminuserMasterProses= $this->session->userdata("adminuserMasterProses".$configvlxsessfolder);
-		$this->adminuserLihatProses= $this->session->userdata("adminuserLihatProses".$configvlxsessfolder);
-		$this->adminuserBidangPembinaan= $this->session->userdata("adminuserBidangPembinaan".$configvlxsessfolder);
-		$this->adminuserBidangDokumentasi= $this->session->userdata("adminuserBidangDokumentasi".$configvlxsessfolder);
-		$this->adminuserBidangPendidikan= $this->session->userdata("adminuserBidangPendidikan".$configvlxsessfolder);
-		$this->adminuserBidangMutasi= $this->session->userdata("adminuserBidangMutasi".$configvlxsessfolder);
+		$this->adminuserpendidikan= $this->session->userdata("adminuserpendidikan".$configvlxsessfolder);
 	}
 	
 	public function index()

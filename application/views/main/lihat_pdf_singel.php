@@ -67,6 +67,8 @@ $reqFile= $this->input->get('reqFile');
                                 <div class="card card-custom" style="margin-top: 0px;">
                                     <?if($reqFile=='prestasi'){?>
                                         <iframe src="uploads/<?=$reqFile?>/<?=$reqFile?>_<?=$folder?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
+                                    <?}else if($reqFile=='kurikulum'){?>
+                                        <iframe src="uploads/kurikulum/<?=$reqFile?><?=$folder?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
                                     <?}else{?>
                                         <iframe src="uploads/<?=$folder?>/<?=$reqFile?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
                                     <?}?>

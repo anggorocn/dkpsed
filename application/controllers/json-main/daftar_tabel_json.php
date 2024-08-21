@@ -26,10 +26,12 @@ class daftar_tabel_json extends CI_Controller {
 		{
 			redirect('login');
 		}
-
+		
 		$this->adminuserid= $this->session->userdata("adminuserid".$configvlxsessfolder);
 		$this->adminuserloginnama= $this->session->userdata("adminuserloginnama".$configvlxsessfolder);
-		$this->adminsatkerid= $this->session->userdata("adminsatkerid".$configvlxsessfolder);
+		$this->adminusernama= $this->session->userdata("adminusernama".$configvlxsessfolder);
+		$this->adminusergroupid= $this->session->userdata("adminusergroupid".$configvlxsessfolder);
+		$this->adminuserpendidikan= $this->session->userdata("adminuserpendidikan".$configvlxsessfolder);
 	}
 
 	function json()
@@ -59,9 +61,14 @@ class daftar_tabel_json extends CI_Controller {
 
 		// $sOrder = "";
 		// $set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement." AND (UPPER(B.GOL_RUANG) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(TEMPAT_LAHIR) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_LAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_BARU) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(AMBIL_FORMAT_NIP_BARU(NIP_BARU)) LIKE '%".strtoupper($_GET['sSearch'])."%' ) ", $sOrder);
-
+		if($this->adminuserpendidikan=='0'){
+		}
+		else{
+			$statement="and ".strtolower($this->adminuserpendidikan)." = '1'";
+			
+		}
 		$set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement, $sOrder);
-		
+		// echo $set->query;exit;
 		if(!empty($cekquery)){
 			echo $set->query;exit;
 		}
@@ -303,6 +310,86 @@ class daftar_tabel_json extends CI_Controller {
 		{
 			echo json_response(400, 'Data gagal dihapus');
 		}
+	}
+
+	function deleteTable()
+	{
+		$this->load->model("base/DaftarTabel");
+		$set = new DaftarTabel();
+		
+		$reqRowId= $this->input->get('reqRowId');
+		$reqMode= $this->input->get('reqMode');
+
+		$set->setField("daftar_tabel_id", $reqRowId);
+		$reqSimpan="";
+		if($set->deleteTabel())
+		{
+			$reqSimpan=1;
+		}
+
+		if($reqSimpan == 1 )
+		{
+			echo json_response(200, 'Data berhasil dihapus');
+		}
+		else
+		{
+			echo json_response(400, 'Data gagal dihapus');
+		}
+	}
+
+	function addTabel()
+	{
+		$this->load->model("base/DaftarTabel");
+
+		$reqId= $this->input->post("reqId");
+
+		$reqNama= $this->input->post("reqNama");
+		$reqSheet= $this->input->post("reqSheet");
+		$reqPage= $this->input->post("reqPage");
+		$reqD3= $this->input->post("reqD3");
+		$reqS1= $this->input->post("reqS1");
+		$reqS2= $this->input->post("reqS2");
+		$reqS3= $this->input->post("reqS3");
+		$reqStatus= $this->input->post("reqStatus");
+		
+		$set = new DaftarTabel();
+		$set->setField("daftar_tabel_id", $reqId);
+
+		$set->setField("NAMA", $reqNama);
+		$set->setField("NAMA_SHEET", $reqSheet);
+		$set->setField("PAGE", $reqPage);
+		$set->setField("D3", $reqD3);
+		$set->setField("S1", $reqS1);
+		$set->setField("S2", $reqS2);
+		$set->setField("S3", $reqS3);
+		$set->setField("STATUS", $reqStatus);
+
+		$reqSimpan= "";
+		if ($reqId == "")
+		{
+			if($set->insertTabel())
+			{
+				$reqSimpan= 1;
+			}
+			$reqId= $set->id;
+		}
+		else
+		{	
+			if($set->updateTabel())
+			{
+				$reqSimpan= 1;
+			}
+		}
+
+		if($reqSimpan == 1)
+		{
+			echo json_response(200, $reqId."-Data berhasil disimpan.");
+		}
+		else
+		{
+			echo json_response(400, "Data gagal disimpan");
+		}
+				
 	}
 }
 ?>

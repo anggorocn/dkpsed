@@ -15,7 +15,7 @@ class Kurikulum extends Entity{
 		$str = "
 		INSERT INTO KURIKULUM
 		(
-			KODE_SO, KODE_PARENT, NAMA, KURIKULUM_ID, KURIKULUM_ID_PARENT, SKS, KETERANGAN, KODE
+			KODE_SO, KODE_PARENT, NAMA, KURIKULUM_ID, KURIKULUM_ID_PARENT, SKS, KETERANGAN, KODE,JURUSAN_ID
 		)
 		VALUES
 		(
@@ -27,6 +27,7 @@ class Kurikulum extends Entity{
 			, '".$this->getField("SKS")."'
 			, '".$this->getField("KETERANGAN")."'
 			, '".$this->getField("KODE")."'
+			, '".$this->getField("JURUSAN_ID")."'
 		)";
 
 		$this->id= $this->getField("KURIKULUM_ID");
@@ -44,6 +45,7 @@ class Kurikulum extends Entity{
 			, SKS= '".$this->getField("SKS")."'
 			, KETERANGAN= '".$this->getField("KETERANGAN")."'
 			, KODE= '".$this->getField("KODE")."'
+			, JURUSAN_ID= '".$this->getField("JURUSAN_ID")."'
 		WHERE KURIKULUM_ID= '".$this->getField("KURIKULUM_ID")."'
 		and KURIKULUM_ID_PARENT= '".$this->getField("KURIKULUM_ID_PARENT")."'
 		"; 
@@ -55,16 +57,10 @@ class Kurikulum extends Entity{
     function delete()
 	{
         $str = "
-        DELETE FROM diklat_fungsional
+        DELETE FROM kurikulum
         WHERE 
-        DIKLAT_FUNGSIONAL_ID = '".$this->getField("DIKLAT_FUNGSIONAL_ID")."'";
+        kurikulum_id = '".$this->getField("kurikulum_id")."'";
 		$this->query = $str;
-
-		// untuk buat log data
-		// parse pertama sesuai nama table
-		// parse ke dua sesuai aksi
-		$this->setlogdata("diklat_fungsional", "DELETE", $str);
-
         return $this->execQuery($str);
     }
 
@@ -92,6 +88,24 @@ class Kurikulum extends Entity{
 		$str = "
 				SELECT max(kurikulum_id)  max
 				FROM kurikulum
+				WHERE 1 = 1
+			"; 
+		
+		while(list($key,$val) = each($paramsArray))
+		{
+			$str .= " AND $key = '$val' ";
+		}
+		
+		$str .= $statement." ".$order;
+		$this->query = $str;
+		return $this->selectLimit($str,$limit,$from); 
+    }
+
+    function selectByParamsJurusan($paramsArray=array(),$limit=-1,$from=-1,$statement="", $order="")
+	{
+		$str = "
+				SELECT *
+				FROM jurusan
 				WHERE 1 = 1
 			"; 
 		

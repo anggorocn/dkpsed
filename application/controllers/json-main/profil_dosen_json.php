@@ -602,18 +602,27 @@ class profil_dosen_json extends CI_Controller {
 
 	function delete()
 	{
-		$this->load->model("base/DaftarTabel");
-		$set = new DaftarTabel();
+		$this->load->model("base/ProfilDosen");
+		$set = new ProfilDosen();
 		
 		$reqRowId= $this->input->get('reqRowId');
 		$reqMode= $this->input->get('reqMode');
 
-		$set->setField("DIKLAT_FUNGSIONAL_ID", $reqRowId);
+		$set->setField("DOSEN_ID", $reqRowId);
 		$reqSimpan="";
 		if($set->delete())
 		{
 			$reqSimpan=1;
 		}
+
+		$folderPath = "uploads/".$reqRowId;
+		    // echo $folderPath;exit;
+
+		// Cek apakah folder sudah ada atau belum
+		if (file_exists($folderPath)) {
+			rmdir($folderPath);
+		}
+
 
 		if($reqSimpan == 1 )
 		{

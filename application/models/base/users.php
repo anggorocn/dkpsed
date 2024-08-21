@@ -100,13 +100,10 @@ DESCRIPTION     :
       $statement= " AND A.USER_LOGIN = ".$this->db->escape($username)." AND A.USER_PASS = ".$this->db->escape($passwd);
 
       $str = "
-      SELECT
-      USER_APP_ID, A.USER_GROUP_ID, USER_LOGIN, USER_PASS, A.NAMA, ALAMAT, EMAIL, TELEPON, PEGAWAI_ID
-      , SATKER_ID, PEGAWAI_PROSES, DUK_PROSES, KGB_PROSES, KP_PROSES
-      , PENSIUN_PROSES, ANJAB_PROSES, MUTASI_PROSES, HUKUMAN_PROSES, MASTER_PROSES, LIHAT_PROSES
-      , BIDANG_PEMBINAAN, BIDANG_DOKUMENTASI, BIDANG_PENDIDIKAN, BIDANG_MUTASI
-      FROM USER_APP A, USER_GROUP B
-      WHERE A.USER_GROUP_ID = B.USER_GROUP_ID
+      SELECT*
+      FROM USER_APP A
+      left join USER_GROUP b on a.USER_GROUP_id = b.USER_GROUP_id
+      where 1=1
       ".$statement;
 
       $this->query = $str;

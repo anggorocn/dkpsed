@@ -6,6 +6,7 @@ $this->load->model("base/Upload");
 
 $reqId= $this->input->get('reqId');
 $reqParent= $this->input->get('reqParent');
+$reqJurusan= $this->input->get('reqJurusan');
 
 if(!empty($reqId))
 {
@@ -68,6 +69,19 @@ if(!empty($reqId))
 		        				</select>
 		        			</div>
 		        		</div>
+		        		<div class="form-group row">
+		        			<label class="col-form-label col-lg-2 col-sm-12">Upload RPS</label>	
+		        			<div class="col-lg-8 col-sm-12">
+		        				<input type="file" name="reqFile" class="form-control">
+		        			</div>
+		        			<? 
+							$targetFilePath = "uploads/".$reqId.'/status.pdf';
+		        			if (file_exists($targetFilePath)) {?>
+			        			<div class="col-lg-2 col-sm-12">
+			        				<a class="btn btn-light-success" onclick="openAdd('app/loadurl/main/lihat_pdf_singel?reqId=<?=$reqId?>&reqFile=status','File Terupload')"><i class="fa fa-file-pdf-o" aria-hidden="true"></i> Lihat DOkumen</a>
+			        			</div>
+		        			<?}?>
+		        		</div>
 		        	<?}?>
 		        </div>
 	        </div>
@@ -77,6 +91,7 @@ if(!empty($reqId))
         				<input type="hidden" name="reqMode" value="<?=$reqMode?>">
         				<input type="hidden" name="reqId" value="<?=$reqId?>">
         				<input type="hidden" name="reqIdParent" value="<?=$reqParent?>">
+        				<input type="hidden" name="reqJurusan" value="<?=$reqJurusan?>">
         				<input type="hidden" name="reqRowId" value="<?=$reqRowId?>">
         				<input type="hidden" name="reqTempValidasiId" value="<?=$reqTempValidasiId?>">
         				<button type="submit" id="ktloginformsubmitbutton" class="btn btn-light-success"><i class="fa fa-save" aria-hidden="true"></i> Simpan</button>
@@ -147,7 +162,7 @@ if(!empty($reqId))
 			        		}
 			        	}).then(function() {
 			        		reqid=response.message.split('-');
-			        		document.location.href = "app/index/kurikulum?";
+			        		document.location.href = "app/index/kurikulum?reqJurusan=<?=$reqJurusan?>";
 			        	});
 			        },
 			        error: function(xhr, status, error) {
@@ -175,7 +190,7 @@ if(!empty($reqId))
 	});
 
 	function btnBack() {
-		document.location.href = "app/index/kurikulum?";
+		document.location.href = "app/index/kurikulum?reqJurusan=<?=$reqJurusan?>";
 	}
 
 </script>
