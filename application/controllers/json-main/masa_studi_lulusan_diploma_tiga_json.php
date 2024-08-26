@@ -85,7 +85,7 @@ class masa_studi_lulusan_diploma_tiga_json extends CI_Controller {
 				}
 				else
 				{
-					$row[$valkey]= strtoupper($set->getField($valkey));
+					$row[$valkey]= ucwords(strtolower($set->getField($valkey)));
 				}
 			}
 			array_push($arrinfodata, $row);

@@ -69,6 +69,8 @@ $reqFile= $this->input->get('reqFile');
                                         <iframe src="uploads/<?=$reqFile?>/<?=$reqFile?>_<?=$folder?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
                                     <?}else if($reqFile=='kurikulum'){?>
                                         <iframe src="uploads/kurikulum/<?=$reqFile?><?=$folder?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
+                                    <?}else if($reqFile=='penilaian'){?>
+                                        <iframe src="uploads/penilaian/<?=$reqFile?><?=$folder?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
                                     <?}else{?>
                                         <iframe src="uploads/<?=$folder?>/<?=$reqFile?>.pdf" style="width:100%; height:90vh;" frameborder="0"></iframe>
                                     <?}?>

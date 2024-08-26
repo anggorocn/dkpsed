@@ -105,7 +105,7 @@ class profil_tenaga_kependidikan_json extends CI_Controller {
 					}
 
 					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('dosen_id')."&reqFile=".strtolower($tablefield)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.strtoupper($set->getField($valkey)).'</a>';
+					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.ucwords(strtolower($set->getField($valkey))).'</a>';
 				}
 			}
 			array_push($arrinfodata, $row);

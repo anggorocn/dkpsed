@@ -79,11 +79,11 @@ class prestasi_mahasiswa_json extends CI_Controller {
 				{
 					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('prestasi_id')."&reqFile=prestasi'";
 					// $row[$valkey]= '<a href="app/index/lihat_pdf">'.$set->getField($valkey).'</a>';
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.strtoupper($set->getField($valkey)).'</a>';
+					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.ucwords(strtolower($set->getField($valkey))).'</a>';
 				}
 				else
 				{	
-					$row[$valkey]= strtoupper($set->getField($valkey));	
+					$row[$valkey]= ucwords(strtolower($set->getField($valkey)));	
 				}
 			}
 			array_push($arrinfodata, $row);

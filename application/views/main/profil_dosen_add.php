@@ -107,7 +107,7 @@ if(!empty($reqId))
 	        			<?}?>
 	        		</div>
 	        		<div class="form-group row">
-	        			<label class="col-form-label col-lg-2 col-sm-12">Jabatan Akademi</label>	
+	        			<label class="col-form-label col-lg-2 col-sm-12">Jabatan Akademik</label>	
 	        			<div class="col-lg-5 col-sm-12">
 	        				<input type="text" name="reqJabatan" class="form-control" value='<?=$reqJabatan?>'>
 	        			</div>
@@ -126,9 +126,9 @@ if(!empty($reqId))
 	        			<label class="col-form-label col-lg-2 col-sm-12">Akademisi/Praktisi</label>	        
 	        			<div class="col-lg-5 col-sm-12">
 					 		<select class="form-control" name="reqStatusAkademik">
-								<option value='akademisi' <?if($reqMagister=='akademisi'){echo 'selected';}?>>Akademis</option>
+								<option value='akademisi' <?if($reqMagister=='akademisi'){echo 'selected';}?>>Akademisi</option>
 								<option value='praktisi' <?if($reqMagister=='praktisi'){echo 'selected';}?>>Praktisi</option>
-								<option value='akademisi/praktisi' <?if($reqMagister=='akademisi/praktisi'){echo 'selected';}?>>Akademis/Praktisi</option>
+								<option value='akademisi/praktisi' <?if($reqMagister=='akademisi/praktisi'){echo 'selected';}?>>Akademisi/Praktisi</option>
 							</select>
 		        		</div>
 	        			<div class="col-lg-3 col-sm-12">

@@ -1676,6 +1676,81 @@ function uploaddataarray($reqId,$reqNama,$reqFile){
 	return '1';
 }
 
+function Selectpage($reqPage,$reqHal){
+	$array['home'][1]='';
+	$array['home'][2]='home';
+
+	$array['pengaturan'][1]='pengguna';
+	$array['pengaturan'][2]='pengguna_add';
+	$array['pengaturan'][3]='profil_dosen';
+	$array['pengaturan'][4]='profil_dosen_add';
+	$array['pengaturan'][5]='jurusan';
+	$array['pengaturan'][6]='jurusan_add';
+	$array['pengaturan'][7]='total_mahasiswa';
+	$array['pengaturan'][8]='total_mahasiswa_add';
+
+	$array['daftar_tabel'][1]='daftar_tabel';
+	$array['daftar_tabel'][2]='daftar_tabel_add';
+	$array['daftar_tabel'][3]='profil_dosen_status_kepegawaian';
+	$array['daftar_tabel'][4]='profil_dosen_latar_belakang_keahlian';
+	$array['daftar_tabel'][5]='profil_dosen_kontribusi_intelektual_1';
+	$array['daftar_tabel'][6]='profil_dosen_kontribusi_intelektual_2';
+	$array['daftar_tabel'][7]='profil_dosen_kontribusi_intelektual_3';
+	$array['daftar_tabel'][8]='ekuivalen_waktu_mengajar_penuh';
+	$array['daftar_tabel'][9]='profil_tenaga_kependidikan';
+	$array['daftar_tabel'][10]='profil_keuangan_program_studi_diakreditasi';
+	$array['daftar_tabel'][11]='prestasi_mahasiswa';
+	$array['daftar_tabel'][12]='masa_studi_lulusan_diploma_tiga';
+	$array['daftar_tabel'][13]='masa_studi_lulusan_sarjana';
+	$array['daftar_tabel'][14]='masa_studi_lulusan_magister';
+	$array['daftar_tabel'][15]='masa_studi_lulusan_doktor';
+	$array['daftar_tabel'][16]='waktu_tunggu_lulusan_d3';
+	$array['daftar_tabel'][17]='waktu_tunggu_lulusan_s1';
+	$array['daftar_tabel'][18]='waktu_tunggu_lulusan_st';
+	$array['daftar_tabel'][19]='kesesuaian_bidang_kerja_lulusan';
+	$array['daftar_tabel'][20]='jangkauan_operasi_kerja_lulusan';
+	$array['daftar_tabel'][21]='kepuasan_pengguna';
+	$array['daftar_tabel'][22]='publikasi_ilmiah_mahasiswa';
+	$array['daftar_tabel'][23]='publikasi_ilmiah_mahasiswa_terapan';
+	$array['daftar_tabel'][24]='karya_ilmiah_mahasiswa_disitasi_magister';
+	$array['daftar_tabel'][25]='produk_hasil_mahasiswa_diadopsi_industri';
+	$array['daftar_tabel'][26]='luaran_pkm_mahasiswa_sarjana';
+	$array['daftar_tabel'][27]='luaran_pkm_dosen_1';
+	$array['daftar_tabel'][28]='luaran_pkm_dosen_2';
+	$array['daftar_tabel'][29]='profil_keuangan_program_studi_diakreditasi_add';
+	$array['daftar_tabel'][30]='prestasi_mahasiswa_add';
+	$array['daftar_tabel'][31]='masa_studi_lulusan_diploma_tiga_add';
+	$array['daftar_tabel'][32]='masa_studi_lulusan_sarjana_add';
+	$array['daftar_tabel'][33]='masa_studi_lulusan_magister_add';
+	$array['daftar_tabel'][34]='masa_studi_lulusan_doktor_add';
+	$array['daftar_tabel'][35]='waktu_tunggu_lulusan_d3_add';
+	$array['daftar_tabel'][36]='waktu_tunggu_lulusan_s1_add';
+	$array['daftar_tabel'][37]='waktu_tunggu_lulusan_st_add';
+	$array['daftar_tabel'][38]='kesesuaian_bidang_kerja_lulusan_add';
+	$array['daftar_tabel'][39]='jangkauan_operasi_kerja_lulusan_add';
+	$array['daftar_tabel'][40]='kepuasan_pengguna_add';
+	$array['daftar_tabel'][41]='publikasi_ilmiah_mahasiswa_add';
+	$array['daftar_tabel'][42]='publikasi_ilmiah_mahasiswa_terapan_add';
+	$array['daftar_tabel'][43]='karya_ilmiah_mahasiswa_disitasi_magister_add';
+	$array['daftar_tabel'][44]='produk_hasil_mahasiswa_diadopsi_industri_add';
+	$array['daftar_tabel'][45]='luaran_pkm_mahasiswa_sarjana_add';
+	$array['daftar_tabel'][46]='luaran_pkm_dosen_1_add';
+	$array['daftar_tabel'][47]='luaran_pkm_dosen_2_add';
+	$array['daftar_tabel'][48]='daftar_tabel_ubah';
+
+	$array['evaluasi_diri'][1]='evaluasi_diri';
+
+	$array['penilaian'][1]='penilaian';
+	$array['penilaian'][2]='penilaian_add';
+
+	$array['kurikulum'][1]='kurikulum';
+	$array['kurikulum'][2]='kurikulum_add';
+
+	$ketemu=array_search($reqPage,$array[$reqHal]);
+	return $ketemu;
+
+}
+
 
 
 // <option value=''></option>

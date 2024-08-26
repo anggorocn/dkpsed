@@ -77,7 +77,7 @@ class profil_dosen_latar_belakang_keahlian_json extends CI_Controller {
 				}
 				else if ($valkey == "NAMA" || $valkey == "NO")
 				{
-					$row[$valkey]= strtoupper($set->getField($valkey));
+					$row[$valkey]= ucwords(strtolower($set->getField($valkey)));
 				}
 				else if ($valkey == "SERTIFIKAT_KOMPETENSI" )
 				{
@@ -107,7 +107,7 @@ class profil_dosen_latar_belakang_keahlian_json extends CI_Controller {
 					}
 
 					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('dosen_id')."&reqFile=".strtolower($tablefield)."'";
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.strtoupper($set->getField($valkey)).'</a>';
+					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.ucwords(strtolower($set->getField($valkey))).'</a>';
 				}
 			}
 			array_push($arrinfodata, $row);

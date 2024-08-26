@@ -120,8 +120,15 @@ class ProfilDosen extends Entity{
 	{
 		$str = "
 		SELECT
-			*,
-			 ROW_NUMBER () OVER (ORDER BY dosen_id asc) as NO
+			*
+			, ROW_NUMBER () OVER (ORDER BY dosen_id asc) as NO
+			, case 
+				when pendidikan_diploma is null then 'D3'
+				when pendidikan_sarjana is null then 'S1'
+				when pendidikan_magister is null then 'S2'
+				when pendidikan_spesialis is null then 'S3'
+				else '-'
+			end pendidikan_dashbord
 		FROM dosen A
 		WHERE 1=1 "; 
 		
@@ -132,7 +139,7 @@ class ProfilDosen extends Entity{
 		
 		$str .= $statement." ORDER BY dosen_id ASC";
 		$this->query = $str;
-		// echo $statement;exit;
+		// echo $str;exit;
 				
 		return $this->selectLimit($str,$limit,$from); 
     }

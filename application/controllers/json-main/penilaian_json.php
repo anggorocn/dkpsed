@@ -6,7 +6,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class profil_dosen_status_kepegawaian_json extends CI_Controller {
+class penilaian_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -35,9 +35,9 @@ class profil_dosen_status_kepegawaian_json extends CI_Controller {
 	function json()
 	{
 		ini_set('memory_limit', '-1');
-		$this->load->model("base/DaftarTabel");
+		$this->load->model("base/Penilaian");
 
-		$set= new DaftarTabel();
+		$set= new Penilaian();
 
 		if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
 			$columnsDefault = [];
@@ -60,7 +60,7 @@ class profil_dosen_status_kepegawaian_json extends CI_Controller {
 		// $sOrder = "";
 		// $set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement." AND (UPPER(B.GOL_RUANG) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(TEMPAT_LAHIR) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_LAMA) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(A.NIP_BARU) LIKE '%".strtoupper($_GET['sSearch'])."%' OR UPPER(AMBIL_FORMAT_NIP_BARU(NIP_BARU)) LIKE '%".strtoupper($_GET['sSearch'])."%' ) ", $sOrder);
 
-		$set->selectByParamsDetil1(array('b.DAFTAR_TABEL_ID'=>1), $dsplyRange, $dsplyStart, $statement, $sOrder);
+		$set->selectByParams(array(), $dsplyRange, $dsplyStart, $statement, $sOrder);
 		
 		if(!empty($cekquery)){
 			echo $set->query;exit;
@@ -75,34 +75,14 @@ class profil_dosen_status_kepegawaian_json extends CI_Controller {
 				{
 					$row[$valkey]= "1";
 				}
-				else if ($valkey == "NO"|| $valkey == "profil_dosen_status_kepegawaian_id")
+				else if ($valkey == "sertifikat")
 				{
-					$row[$valkey]= ucwords(strtolower($set->getField($valkey)));
-				}
-				else if ($valkey == "NAMA")
-				{
-					$row[$valkey]= $set->getField($valkey);
+					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('penilaian_id')."&reqFile=penilaian'";
+					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">lihat</a>';
 				}
 				else
-				{	
-					if(strtolower($valkey) == strtolower("NAMA_STATUS")){
-						$tablefield='STATUS';
-					}
-					else if(strtolower($valkey) == strtolower("NAMA_STATUS_AKADEMIS"))
-					{
-						$tablefield='akademisi';
-					}
-					else if(strtolower($valkey) == strtolower("JABATAN_AKADEMIK"))
-					{
-						$tablefield='jabatan';
-					}
-					else{
-						$tablefield=$valkey;
-					}
-
-					$val="'app/loadurl/main/lihat_pdf_singel?reqId=".$set->getField('dosen_id')."&reqFile=".strtolower($tablefield)."'";
-					// $row[$valkey]= '<a href="app/index/lihat_pdf">'.$set->getField($valkey).'</a>';
-					$row[$valkey]= '<a style="cursor: pointer" href="#" onclick="openAdd('.$val.');  return false;">'.$set->getField($valkey).'</a>';
+				{
+					$row[$valkey]= $set->getField($valkey);
 				}
 			}
 			array_push($arrinfodata, $row);
@@ -185,27 +165,29 @@ class profil_dosen_status_kepegawaian_json extends CI_Controller {
 
 	function add()
 	{
-		$this->load->model("base/ProfilDosenStatusKepegawaian");
-		$this->load->model("base/Upload");
+		$this->load->model("base/Penilaian");
 
 		$reqId= $this->input->post("reqId");
-		$reqName= $this->input->post("reqName");
+		$reqUraian= $this->input->post("reqUraian");
+		$reqBA= $this->input->post("reqBA");
+		$reqSkor= $this->input->post("reqSkor");
 
-		$set = new ProfilDosenStatusKepegawaian();
-		$set->setField("profil_dosen_status_kepegawaian_id", $reqId);
-		$set->setField("NAMA", $reqName);
+		$set = new Penilaian();
+		$set->setField("PENILAIAN_ID", $reqId);
 
+		$set->setField("NAMA", $reqUraian);
+		$set->setField("BERITA_ACARA", $reqBA);
+		$set->setField("SKOR", $reqSkor);
+		
 		$reqSimpan= "";
 		if ($reqId == "")
 		{
-
 			if($set->insert())
 			{
 				$reqSimpan= 1;
 			}
-
+			
 			$reqId= $set->id;
-
 		}
 		else
 		{	
@@ -215,117 +197,18 @@ class profil_dosen_status_kepegawaian_json extends CI_Controller {
 			}
 		}
 
-		if($reqSimpan==1){
-			$reqKettable1= $this->input->post("reqKettable1");
-			$reqFiletable1= $this->input->post("reqFiletable1");
-			$reqFileExisttable1= $this->input->post("reqFileExisttable1");
-			$reqidtable1= $this->input->post("reqidtable1");
 
-			$reqKettable2= $this->input->post("reqKettable2");
-			$reqFiletable2= $this->input->post("reqFiletable2");
-			$reqFileExisttable2= $this->input->post("reqFileExisttable2");
-			$reqidtable2= $this->input->post("reqidtable2");
+		$folderPath = "uploads/penilaian";
 
-			$reqKettable3= $this->input->post("reqKettable3");
-			$reqFiletable3= $this->input->post("reqFiletable3");
-			$reqFileExisttable3= $this->input->post("reqFileExisttable3");
-			$reqidtable3= $this->input->post("reqidtable3");
+		// Cek apakah folder sudah ada atau belum
+		if (!file_exists($folderPath)) {
+		    // Membuat folder jika belum ada
+		    mkdir($folderPath, 0777, true);
+		}
+		// print_r($_FILES["reqFileStatus"]);exit;
 
-			$reqKettable4= $this->input->post("reqKettable4");
-			$reqFiletable4= $this->input->post("reqFiletable4");
-			$reqFileExisttable4= $this->input->post("reqFileExisttable4");
-			$reqidtable4= $this->input->post("reqidtable4");
-
-			$reqKettable5= $this->input->post("reqKettable5");
-			$reqFiletable5= $this->input->post("reqFiletable5");
-			$reqFileExisttable5= $this->input->post("reqFileExisttable5");
-			$reqidtable5= $this->input->post("reqidtable5");
-
-			for($i=0;$i<count($reqKettable1);$i++){
-				$setUpload = new Upload();
-				$setUpload->setField("upload_id", $reqidtable1[$i]);
-				$setUpload->setField("KETERANGAN", $reqKettable1[$i]);
-				$setUpload->setField("TABLE_NAMA", 'profil_dosen_status_kepegawaian');
-				$setUpload->setField("TABLE_FIELD", 'status');
-				$setUpload->setField("TABLE_ID", $reqId);
-				if ($reqidtable1[$i] == "")
-				{
-					$setUpload->insert();
-				}
-				else
-				{	
-					$setUpload->update();
-				}
-			}
-
-			for($i=0;$i<count($reqKettable2);$i++){
-				$setUpload = new Upload();
-				$setUpload->setField("upload_id", $reqidtable2[$i]);
-				$setUpload->setField("KETERANGAN", $reqKettable2[$i]);
-				$setUpload->setField("TABLE_NAMA", 'profil_dosen_status_kepegawaian');
-				$setUpload->setField("TABLE_FIELD", 'nidn');
-				$setUpload->setField("TABLE_ID", $reqId);
-				if ($reqidtable2[$i] == "")
-				{
-					$setUpload->insert();
-				}
-				else
-				{	
-					$setUpload->update();
-				}
-			}
-
-			for($i=0;$i<count($reqKettable3);$i++){
-				$setUpload = new Upload();
-				$setUpload->setField("upload_id", $reqidtable3[$i]);
-				$setUpload->setField("KETERANGAN", $reqKettable3[$i]);
-				$setUpload->setField("TABLE_NAMA", 'profil_dosen_status_kepegawaian');
-				$setUpload->setField("TABLE_FIELD", 'jabatan');
-				$setUpload->setField("TABLE_ID", $reqId);
-				if ($reqidtable3[$i] == "")
-				{
-					$setUpload->insert();
-				}
-				else
-				{	
-					$setUpload->update();
-				}
-			}
-
-			for($i=0;$i<count($reqKettable4);$i++){
-				$setUpload = new Upload();
-				$setUpload->setField("upload_id", $reqidtable4[$i]);
-				$setUpload->setField("KETERANGAN", $reqKettable4[$i]);
-				$setUpload->setField("TABLE_NAMA", 'profil_dosen_status_kepegawaian');
-				$setUpload->setField("TABLE_FIELD", 'status_akademis');
-				$setUpload->setField("TABLE_ID", $reqId);
-				if ($reqidtable4[$i] == "")
-				{
-					$setUpload->insert();
-				}
-				else
-				{	
-					$setUpload->update();
-				}
-			}
-
-			for($i=0;$i<count($reqKettable5);$i++){
-				$setUpload = new Upload();
-				$setUpload->setField("upload_id", $reqidtable5[$i]);
-				$setUpload->setField("KETERANGAN", $reqKettable5[$i]);
-				$setUpload->setField("TABLE_NAMA", 'profil_dosen_status_kepegawaian');
-				$setUpload->setField("TABLE_FIELD", 'perusahaan');
-				$setUpload->setField("TABLE_ID", $reqId);
-				if ($reqidtable5[$i] == "")
-				{
-					$setUpload->insert();
-				}
-				else
-				{	
-					$setUpload->update();
-				}
-			}
-
+		if (!empty($_FILES["reqSertifikat"]["type"])) {
+			uploaddata('penilaian','penilaian'.$reqId,$_FILES["reqSertifikat"]);
 		}
 
 		if($reqSimpan == 1)
@@ -341,17 +224,24 @@ class profil_dosen_status_kepegawaian_json extends CI_Controller {
 
 	function delete()
 	{
-		$this->load->model("base/DaftarTabel");
-		$set = new DaftarTabel();
+		$this->load->model("base/Penilaian");
+		$set = new Penilaian();
 		
 		$reqRowId= $this->input->get('reqRowId');
 		$reqMode= $this->input->get('reqMode');
 
-		$set->setField("DIKLAT_FUNGSIONAL_ID", $reqRowId);
+		$set->setField("penilaian_id", $reqRowId);
 		$reqSimpan="";
 		if($set->delete())
 		{
 			$reqSimpan=1;
+		}
+
+		$folderPath = "uploads/penilaian";
+		    // echo $folderPath;exit;
+
+		if (file_exists($folderPath)) {
+			unlink($folderPath.'/penilaian'.$reqRowId.'.pdf');
 		}
 
 		if($reqSimpan == 1 )

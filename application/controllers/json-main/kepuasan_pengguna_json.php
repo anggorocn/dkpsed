@@ -86,12 +86,12 @@ class kepuasan_pengguna_json extends CI_Controller {
 					if($set->getField($valkey)==''||$set->getField($valkey)=='0'){
 						$row[$valkey]= '<i class="fa fa-close" aria-hidden="true" style="color:red"></i>';
 					}else{
-						$row[$valkey]= strtoupper($set->getField($valkey));
+						$row[$valkey]= ucwords(strtolower($set->getField($valkey)));
 					}
 				}
 				else
 				{
-					$row[$valkey]= strtoupper($set->getField($valkey));
+					$row[$valkey]= ucwords(strtolower($set->getField($valkey)));
 				}
 			}
 			array_push($arrinfodata, $row);

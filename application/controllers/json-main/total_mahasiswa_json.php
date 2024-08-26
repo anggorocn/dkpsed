@@ -1,3 +1,4 @@
+
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
@@ -6,7 +7,7 @@ include_once("functions/date.func.php");
 include_once("functions/class-list-util.php");
 include_once("functions/class-list-util-serverside.php");
 
-class masa_studi_lulusan_magister_json extends CI_Controller {
+class total_mahasiswa_json extends CI_Controller {
 
 	function __construct() {
 		parent::__construct();
@@ -35,9 +36,9 @@ class masa_studi_lulusan_magister_json extends CI_Controller {
 	function json()
 	{
 		ini_set('memory_limit', '-1');
-		$this->load->model("base/MasaStudyMagister");
+		$this->load->model("base/TotalMahasiswa");
 
-		$set= new MasaStudyMagister();
+		$set= new TotalMahasiswa();
 
 		if ( isset( $_REQUEST['columnsDef'] ) && is_array( $_REQUEST['columnsDef'] ) ) {
 			$columnsDefault = [];
@@ -75,17 +76,13 @@ class masa_studi_lulusan_magister_json extends CI_Controller {
 				{
 					$row[$valkey]= "1";
 				}
-				else if ($valkey == "ts_1"||$valkey == "ts_2"||$valkey == "ts_3"||$valkey == "ts_4"||$valkey == "ts_5"||$valkey == "ts_6"||$valkey == "ts" )
+				else if ($valkey == "tahun")
 				{
-					if($set->getField($valkey)==''||$set->getField($valkey)=='0'){
-						$row[$valkey]= '<i class="fa fa-close" aria-hidden="true" style="color:red"></i>';
-					}else{
-						$row[$valkey]= ucwords(strtolower($set->getField($valkey)));
-					}
+					$row[$valkey]= $set->getField('tahun').'/'.($set->getField('tahun')+1).' - '.ucwords($set->getField('semester'));
 				}
 				else
 				{
-					$row[$valkey]= ucwords(strtolower($set->getField($valkey)));
+					$row[$valkey]= $set->getField($valkey);
 				}
 			}
 			array_push($arrinfodata, $row);
@@ -168,59 +165,31 @@ class masa_studi_lulusan_magister_json extends CI_Controller {
 
 	function add()
 	{
-		$this->load->model("base/DaftarTabel");
+		$this->load->model("base/TotalMahasiswa");
+		$this->load->model("base/Upload");
 
-		$reqId= $this->input->post("reqId");
-		$reqRowId= $this->input->post("reqRowId");
-		$reqMode= $this->input->post("reqMode");
+		$reqId= $this->input->post('reqId');
+		$reqTahun= $this->input->post('reqTahun');
+		$reqSemester= $this->input->post('reqSemester');
+		$reqTotal= $this->input->post('reqTotal');
 
-		$reqNamaDiklat= $this->input->post("reqNamaDiklat");
-		$reqTempat= $this->input->post("reqTempat");
-		$reqPenyelenggara= $this->input->post("reqPenyelenggara");
-		$reqTglMulai= $this->input->post("reqTglMulai");
-		$reqNoSTTPP= $this->input->post("reqNoSTTPP");
-		$reqTglSelesai= $this->input->post("reqTglSelesai");
-		$reqTglSTTPP= $this->input->post("reqTglSTTPP");
-		$reqJumlahJam= $this->input->post("reqJumlahJam");
-		$reqAngkatan= $this->input->post("reqAngkatan");
-		$reqTahun= $this->input->post("reqTahun");
+		$set = new TotalMahasiswa();
+		$set->setField('TOTAL_MAHASISWA_ID', $reqId);
+		$set->setField('TAHUN', $reqTahun);
+		$set->setField('SEMESTER', $reqSemester);
+		$set->setField('TOTAL', $reqTotal);
 		
-		$set = new DaftarTabel();
-		$set->setField("DIKLAT_FUNGSIONAL_ID", $reqRowId);
-		$set->setField("PEGAWAI_ID", $reqId);
-
-		$set->setField("NAMA", $reqNamaDiklat);
-		$set->setField("TEMPAT", $reqTempat);
-		$set->setField("TANGGAL_STTPP", dateToDBCheck($reqTglSTTPP));
-		$set->setField("PENYELENGGARA", $reqPenyelenggara);
-		$set->setField("NO_STTPP", $reqNoSTTPP);
-		$set->setField("TANGGAL_MULAI", dateToDBCheck($reqTglMulai));
-		$set->setField("TANGGAL_SELESAI", dateToDBCheck($reqTglSelesai));
-		$set->setField("JUMLAH_JAM", ValToNullDB($reqJumlahJam));
-		$set->setField("ANGKATAN", ValToNullDB($reqAngkatan));
-		$set->setField("TAHUN", ValToNullDB($reqTahun));
-
-		$adminusernama= $this->adminuserloginnama;
-		$userSatkerId= $this->adminsatkerid;
-
 		$reqSimpan= "";
-		if ($reqMode == "insert")
+		if ($reqId == "")
 		{
-
-			$set->setField("LAST_CREATE_USER", $adminusernama);
-			$set->setField("LAST_CREATE_DATE", "NOW()");	
-			$set->setField("LAST_CREATE_SATKER", $userSatkerId);
-	
 			if($set->insert())
 			{
 				$reqSimpan= 1;
+				$reqId= $set->id;
 			}
 		}
 		else
 		{	
-			$set->setField("LAST_UPDATE_USER", $adminusernama);
-			$set->setField("LAST_UPDATE_DATE", "NOW()");	
-			$set->setField("LAST_UPDATE_SATKER", $userSatkerId);
 			if($set->update())
 			{
 				$reqSimpan= 1;
@@ -229,7 +198,7 @@ class masa_studi_lulusan_magister_json extends CI_Controller {
 
 		if($reqSimpan == 1)
 		{
-			echo json_response(200, $reqRowId."-Data berhasil disimpan.");
+			echo json_response(200, $reqId."-Data berhasil disimpan.");
 		}
 		else
 		{
@@ -240,13 +209,13 @@ class masa_studi_lulusan_magister_json extends CI_Controller {
 
 	function delete()
 	{
-		$this->load->model("base/DaftarTabel");
-		$set = new DaftarTabel();
+		$this->load->model("base/TotalMahasiswa");
+		$set = new TotalMahasiswa();
 		
 		$reqRowId= $this->input->get('reqRowId');
 		$reqMode= $this->input->get('reqMode');
 
-		$set->setField("DIKLAT_FUNGSIONAL_ID", $reqRowId);
+		$set->setField("TOTAL_MAHASISWA_ID", $reqRowId);
 		$reqSimpan="";
 		if($set->delete())
 		{

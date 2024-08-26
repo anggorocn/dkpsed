@@ -79,7 +79,7 @@ class karya_ilmiah_mahasiswa_disitasi_magister_json extends CI_Controller {
 				}
 				else
 				{
-					$row[$valkey]= strtoupper($set->getField($valkey));
+					$row[$valkey]= ucwords(strtolower($set->getField($valkey)));
 				}
 			}
 			array_push($arrinfodata, $row);
